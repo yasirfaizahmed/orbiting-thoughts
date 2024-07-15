@@ -113,3 +113,12 @@
   margin-bottom: 0;
 }
 
+.btn-primary {
+  background: linear-gradient(-36deg, black, rgb(60,60,60) 44%, #bfc7d2), rgba(13,110,253,0);
+  border-radius: 20px;
+  width: 90.7188px;
+  box-shadow: 10px 7px 14px 4px rgba(0,0,0,0.2);
+  color: #ecf2fe;
+  font-weight: bold;
+}
+
