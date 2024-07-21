@@ -9,9 +9,13 @@ async def root():
 
 @app.get("/deen")
 async def deen_page():
-    return {"message": "deen page"}
+    with  open("deen.html") as f:
+        return f.read()
+    # return {"message": "deen page"}
 
 
 @app.get("/dunya")
 async def deen_page():
-    return {"message": "dunya page"}
+    with  open("static/dunya.html") as f:
+        return f.read()
+    # return {"message": "dunya page"}
