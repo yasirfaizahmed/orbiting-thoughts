@@ -34,7 +34,7 @@
 
 .bs-icon.bs-icon-primary {
   color: var(--bs-white);
-  background: var(--bs-primary);
+  background: var(--bs-gray-dark);
 }
 
 .bs-icon.bs-icon-primary-light {
