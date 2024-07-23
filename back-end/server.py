@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi import Depends, Form, UploadFile, File
+from fastapi import Depends, Form, UploadFile, File, HTTPException
 # from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 import database
@@ -8,13 +8,27 @@ import crud
 from typing import List
 import uvicorn
 import models
-import logging
+from log_handling.log_handling import logger
+from utils.paths import R_IMAGES, RESOURCES
+from pathlib import Path as pp
+import traceback
+
 
 app = FastAPI()
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+
+def prepare():
+  if pp(RESOURCES).exists() is False:
+    pp(RESOURCES).mkdir(parents=True, exist_ok=True)
+  if pp(R_IMAGES).exists() is False:
+    pp(R_IMAGES).mkdir(parents=True, exist_ok=True)
+
+  # Create database tables
+  try:
+    models.Base.metadata.create_all(bind=database.engine)
+    logger.info("Database tables created successfully.")
+  except Exception as e:
+    logger.error(f"Error creating database tables: {e}")
 
 
 def get_db():   # dependency to get a db session
@@ -25,34 +39,30 @@ def get_db():   # dependency to get a db session
     db.close()    # close the session regardless of outcome
 
 
-# Create database tables
-try:
-  models.Base.metadata.create_all(bind=database.engine)
-  logger.info("Database tables created successfully.")
-except Exception as e:
-  logger.error(f"Error creating database tables: {e}")
-
-
 @app.post("/articles/", response_model=schemas.Article)
 async def create_article(title: str = Form(...),
                          content: str = Form(...),
                          image: UploadFile = File(...),
                          db: Session = Depends(get_db)):
+  logger.info("serving POST request for /articles/ ")
   try:
-    image_path = f"./resources/{image.filename}"
+    image_path = f"{R_IMAGES}/{image.filename}"
     with open(image_path, "wb") as f:
       f.write(await image.read())
   except Exception:
-    pass
+    logger.error(traceback.format_exc())
+    raise HTTPException(status_code=500,
+                        detail="Internal Server Error")
 
   try:
     new_article = schemas.Article(title=title,
                                   content=content,
                                   image=image_path)
     return crud.create_article(db=db, article=new_article)
-  except Exception as e:
-    logger.error(e)
-  return True
+  except Exception:
+    logger.error(traceback.format_exc())
+    raise HTTPException(status_code=500,
+                        detail="Internal Server Error")
 
 
 @app.get("/articles/", response_model=List[schemas.Article])
@@ -68,18 +78,7 @@ async def root():
   return {"message": "home page!"}
 
 
-# @app.get("/deen")
-# async def deen_page():
-#   # with  open("deen.html") as f:
-#     # return f.read()
-#   return {"message": "deen page"}
-
-
-# @app.get("/dunya")
-# async def dunya_page():
-#   # with  open("static/dunya.html") as f:
-#     # return f.read()
-#   return {"message": "dunya page"}
+prepare()
 
 
 if __name__ == "__main__":
