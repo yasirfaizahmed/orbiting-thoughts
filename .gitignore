@@ -4,3 +4,4 @@
 *.devdbrc
 __pycache__
 images/
+resources/

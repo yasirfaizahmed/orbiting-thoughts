@@ -39,7 +39,7 @@ async def create_article(title: str = Form(...),
                          image: UploadFile = File(...),
                          db: Session = Depends(get_db)):
   try:
-    image_path = f"./images/{image.filename}"
+    image_path = f"./resources/{image.filename}"
     with open(image_path, "wb") as f:
       f.write(await image.read())
   except Exception:
