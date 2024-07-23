@@ -2,3 +2,5 @@
 *.pyc
 *.db
 *.devdbrc
+__pycache__
+images/

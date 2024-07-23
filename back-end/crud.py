@@ -19,7 +19,8 @@ def get_articles(db: Session, skip: int = 0, limit: int = 5):   # function to ge
 def create_article(db: Session, article: schemas.Article):    # function to create article
   try:
     db_article = models.Article(title=article.title,
-                                content=article.content)    # create article object
+                                content=article.content,
+                                image=article.image)    # create article object
     db.add(db_article)    # add to session
     db.commit()   # commit session
     db.refresh(db_article)    # refresh session to get new aricle ID

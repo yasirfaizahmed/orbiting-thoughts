@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi import Depends
+from fastapi import Depends, Form, UploadFile, File
 # from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 import database
@@ -27,16 +27,32 @@ def get_db():   # dependency to get a db session
 
 # Create database tables
 try:
-    models.Base.metadata.create_all(bind=database.engine)
-    logger.info("Database tables created successfully.")
+  models.Base.metadata.create_all(bind=database.engine)
+  logger.info("Database tables created successfully.")
 except Exception as e:
-    logger.error(f"Error creating database tables: {e}")
+  logger.error(f"Error creating database tables: {e}")
 
 
 @app.post("/articles/", response_model=schemas.Article)
-def create_article(article: schemas.Article,
-                   db: Session = Depends(get_db)):
-  return crud.create_article(db=db, article=article)
+async def create_article(title: str = Form(...),
+                         content: str = Form(...),
+                         image: UploadFile = File(...),
+                         db: Session = Depends(get_db)):
+  try:
+    image_path = f"./images/{image.filename}"
+    with open(image_path, "wb") as f:
+      f.write(await image.read())
+  except Exception:
+    pass
+
+  try:
+    new_article = schemas.Article(title=title,
+                                  content=content,
+                                  image=image_path)
+    return crud.create_article(db=db, article=new_article)
+  except Exception as e:
+    logger.error(e)
+  return True
 
 
 @app.get("/articles/", response_model=List[schemas.Article])

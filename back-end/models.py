@@ -9,4 +9,4 @@ class Article(Base):    # Article class inheriting from Base, which creates a ta
   id = Column(Integer, primary_key=True, index=True)    # index column
   title = Column(String)    # title column
   content = Column(String)    # text content
-  # image = Column(BLOB)    # binary large object column for strong image data
+  image = Column(String)    # file path
