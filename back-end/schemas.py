@@ -12,3 +12,8 @@ class Article(ArticleBase):   # article schema
 
   class Config:
     from_attributes = True   # enables ORM mode for sqlalchmy modles
+
+
+class User(BaseModel):
+  username: str
+  password: str

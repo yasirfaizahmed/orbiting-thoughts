@@ -8,10 +8,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-# def get_article(db: Session, article_id: int):    # function to get single article
-#   return db.query(models.Article).filter(models.Article.id == article_id).first()
-
-
 def get_articles(db: Session, skip: int = 0, limit: int = 5):   # function to get articles with pagination
   return db.query(models.Article).offset(skip).limit(limit).all()
 
@@ -29,3 +25,7 @@ def create_article(db: Session, article: schemas.Article):    # function to crea
     logger.error(f"Error creating article: {e}")
     db.rollback()  # Rollback in case of error
     raise
+
+
+def get_article(db: Session, id: int):
+  return db.query(models.Article).filter(models.Article.id == id).one_or_none()

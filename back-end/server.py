@@ -7,6 +7,7 @@ import schemas
 import crud
 from typing import List
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware
 import models
 from log_handling.log_handling import logger
 from utils.paths import R_IMAGES, RESOURCES
@@ -15,6 +16,15 @@ import traceback
 
 
 app = FastAPI()
+
+# Allow all origins for now, restrict this in production
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change this to the specific origin(s) you want to allow
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def prepare():
@@ -69,14 +79,37 @@ async def create_article(title: str = Form(...),
 def get_articles(skip: int = 0,
                  limit: int = 5,
                  db: Session = Depends(get_db)):
+  logger.info("serving GET request for /articles/ ")
   articles = crud.get_articles(db=db, skip=skip, limit=limit)
   return articles
+
+
+@app.get("/article/", response_model=schemas.Article)
+def get_aricle(id: int,
+               db: Session = Depends(get_db)):
+  logger.info("serving GET request for /article/")
+  article = crud.get_article(db=db, id=id)
+  return article
+
+
+@app.post("/auth/", response_model=bool)
+async def auth(user: schemas.User):
+  return True
 
 
 @app.get("/")
 async def root():
   return {"message": "home page!"}
 
+
+@app.get("/dunya/")
+async def dunya():
+  return {"message": "home page!"}
+
+
+@app.get("/deen/")
+async def deen():
+  return {"message": "home page!"}
 
 prepare()
 
