@@ -83,10 +83,6 @@ span {
   border-color: rgba(0,0,0,0);
 }
 
-* {
-  box-sizing: border-box;
-}
-
 p {
   font-size: 14px;
   font-weight: 100;
