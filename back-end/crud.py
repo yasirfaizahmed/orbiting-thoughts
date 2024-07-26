@@ -32,13 +32,11 @@ def get_article(db: Session, id: int):
   return db.query(models.Article).filter(models.Article.id == id).one_or_none()
 
 
-def check_account_exists(db: Session, signup_details: schemas.SignupDetails) -> schemas.AuthResponse:
+def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.AuthResponse:
   user_exists = db.query(models.User).filter(models.User.username == signup_details.username).first()
 
   if user_exists:
-    return schemas.AuthResponse(username="",
-                                password="",
-                                response_code=1,
+    return schemas.AuthResponse(response_code=1,
                                 response_message="account already exists",
                                 token="")
 
@@ -46,11 +44,17 @@ def check_account_exists(db: Session, signup_details: schemas.SignupDetails) -> 
   hashed_password = security.hash_password(password=signup_details.password)
 
   new_user = models.User(username=signup_details.username,
+                         email=signup_details.email,
                          password=hashed_password)
   db.add(new_user)
   db.commit()
-  return schemas.AuthResponse(username=signup_details.username,
-                              password=signup_details.password,
-                              response_code=0,
+  return schemas.AuthResponse(response_code=0,
                               response_message="account added",
                               token="")
+
+
+def try_signin(db: Session, signin_details: schemas.SigninDetails) -> schemas.AuthResponse:
+  user_exists = db.query(models.User).filter(models.User.email == signin_details.email).first()
+
+  if user_exists:
+    return schemas.AuthResponse()

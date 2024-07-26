@@ -1,61 +1,56 @@
 async function handleSignup() {
     const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
 
     // Encrypt the password before sending
     // const encryptedPassword = btoa(password); // For demonstration, use a proper encryption in production
 
-    const response = await fetch('http://127.0.0.1:9000/auth/', {
+    const response = await fetch('http://127.0.0.1:9000/signup/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, email, password })
     });
 
     if (response.ok) {
         alert('Signup successful');
         const data = await response.json();
         setAuthenticated(true, data.access_token);
-        // document.getElementById('gg').style.display = 'none';
-        // $('#signin').modal('hide');
-        
-        // var myModalEl = document.getElementById('signup');
-        // var modal = bootstrap.Modal.getInstance(myModalEl);
-        // modal.hide();
-        
-        // $('#signup').modal('hide');
-        // var myModal = new bootstrap.Modal(document.getElementById('signup'), options);
-        // myModal.hide();
-        
-        // document.getElementById("signup").innerHTML = "";
+
         var closeButton = document.getElementById('closeSignup');
         if (closeButton) {
             closeButton.click();
         }
     } else {
         const errorData = await response.json();
-        // alert('Signup failed' + errorData.detail);
+        alert('Signup failed' + errorData.detail);
     }
 }
 
 async function handleLogin() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const email = document.getElementById('signinEmail').value;
+    const password = document.getElementById('signinPassword').value;
 
     // Encrypt the password before sending
     const encryptedPassword = btoa(password); // For demonstration, use a proper encryption in production
 
-    const response = await fetch('/api/login', {
+    const response = await fetch('http://127.0.0.1:9000/signin/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password: encryptedPassword })
+        body: JSON.stringify({ email, password: encryptedPassword })
     });
 
     if (response.ok) {
         alert('Login successful');
+        
+        var closeButton = document.getElementById('closeSignin');
+        if (closeButton) {
+            closeButton.click();
+        }
     } else {
         alert('Login failed');
     }

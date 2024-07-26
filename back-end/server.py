@@ -93,12 +93,12 @@ def get_aricle(id: int,
   return article
 
 
-@app.post("/auth/", response_model=schemas.AuthResponse)
-async def auth(signup_details: schemas.SignupDetails,
-               db: Session = Depends(get_db)):
-  logger.info("serving POST request for /auth/ ")
-  auth_response: schemas.AuthResponse = crud.check_account_exists(db=db,
-                                                                  signup_details=signup_details)
+@app.post("/signup/", response_model=schemas.AuthResponse)
+async def signup(signup_details: schemas.SignupDetails,
+                 db: Session = Depends(get_db)):
+  logger.info("serving POST request for /signup/ ")
+  auth_response: schemas.AuthResponse = crud.try_signup(db=db,
+                                                        signup_details=signup_details)
   if auth_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=auth_response.response_message)
@@ -106,6 +106,15 @@ async def auth(signup_details: schemas.SignupDetails,
   # create JWT
   token: str = security.create_access_token(username=signup_details.username)
   auth_response.token = token
+  return auth_response
+
+
+@app.post("/signin/", response_model=schemas.AuthResponse)
+async def signin(signin_details: schemas.SigninDetails,
+                 db: Session = Depends(get_db)):
+  logger.info("serving POST request for /signin/ ")
+  auth_response: schemas.AuthResponse = crud.try_signin(db=db,
+                                                        signin_details=signin_details)
   return auth_response
 
 

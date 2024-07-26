@@ -17,12 +17,16 @@ class Article(ArticleBase):   # article schema
 
 class SignupDetails(BaseModel):
   username: str
+  email: str
+  password: str
+
+
+class SigninDetails(BaseModel):
+  email: str
   password: str
 
 
 class AuthResponse(BaseModel):
-  username: str
-  password: str
   response_code: Literal[0, 1]
   response_message: Literal["account already exists",
                             "account added"]
