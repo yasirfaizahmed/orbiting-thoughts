@@ -1,2 +1,4 @@
 fastapi
 sqlalchemy
+passlib
+python-jose

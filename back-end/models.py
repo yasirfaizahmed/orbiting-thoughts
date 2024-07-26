@@ -10,3 +10,11 @@ class Article(Base):    # Article class inheriting from Base, which creates a ta
   title = Column(String)    # title column
   content = Column(String)    # text content
   image = Column(String)    # file path
+
+
+class User(Base):
+  __tablename__ = "users"
+
+  id = Column(Integer, primary_key=True, index=True)
+  username = Column(String)
+  password = Column(String)

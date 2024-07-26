@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi import Depends, Form, UploadFile, File, HTTPException
+from fastapi import Depends, Form, UploadFile, File, HTTPException, status
 # from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 import database
@@ -13,6 +13,7 @@ from log_handling.log_handling import logger
 from utils.paths import R_IMAGES, RESOURCES
 from pathlib import Path as pp
 import traceback
+import security
 
 
 app = FastAPI()
@@ -92,9 +93,20 @@ def get_aricle(id: int,
   return article
 
 
-@app.post("/auth/", response_model=bool)
-async def auth(user: schemas.User):
-  return True
+@app.post("/auth/", response_model=schemas.AuthResponse)
+async def auth(signup_details: schemas.SignupDetails,
+               db: Session = Depends(get_db)):
+  logger.info("serving POST request for /auth/ ")
+  auth_response: schemas.AuthResponse = crud.check_account_exists(db=db,
+                                                                  signup_details=signup_details)
+  if auth_response.response_code == 1:
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                        detail=auth_response.response_message)
+
+  # create JWT
+  token: str = security.create_access_token(username=signup_details.username)
+  auth_response.token = token
+  return auth_response
 
 
 @app.get("/")

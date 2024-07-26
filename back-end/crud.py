@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 import models
 import schemas
 import logging
+import security
 
 
 logging.basicConfig(level=logging.INFO)
@@ -14,13 +15,13 @@ def get_articles(db: Session, skip: int = 0, limit: int = 5):   # function to ge
 
 def create_article(db: Session, article: schemas.Article):    # function to create article
   try:
-    db_article = models.Article(title=article.title,
-                                content=article.content,
-                                image=article.image)    # create article object
-    db.add(db_article)    # add to session
+    new_article = models.Article(title=article.title,
+                                 content=article.content,
+                                 image=article.image)    # create article object
+    db.add(new_article)    # add to session
     db.commit()   # commit session
-    db.refresh(db_article)    # refresh session to get new aricle ID
-    return db_article   # return new article
+    db.refresh(new_article)    # refresh session to get new aricle ID
+    return new_article   # return new article
   except Exception as e:
     logger.error(f"Error creating article: {e}")
     db.rollback()  # Rollback in case of error
@@ -29,3 +30,27 @@ def create_article(db: Session, article: schemas.Article):    # function to crea
 
 def get_article(db: Session, id: int):
   return db.query(models.Article).filter(models.Article.id == id).one_or_none()
+
+
+def check_account_exists(db: Session, signup_details: schemas.SignupDetails) -> schemas.AuthResponse:
+  user_exists = db.query(models.User).filter(models.User.username == signup_details.username).first()
+
+  if user_exists:
+    return schemas.AuthResponse(username="",
+                                password="",
+                                response_code=1,
+                                response_message="account already exists",
+                                token="")
+
+  # hash the password before storing it
+  hashed_password = security.hash_password(password=signup_details.password)
+
+  new_user = models.User(username=signup_details.username,
+                         password=hashed_password)
+  db.add(new_user)
+  db.commit()
+  return schemas.AuthResponse(username=signup_details.username,
+                              password=signup_details.password,
+                              response_code=0,
+                              response_message="account added",
+                              token="")
