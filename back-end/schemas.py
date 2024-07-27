@@ -29,5 +29,7 @@ class SigninDetails(BaseModel):
 class AuthResponse(BaseModel):
   response_code: Literal[0, 1]
   response_message: Literal["account already exists",
-                            "account added"]
+                            "account added",
+                            "account exists",
+                            "account does not exist"]
   token: str

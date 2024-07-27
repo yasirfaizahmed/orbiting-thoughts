@@ -5,9 +5,10 @@ from typing import Optional
 from datetime import timedelta
 from jose import jwt
 from datetime import datetime
+import os
 
 
-SECRET_KEY = ""
+SECRET_KEY = os.environ.get("KEY", "")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
@@ -25,12 +26,12 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
   return pwd_context.verify(plain_password, hashed_password)
 
 
-def create_access_token(username: str, expires_delta: Optional[timedelta] = None) -> str:
+def create_access_token(email: str, expires_delta: Optional[timedelta] = None) -> str:
   if expires_delta:
     expires_on = datetime.now() + expires_delta
   else:
     expires_on = datetime.now() + timedelta(ACCESS_TOKEN_EXPIRE_MINUTES)
-  payload = {"sub": username,
+  payload = {"sub": email,
              "exp": expires_on}
 
   token: str = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)

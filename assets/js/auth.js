@@ -19,6 +19,7 @@ async function handleSignup() {
         const data = await response.json();
         setAuthenticated(true, data.access_token);
 
+        
         var closeButton = document.getElementById('closeSignup');
         if (closeButton) {
             closeButton.click();
@@ -46,6 +47,8 @@ async function handleLogin() {
 
     if (response.ok) {
         alert('Login successful');
+        const data = await response.json();
+        setAuthenticated(true, data.access_token);
         
         var closeButton = document.getElementById('closeSignin');
         if (closeButton) {
@@ -60,6 +63,7 @@ async function handleLogin() {
 function setAuthenticated(isAuthenticated, data=null) {
     if (isAuthenticated) {
         document.getElementById('closeSignup').click();
+        document.getElementById('closeSignin').click();
         document.getElementById('signupButton').style.display = 'none';
         document.getElementById('signinButton').style.display = 'none';
         localStorage.setItem('isAuthenticated', 'true');

@@ -57,4 +57,9 @@ def try_signin(db: Session, signin_details: schemas.SigninDetails) -> schemas.Au
   user_exists = db.query(models.User).filter(models.User.email == signin_details.email).first()
 
   if user_exists:
-    return schemas.AuthResponse()
+    return schemas.AuthResponse(response_code=0,
+                                response_message="account exists",
+                                token="")
+  return schemas.AuthResponse(response_code=1,
+                              response_message="account does not exist",
+                              token="")

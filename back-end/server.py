@@ -104,7 +104,7 @@ async def signup(signup_details: schemas.SignupDetails,
                         detail=auth_response.response_message)
 
   # create JWT
-  token: str = security.create_access_token(username=signup_details.username)
+  token: str = security.create_access_token(email=signup_details.email)
   auth_response.token = token
   return auth_response
 
@@ -115,6 +115,13 @@ async def signin(signin_details: schemas.SigninDetails,
   logger.info("serving POST request for /signin/ ")
   auth_response: schemas.AuthResponse = crud.try_signin(db=db,
                                                         signin_details=signin_details)
+  if auth_response.response_code == 1:
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                        detail=auth_response.response_message)
+
+  # create JWT
+  token: str = security.create_access_token(email=signin_details.email)  # TODO: to generate jwt using username or email? 
+  auth_response.token = token
   return auth_response
 
 
