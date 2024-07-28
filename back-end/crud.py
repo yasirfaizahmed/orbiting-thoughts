@@ -33,7 +33,7 @@ def get_article(db: Session, id: int):
 
 
 def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.AuthResponse:
-  user_exists = db.query(models.User).filter(models.User.username == signup_details.username).first()
+  user_exists = db.query(models.User).filter(models.User.email == signup_details.email).first()
 
   if user_exists:
     return schemas.AuthResponse(response_code=1,
@@ -48,18 +48,27 @@ def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.Au
                          password=hashed_password)
   db.add(new_user)
   db.commit()
+
+  new_profile = models.Profile(user_id=new_user.id,
+                               about="",
+                               picture="")
+  db.add(new_profile)
+  db.commit()
+
   return schemas.AuthResponse(response_code=0,
-                              response_message="account added",
+                              response_message="successfuly signed-up",
                               token="")
 
 
 def try_signin(db: Session, signin_details: schemas.SigninDetails) -> schemas.AuthResponse:
   user_exists = db.query(models.User).filter(models.User.email == signin_details.email).first()
 
+  # TODO: password matching!
+
   if user_exists:
     return schemas.AuthResponse(response_code=0,
-                                response_message="account exists",
+                                response_message="successfuly signed-in",
                                 token="")
   return schemas.AuthResponse(response_code=1,
-                              response_message="account does not exist",
+                              response_message="signin failed",
                               token="")
