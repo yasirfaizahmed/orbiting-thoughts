@@ -62,6 +62,11 @@
     <link rel="stylesheet" href="assets/css/css/Swiper-Slider-Card-For-Blog-Or-Product-swiper.min.css">
     <link rel="stylesheet" href="assets/css/css/Swiper-Slider-Card-For-Blog-Or-Product-untitled.css">
     <link rel="stylesheet" href="assets/css/css/Video-Parallax-Background-v2-multiple-parallax.css">
+    <link rel="stylesheet" href="assets/css/Pretty-Registration-Form-.css">
+    <link rel="stylesheet" href="assets/css/bootstrap/css/bootstrap.min-1.css">
+    <link rel="stylesheet" href="assets/css/css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/css/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/css/Pretty-Registration-Form-.css">
 </head>
 
 <body>
@@ -75,8 +80,8 @@
                         <li class="nav-item"><a class="nav-link" href="#" style="color: #000000;">Third Item</a></li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link active" href="#"><button class="btn" id="signinButton" type="button" data-bs-toggle="modal" data-bs-target="#signin" style="/*background-color: #ffffff;*/color: #000000;border-radius: 20px;text-transform: none;/*border: white;*/border-color: rgba(0,0,0,0);"><strong>Sign in</strong></button></a></li>
-                        <li class="nav-item"><a class="nav-link active" href="#"><button class="btn signup" id="signupButton" type="button" data-bs-toggle="modal" data-bs-target="#signup" style="background-color: #000000;text-transform: none;border-color: #000000;text-align: center;padding-right: 7px;padding-left: 12px;color: white;"><strong>Sign up</strong></button></a></li>
+                        <li class="nav-item"><a class="nav-link active" href="#" style="padding-top: 18px;"><button class="btn signinButton" id="signinButton" type="button" data-bs-toggle="modal" data-bs-target="#signin" style="/*background-color: #ffffff;*/color: #000000;border-radius: 20px;text-transform: none;/*border: white;*/border-color: rgba(0,0,0,0);"><strong>Sign in</strong></button></a></li>
+                        <li class="nav-item"><a class="nav-link active" href="#" style="padding-top: 18px;"><button class="btn signup" id="signupButton" type="button" data-bs-toggle="modal" data-bs-target="#signup" style="background-color: #000000;text-transform: none;border-color: #000000;text-align: center;padding-right: 7px;padding-left: 12px;color: white;"><strong>Sign up</strong></button></a></li>
                     </ul>
                     <div><button class="btn" id="profileButton" type="button" style="/*background-color: #ffffff;*/color: #000000;border-radius: 20px;text-transform: none;/*border: white;*/border-color: rgba(0,0,0,0);display: none;"><strong>&nbsp;</strong><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" style="font-size: 35px;">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M16 9C16 11.2091 14.2091 13 12 13C9.79086 13 8 11.2091 8 9C8 6.79086 9.79086 5 12 5C14.2091 5 16 6.79086 16 9ZM14 9C14 10.1046 13.1046 11 12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9Z" fill="currentColor"></path>
@@ -99,11 +104,11 @@
                             <div class="form-group mb-3">
                                 <div class="input-group"><span class="text-primary input-group-text"><i class="fa fa-lock"></i></span><input class="form-control" type="password" id="signinPassword" required="" placeholder="Password"></div>
                             </div>
-                            <div class="form-group mb-3"><button class="btn btn-primary btn-lg" style="width: 100%;" type="button" onclick="handleLogin()">Log in</button></div>
+                            <div class="form-group mb-3"><button class="btn signinSubmitButton" style="width: 100%;background-color: black;color: white;" type="button" onclick="handleLogin()">Log in</button></div>
                         </form>
                         <hr style="background-color: #bababa;">
                         <p class="text-center">Or&nbsp;<a class="text-decoration-none" href="#">Forget password</a></p>
-                        <p class="text-center">Don't have an account? &nbsp;<a class="text-decoration-none" href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#signin">Sign Up</a></p>
+                        <p class="text-center">Don't have an account? &nbsp;<a class="text-decoration-none" href="#" data-bs-dismiss="modal" data-bs-target="#signup" data-bs-toggle="modal">Sign Up</a></p>
                     </div>
                 </div>
             </div>
@@ -115,8 +120,6 @@
                         <h4>Sign Up Now</h4><button class="btn-close" id="closeSignup" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="text-center"><button class="btn btn-primary text-start" style="width: 100%;" type="button"><i class="fa fa-facebook"></i>&nbsp; Continue with Facebook</button></div>
-                        <div class="text-center mt-2"><button class="btn btn-light text-start border-dark" style="width: 100%;" type="button"><i class="fa fa-google"></i>&nbsp; Continue with Google</button></div>
                         <form class="mt-4">
                             <div class="form-group mb-3">
                                 <div class="input-group"><span class="text-primary input-group-text"><i class="fa fa-user-o"></i></span><input class="form-control" type="text" id="username" required="" placeholder="Full Name"></div>
@@ -127,13 +130,10 @@
                             <div class="form-group mb-3">
                                 <div class="input-group"><span class="text-primary input-group-text"><i class="fa fa-lock"></i></span><input class="form-control" type="password" id="signupPassword" required="" placeholder="Password"></div>
                             </div>
-                            <div class="form-group mb-3">
-                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1" required="" checked=""><label class="form-check-label" for="formCheck-1">I agree all the terms and conditions.</label></div>
-                            </div>
-                            <div class="form-group mb-3"><button class="btn btn-primary btn-lg" style="width: 100%;" type="button" onclick="handleSignup()">Sign Up</button></div>
+                            <div class="form-group mb-3"><button class="btn" style="width: 100%;background-color: black;color: white;" type="button" onclick="handleSignup()">Sign Up</button></div>
                         </form>
                         <hr style="background-color: #bababa;">
-                        <p class="text-center">Already have an Account?&nbsp;<a class="text-decoration-none" href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#signup">Log In</a></p>
+                        <p class="text-center">Already have an Account?&nbsp;<a class="text-decoration-none" href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#signin">Log In</a></p>
                     </div>
                 </div>
             </div>

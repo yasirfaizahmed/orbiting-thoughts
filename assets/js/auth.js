@@ -51,9 +51,7 @@ async function handleLogin() {
         setAuthenticated(true, data.token);
         
         const sessionToken = data.token;
-        localStorage.setItem('token', sessionToken);
-        
-        alert(sessionToken);
+        localStorage.setItem('token', "dummy_token");
         
         var closeButton = document.getElementById('closeSignin');
         if (closeButton) {
