@@ -1,0 +1,11 @@
+@font-face {
+	font-family: 'Ionicons';
+	src: url(../../assets/fonts/Ionicons-f51b60dc1e284678a9556998d640426d.eot?v=2.0.0) format('embedded-opentype'),
+	url(../../assets/fonts/Ionicons-f51b60dc1e284678a9556998d640426d.eot?v=2.0.0) format('embedded-opentype'),
+	url(../../assets/fonts/Ionicons-66d66b5b2e692921b6bfb7cf78ba6a95.ttf?v=2.0.0) format('truetype'),
+	url(../../assets/fonts/Ionicons-2130c640e482a7d2aecd78be9bda357e.woff?v=2.0.0) format('woff'),
+	url(../../assets/fonts/Ionicons-7ba82bc2de55d43e835cf6586c26f659.svg?v=2.0.0) format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-display: auto;
+}

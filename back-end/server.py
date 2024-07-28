@@ -120,7 +120,7 @@ async def signin(signin_details: schemas.SigninDetails,
                         detail=auth_response.response_message)
 
   # create JWT
-  token: str = security.create_access_token(email=signin_details.email)  # TODO: to generate jwt using username or email? 
+  token: str = security.create_access_token(email=signin_details.email)  # TODO: to generate jwt using username or email?
   auth_response.token = token
   return auth_response
 

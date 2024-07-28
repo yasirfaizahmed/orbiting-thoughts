@@ -1,11 +1,9 @@
 async function handleSignup() {
+
     const username = document.getElementById('username').value;
     const email = document.getElementById('signupEmail').value;
     const password = document.getElementById('signupPassword').value;
-
-    // Encrypt the password before sending
-    // const encryptedPassword = btoa(password); // For demonstration, use a proper encryption in production
-
+    
     const response = await fetch('http://127.0.0.1:9000/signup/', {
         method: 'POST',
         headers: {
@@ -15,10 +13,12 @@ async function handleSignup() {
     });
 
     if (response.ok) {
-        alert('Signup successful');
+        // alert('Signup successful');
         const data = await response.json();
-        setAuthenticated(true, data.access_token);
+        setAuthenticated(true, data.token);
 
+        const sessionToken = data.token;
+        localStorage.setItem('token', sessionToken);
         
         var closeButton = document.getElementById('closeSignup');
         if (closeButton) {
@@ -48,7 +48,12 @@ async function handleLogin() {
     if (response.ok) {
         alert('Login successful');
         const data = await response.json();
-        setAuthenticated(true, data.access_token);
+        setAuthenticated(true, data.token);
+        
+        const sessionToken = data.token;
+        localStorage.setItem('token', sessionToken);
+        
+        alert(sessionToken);
         
         var closeButton = document.getElementById('closeSignin');
         if (closeButton) {
@@ -61,6 +66,7 @@ async function handleLogin() {
 
 
 function setAuthenticated(isAuthenticated, data=null) {
+    document.getElementById('profileButton').style.display = 'block';
     if (isAuthenticated) {
         document.getElementById('closeSignup').click();
         document.getElementById('closeSignin').click();
