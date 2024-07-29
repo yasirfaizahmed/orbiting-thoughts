@@ -10,7 +10,7 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 import models
 from log_handling.log_handling import logger
-from utils.paths import R_IMAGES, RESOURCES
+from utils.paths import ARTICLE_IMAGES, RESOURCES, PROFILE_PICTURES
 from pathlib import Path as pp
 import traceback
 import security
@@ -31,8 +31,10 @@ app.add_middleware(
 def prepare():
   if pp(RESOURCES).exists() is False:
     pp(RESOURCES).mkdir(parents=True, exist_ok=True)
-  if pp(R_IMAGES).exists() is False:
-    pp(R_IMAGES).mkdir(parents=True, exist_ok=True)
+  if pp(ARTICLE_IMAGES).exists() is False:
+    pp(ARTICLE_IMAGES).mkdir(parents=True, exist_ok=True)
+  if pp(PROFILE_PICTURES).exists() is False:
+    pp(PROFILE_PICTURES).mkdir(parents=True, exist_ok=True)
 
   # Create database tables
   try:
@@ -57,7 +59,7 @@ async def create_article(title: str = Form(...),
                          db: Session = Depends(get_db)):
   logger.info("serving POST request for /articles/ ")
   try:
-    image_path = f"{R_IMAGES}/{image.filename}"
+    image_path = f"{ARTICLE_IMAGES}/{image.filename}"
     with open(image_path, "wb") as f:
       f.write(await image.read())
   except Exception:
@@ -123,6 +125,37 @@ async def signin(signin_details: schemas.SigninDetails,
   token: str = security.create_access_token(email=signin_details.email)  # TODO: to generate jwt using username or email?
   auth_response.token = token
   return auth_response
+
+
+@app.post("/profile/", response_model=bool)
+async def create_profile(username: str = Form(...),
+                         email: str = Form(...),
+                         old_email: str = Form(...),
+                         password: str = Form(...),
+                         about: str = Form(...),
+                         picture: UploadFile = File(...),
+                         db: Session = Depends(get_db)):
+  logger.info("serving POST request for /profile/ ")
+  try:
+    picture_path = f"{PROFILE_PICTURES}/{picture.filename}"
+    with open(picture_path, "wb") as f:
+      f.write(await picture.read())
+  except Exception:
+    logger.error(traceback.format_exc())
+    raise HTTPException(status_code=500,
+                        detail="Internal Server Error")
+
+  profile_details = schemas.Profile(username=username,
+                                    email=email,
+                                    password=password,
+                                    about=about,
+                                    picture=picture_path)
+
+  crud.edit_profile(db=db, profile_details=profile_details,
+                    old_email=old_email)
+
+  return True
+# basic endpoints
 
 
 @app.get("/")

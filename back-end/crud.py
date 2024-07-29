@@ -72,3 +72,27 @@ def try_signin(db: Session, signin_details: schemas.SigninDetails) -> schemas.Au
   return schemas.AuthResponse(response_code=1,
                               response_message="signin failed",
                               token="")
+
+
+def edit_profile(db: Session, profile_details: schemas.Profile,
+                 old_email: str):
+  user = db.query(models.User).filter(models.User.email == old_email).first()
+  if user is None:
+    return False    # TODO: return proper schema or a crud response
+
+  user.username = profile_details.username
+  user.email = profile_details.email
+  user.password = profile_details.password
+
+  db.add(user)
+  db.commit()
+
+  profile = db.query(models.Profile).filter(models.Profile.user_id == user.id).first()
+
+  profile.about = profile_details.about
+  profile.picture = profile_details.picture
+
+  db.add(profile)
+  db.commit()
+
+  return True   # TODO: return proper schema or a crud response

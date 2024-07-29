@@ -33,3 +33,11 @@ class AuthResponse(BaseModel):
                             "successfuly signed-in",
                             "signin failed"]
   token: str
+
+
+class Profile(BaseModel):
+  username: str
+  email: str
+  password: str
+  about: str
+  picture: str
