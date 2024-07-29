@@ -2,6 +2,9 @@
 
 Welcome to the **Deen and Dunya** project! This website aims to guide the Ummah and help solve existential crises by providing valuable resources on Islam, mental health, and physical wellness.
 
+[![wakatime](https://wakatime.com/badge/user/a9e00d41-03d8-4310-b678-7bcc046966dc/project/ac646d91-8eb3-48b6-b45d-6c51ec2594f0.svg)](https://wakatime.com/badge/user/a9e00d41-03d8-4310-b678-7bcc046966dc/project/ac646d91-8eb3-48b6-b45d-6c51ec2594f0)  [![flake8](https://github.com/yasirfaizahmed/orbiting-thoughts/actions/workflows/flake8.yml/badge.svg)](https://github.com/yasirfaizahmed/orbiting-thoughts/actions/workflows/flake8.yml)
+
+
 ## Table of Contents
 
 - [Introduction](#introduction)
