@@ -30,8 +30,8 @@ To run the project locally, follow these steps:
 
 1. **Clone the repository**:
     ```sh
-    git clone https://github.com/your-username/deen-and-dunya.git
-    cd deen-and-dunya
+    git clone https://github.com/yasirfaizahmed/orbiting-thoughts.git
+    cd orbiting-thoughts
     ```
 
 2. **Create a virtual environment**:
