@@ -95,46 +95,48 @@ def get_aricle(id: int,
   return article
 
 
-@app.post("/signup/", response_model=schemas.AuthResponse)
+@app.post("/signup/", response_model=schemas.Response)
 async def signup(signup_details: schemas.SignupDetails,
                  db: Session = Depends(get_db)):
   logger.info("serving POST request for /signup/ ")
-  auth_response: schemas.AuthResponse = crud.try_signup(db=db,
-                                                        signup_details=signup_details)
+  auth_response: schemas.AccountCrudResponse = crud.try_signup(db=db,
+                                                               signup_details=signup_details)
   if auth_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=auth_response.response_message)
 
   # create JWT
   token: str = security.create_access_token(email=signup_details.email)
-  auth_response.token = token
-  return auth_response
+  response = schemas.Response(account_crud_response=auth_response,
+                              token=token)
+  return response
 
 
-@app.post("/signin/", response_model=schemas.AuthResponse)
+@app.post("/signin/", response_model=schemas.Response)
 async def signin(signin_details: schemas.SigninDetails,
                  db: Session = Depends(get_db)):
   logger.info("serving POST request for /signin/ ")
-  auth_response: schemas.AuthResponse = crud.try_signin(db=db,
-                                                        signin_details=signin_details)
+  auth_response: schemas.AccountCrudResponse = crud.try_signin(db=db,
+                                                               signin_details=signin_details)
   if auth_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=auth_response.response_message)
 
   # create JWT
-  token: str = security.create_access_token(email=signin_details.email)  # TODO: to generate jwt using username or email?
-  auth_response.token = token
-  return auth_response
+  token: str = security.create_access_token(email=signin_details.email)
+  response = schemas.Response(account_crud_response=auth_response,
+                              token=token)
+  return response
 
 
-@app.post("/profile/", response_model=bool)
-async def create_profile(username: str = Form(...),
-                         email: str = Form(...),
-                         old_email: str = Form(...),
-                         password: str = Form(...),
-                         about: str = Form(...),
-                         picture: UploadFile = File(...),
-                         db: Session = Depends(get_db)):
+@app.post("/profile/", response_model=schemas.Response)
+async def edit_profile(username: str = Form(...),
+                       email: str = Form(...),
+                       old_email: str = Form(...),
+                       password: str = Form(...),
+                       about: str = Form(...),
+                       picture: UploadFile = File(...),
+                       db: Session = Depends(get_db)):
   logger.info("serving POST request for /profile/ ")
   try:
     picture_path = f"{PROFILE_PICTURES}/{picture.filename}"
@@ -151,13 +153,18 @@ async def create_profile(username: str = Form(...),
                                     about=about,
                                     picture=picture_path)
 
-  crud.edit_profile(db=db, profile_details=profile_details,
-                    old_email=old_email)
+  crud_response: schemas.AccountCrudResponse = crud.edit_profile(db=db, profile_details=profile_details,
+                                                                 old_email=old_email)
+  if crud_response.response_code == 1:
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                        detail=crud_response.response_message)
 
-  return True
+  response = schemas.Response(account_crud_response=crud_response,
+                              token="")
+  return response
+
+
 # basic endpoints
-
-
 @app.get("/")
 async def root():
   return {"message": "home page!"}
