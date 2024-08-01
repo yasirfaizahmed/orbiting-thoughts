@@ -26,12 +26,18 @@ class SigninDetails(BaseModel):
   password: str
 
 
-class AuthResponse(BaseModel):
+class AccountCrudResponse(BaseModel):
   response_code: Literal[0, 1]
-  response_message: Literal["account already exists",
+  response_message: Literal["account already exist",
+                            "account does not exist",
                             "successfuly signed-up",
                             "successfuly signed-in",
-                            "signin failed"]
+                            "signin failed",
+                            "profile edited successfuly"]
+
+
+class Response(BaseModel):
+  account_crud_response: AccountCrudResponse
   token: str
 
 
