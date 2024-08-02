@@ -26,25 +26,6 @@ class SigninDetails(BaseModel):
   password: str
 
 
-<<<<<<< HEAD
-class AccountCrudResponse(BaseModel):
-=======
-<<<<<<< Updated upstream
-class AuthResponse(BaseModel):
->>>>>>> 93ac9e5 (Added model to dict util, get_profile ednpoint)
-  response_code: Literal[0, 1]
-  response_message: Literal["account already exist",
-                            "account does not exist",
-                            "successfuly signed-up",
-                            "successfuly signed-in",
-                            "signin failed",
-                            "profile edited successfuly"]
-
-
-class Response(BaseModel):
-  account_crud_response: AccountCrudResponse
-  token: str
-=======
 class CrudResponse(BaseModel):
   response_code: Literal[0, 1]
   response_message: Literal["account already exist",
@@ -60,7 +41,6 @@ class CrudResponse(BaseModel):
 class Response(BaseModel):
   crud_response: CrudResponse
   token: str = ""
->>>>>>> Stashed changes
 
 
 class Profile(BaseModel):
