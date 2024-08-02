@@ -3,6 +3,7 @@ import models
 import schemas
 import logging
 import security
+from utils import util
 
 
 logging.basicConfig(level=logging.INFO)
@@ -32,12 +33,12 @@ def get_article(db: Session, id: int):
   return db.query(models.Article).filter(models.Article.id == id).one_or_none()
 
 
-def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.AccountCrudResponse:
+def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.CrudResponse:
   user_exists = db.query(models.User).filter(models.User.email == signup_details.email).first()
 
   if user_exists:
-    return schemas.AccountCrudResponse(response_code=1,
-                                       response_message="account already exists")
+    return schemas.CrudResponse(response_code=1,
+                                response_message="account already exists")
 
   # hash the password before storing it
   hashed_password = security.hash_password(password=signup_details.password)
@@ -54,28 +55,28 @@ def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.Ac
   db.add(new_profile)
   db.commit()
 
-  return schemas.AccountCrudResponse(response_code=0,
-                                     response_message="successfuly signed-up")
+  return schemas.CrudResponse(response_code=0,
+                              response_message="successfuly signed-up")
 
 
-def try_signin(db: Session, signin_details: schemas.SigninDetails) -> schemas.AccountCrudResponse:
+def try_signin(db: Session, signin_details: schemas.SigninDetails) -> schemas.CrudResponse:
   user_exists = db.query(models.User).filter(models.User.email == signin_details.email).first()
 
   # TODO: password matching!
 
   if user_exists:
-    return schemas.AccountCrudResponse(response_code=0,
-                                       response_message="successfuly signed-in")
-  return schemas.AccountCrudResponse(response_code=1,
-                                     response_message="signin failed")
+    return schemas.CrudResponse(response_code=0,
+                                response_message="successfuly signed-in")
+  return schemas.CrudResponse(response_code=1,
+                              response_message="signin failed")
 
 
 def edit_profile(db: Session, profile_details: schemas.Profile,
                  old_email: str):
   user = db.query(models.User).filter(models.User.email == old_email).first()
   if user is None:
-    return schemas.AccountCrudResponse(response_code=1,
-                                       response_message="account does not exist")
+    return schemas.CrudResponse(response_code=1,
+                                response_message="account does not exist")
   user.username = profile_details.username
   user.email = profile_details.email
   user.password = profile_details.password
@@ -91,5 +92,18 @@ def edit_profile(db: Session, profile_details: schemas.Profile,
   db.add(profile)
   db.commit()
 
-  return schemas.AccountCrudResponse(response_code=0,
-                                     response_message="profile edited successfuly")
+  return schemas.CrudResponse(response_code=0,
+                              response_message="profile edited successfuly")
+
+
+def get_profile(db: Session, client_session: schemas.ClientSession) -> schemas.CrudResponse:
+  user = db.query(models.User).filter(models.User.email == client_session.email).first()
+  if user is None:
+    return schemas.CrudResponse(response_code=1,
+                                response_message="account does not exist")
+  profile = db.query(models.Profile).filter(models.Profile.user_id == user.id).first()
+
+  return schemas.CrudResponse(response_code=0,
+                              response_message="account exists",
+                              data={"user": util.model_to_dict(user),
+                                    "profile": util.model_to_dict(profile)})
