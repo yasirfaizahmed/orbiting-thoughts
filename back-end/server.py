@@ -99,15 +99,15 @@ def get_aricle(id: int,
 async def signup(signup_details: schemas.SignupDetails,
                  db: Session = Depends(get_db)):
   logger.info("serving POST request for /signup/ ")
-  auth_response: schemas.AccountCrudResponse = crud.try_signup(db=db,
-                                                               signup_details=signup_details)
+  auth_response: schemas.CrudResponse = crud.try_signup(db=db,
+                                                        signup_details=signup_details)
   if auth_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=auth_response.response_message)
 
   # create JWT
   token: str = security.create_access_token(email=signup_details.email)
-  response = schemas.Response(account_crud_response=auth_response,
+  response = schemas.Response(crud_response=auth_response,
                               token=token)
   return response
 
@@ -116,15 +116,15 @@ async def signup(signup_details: schemas.SignupDetails,
 async def signin(signin_details: schemas.SigninDetails,
                  db: Session = Depends(get_db)):
   logger.info("serving POST request for /signin/ ")
-  auth_response: schemas.AccountCrudResponse = crud.try_signin(db=db,
-                                                               signin_details=signin_details)
+  auth_response: schemas.CrudResponse = crud.try_signin(db=db,
+                                                        signin_details=signin_details)
   if auth_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=auth_response.response_message)
 
   # create JWT
   token: str = security.create_access_token(email=signin_details.email)
-  response = schemas.Response(account_crud_response=auth_response,
+  response = schemas.Response(crud_response=auth_response,
                               token=token)
   return response
 
@@ -153,14 +153,28 @@ async def edit_profile(username: str = Form(...),
                                     about=about,
                                     picture=picture_path)
 
-  crud_response: schemas.AccountCrudResponse = crud.edit_profile(db=db, profile_details=profile_details,
-                                                                 old_email=old_email)
+  crud_response: schemas.CrudResponse = crud.edit_profile(db=db, profile_details=profile_details,
+                                                          old_email=old_email)
   if crud_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=crud_response.response_message)
 
-  response = schemas.Response(account_crud_response=crud_response,
-                              token="")
+  response = schemas.Response(crud_response=crud_response)
+  return response
+
+
+@app.get("/profile/", response_model=schemas.Response)
+async def get_profile(client_session: schemas.ClientSession,
+                      db: Session = Depends(get_db)):
+  logger.info("serving GET request for /profile/ ")
+
+  crud_response: schemas.CrudResponse = crud.get_profile(db=db,
+                                                         client_session=client_session)
+  if crud_response.response_code == 1:
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                        detail=crud_response.response_message)
+
+  response = schemas.Response(crud_response=crud_response)
   return response
 
 
