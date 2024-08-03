@@ -9,6 +9,8 @@ import os
 from fastapi.security import HTTPBearer
 from fastapi import HTTPException
 from typing import Dict, Any
+from fastapi import Depends
+from utils import util
 
 
 SECRET_KEY = os.environ.get("KEY", "someHardPassword#@GGWP@1357")
@@ -42,7 +44,7 @@ def create_access_token(email: str, expires_delta: Optional[timedelta] = None) -
   return token
 
 
-def validate_token(token: str) -> Dict[str, Any]:
+def validate_token(token: str = Depends(util.get_token)) -> Dict[str, Any]:
   try:
     payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
   except ExpiredSignatureError:

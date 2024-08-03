@@ -14,7 +14,6 @@ from utils.paths import ARTICLE_IMAGES, RESOURCES, PROFILE_PICTURES
 from pathlib import Path as pp
 import traceback
 import security
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 
 app = FastAPI()
@@ -132,11 +131,12 @@ async def edit_profile(username: str = Form(...),
 
 
 @app.get("/profile/", response_model=schemas.Response)
-async def get_profile(db: Session = Depends(database.get_db)):
+async def get_profile(db: Session = Depends(database.get_db),
+                      user_info: dict = Depends(security.validate_token)):
   logger.info("serving GET request for /profile/ ")
 
   crud_response: schemas.CrudResponse = crud.get_profile(db=db,
-                                                         client_session=client_session)
+                                                         user=user_info.get("email"))
   if crud_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=crud_response.response_message)
