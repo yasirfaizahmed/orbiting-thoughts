@@ -96,8 +96,8 @@ def edit_profile(db: Session, profile_details: schemas.Profile,
                               response_message="profile edited successfuly")
 
 
-def get_profile(db: Session, client_session: schemas.ClientSession) -> schemas.CrudResponse:
-  user = db.query(models.User).filter(models.User.email == client_session.email).first()
+def get_profile(db: Session, email: str) -> schemas.CrudResponse:
+  user = db.query(models.User).filter(models.User.email == email).first()
   if user is None:
     return schemas.CrudResponse(response_code=1,
                                 response_message="account does not exist")

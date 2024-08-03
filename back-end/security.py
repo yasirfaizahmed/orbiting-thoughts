@@ -10,7 +10,7 @@ from fastapi.security import HTTPBearer
 from fastapi import HTTPException
 from typing import Dict, Any
 from fastapi import Depends
-from utils import util
+from fastapi.security import HTTPAuthorizationCredentials
 
 
 SECRET_KEY = os.environ.get("KEY", "someHardPassword#@GGWP@1357")
@@ -32,11 +32,15 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
   return pwd_context.verify(plain_password, hashed_password)
 
 
+def get_token(credentials: HTTPAuthorizationCredentials = Depends(bearer)):
+  return credentials.credentials
+
+
 def create_access_token(email: str, expires_delta: Optional[timedelta] = None) -> str:
   if expires_delta:
     expires_on = datetime.utcnow() + expires_delta
   else:
-    expires_on = datetime.utcnow() + timedelta(seconds=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expires_on = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
   payload = {"sub": email,
              "exp": expires_on}
 
@@ -44,7 +48,7 @@ def create_access_token(email: str, expires_delta: Optional[timedelta] = None) -
   return token
 
 
-def validate_token(token: str = Depends(util.get_token)) -> Dict[str, Any]:
+def validate_token(token: str = Depends(get_token)) -> Dict[str, Any]:
   try:
     payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
   except ExpiredSignatureError:

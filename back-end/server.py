@@ -136,7 +136,7 @@ async def get_profile(db: Session = Depends(database.get_db),
   logger.info("serving GET request for /profile/ ")
 
   crud_response: schemas.CrudResponse = crud.get_profile(db=db,
-                                                         user=user_info.get("email"))
+                                                         email=user_info.get("sub"))
   if crud_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=crud_response.response_message)
