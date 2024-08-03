@@ -52,32 +52,6 @@ def get_db():   # dependency to get a db session
     db.close()    # close the session regardless of outcome
 
 
-@app.post("/articles/", response_model=schemas.Article)
-async def create_article(title: str = Form(...),
-                         content: str = Form(...),
-                         image: UploadFile = File(...),
-                         db: Session = Depends(get_db)):
-  logger.info("serving POST request for /articles/ ")
-  try:
-    image_path = f"{ARTICLE_IMAGES}/{image.filename}"
-    with open(image_path, "wb") as f:
-      f.write(await image.read())
-  except Exception:
-    logger.error(traceback.format_exc())
-    raise HTTPException(status_code=500,
-                        detail="Internal Server Error")
-
-  try:
-    new_article = schemas.Article(title=title,
-                                  content=content,
-                                  image=image_path)
-    return crud.create_article(db=db, article=new_article)
-  except Exception:
-    logger.error(traceback.format_exc())
-    raise HTTPException(status_code=500,
-                        detail="Internal Server Error")
-
-
 @app.get("/articles/", response_model=List[schemas.Article])
 def get_articles(skip: int = 0,
                  limit: int = 5,
@@ -176,6 +150,32 @@ async def get_profile(client_session: schemas.ClientSession,
 
   response = schemas.Response(crud_response=crud_response)
   return response
+
+
+@app.post("/article/", response_model=schemas.Article)
+async def create_article(title: str = Form(...),
+                         content: str = Form(...),
+                         image: UploadFile = File(...),
+                         db: Session = Depends(get_db)):
+  logger.info("serving POST request for /articles/ ")
+  try:
+    image_path = f"{ARTICLE_IMAGES}/{image.filename}"
+    with open(image_path, "wb") as f:
+      f.write(await image.read())
+  except Exception:
+    logger.error(traceback.format_exc())
+    raise HTTPException(status_code=500,
+                        detail="Internal Server Error")
+
+  try:
+    new_article = schemas.Article(title=title,
+                                  content=content,
+                                  image=image_path)
+    return crud.create_article(db=db, article=new_article)
+  except Exception:
+    logger.error(traceback.format_exc())
+    raise HTTPException(status_code=500,
+                        detail="Internal Server Error")
 
 
 # basic endpoints
