@@ -14,9 +14,11 @@ from utils.paths import ARTICLE_IMAGES, RESOURCES, PROFILE_PICTURES
 from pathlib import Path as pp
 import traceback
 import security
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 
 app = FastAPI()
+
 
 # Allow all origins for now, restrict this in production
 app.add_middleware(
@@ -44,18 +46,10 @@ def prepare():
     logger.error(f"Error creating database tables: {e}")
 
 
-def get_db():   # dependency to get a db session
-  db = database.SessionLocal()    # create a new session
-  try:
-    yield db    # yield session
-  finally:
-    db.close()    # close the session regardless of outcome
-
-
 @app.get("/articles/", response_model=List[schemas.Article])
 def get_articles(skip: int = 0,
                  limit: int = 5,
-                 db: Session = Depends(get_db)):
+                 db: Session = Depends(database.get_db)):
   logger.info("serving GET request for /articles/ ")
   articles = crud.get_articles(db=db, skip=skip, limit=limit)
   return articles
@@ -63,7 +57,7 @@ def get_articles(skip: int = 0,
 
 @app.get("/article/", response_model=schemas.Article)
 def get_aricle(id: int,
-               db: Session = Depends(get_db)):
+               db: Session = Depends(database.get_db)):
   logger.info("serving GET request for /article/")
   article = crud.get_article(db=db, id=id)
   return article
@@ -71,7 +65,7 @@ def get_aricle(id: int,
 
 @app.post("/signup/", response_model=schemas.Response)
 async def signup(signup_details: schemas.SignupDetails,
-                 db: Session = Depends(get_db)):
+                 db: Session = Depends(database.get_db)):
   logger.info("serving POST request for /signup/ ")
   auth_response: schemas.CrudResponse = crud.try_signup(db=db,
                                                         signup_details=signup_details)
@@ -88,7 +82,7 @@ async def signup(signup_details: schemas.SignupDetails,
 
 @app.post("/signin/", response_model=schemas.Response)
 async def signin(signin_details: schemas.SigninDetails,
-                 db: Session = Depends(get_db)):
+                 db: Session = Depends(database.get_db)):
   logger.info("serving POST request for /signin/ ")
   auth_response: schemas.CrudResponse = crud.try_signin(db=db,
                                                         signin_details=signin_details)
@@ -103,14 +97,14 @@ async def signin(signin_details: schemas.SigninDetails,
   return response
 
 
-@app.post("/profile/", response_model=schemas.Response)
+@app.post("/edit-profile/", response_model=schemas.Response)
 async def edit_profile(username: str = Form(...),
                        email: str = Form(...),
                        old_email: str = Form(...),
                        password: str = Form(...),
                        about: str = Form(...),
                        picture: UploadFile = File(...),
-                       db: Session = Depends(get_db)):
+                       db: Session = Depends(database.get_db)):
   logger.info("serving POST request for /profile/ ")
   try:
     picture_path = f"{PROFILE_PICTURES}/{picture.filename}"
@@ -138,8 +132,7 @@ async def edit_profile(username: str = Form(...),
 
 
 @app.get("/profile/", response_model=schemas.Response)
-async def get_profile(client_session: schemas.ClientSession,
-                      db: Session = Depends(get_db)):
+async def get_profile(db: Session = Depends(database.get_db)):
   logger.info("serving GET request for /profile/ ")
 
   crud_response: schemas.CrudResponse = crud.get_profile(db=db,
@@ -156,7 +149,7 @@ async def get_profile(client_session: schemas.ClientSession,
 async def create_article(title: str = Form(...),
                          content: str = Form(...),
                          image: UploadFile = File(...),
-                         db: Session = Depends(get_db)):
+                         db: Session = Depends(database.get_db)):
   logger.info("serving POST request for /articles/ ")
   try:
     image_path = f"{ARTICLE_IMAGES}/{image.filename}"

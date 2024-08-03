@@ -10,3 +10,11 @@ engine = create_engine(DATABASE_URL,
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)   # configures session factory
 Base = declarative_base()   # Base class for our models
 metadata = MetaData()   # optional metadata obkect for furhter customizations
+
+
+def get_db():   # dependency to get a db session
+  db = SessionLocal()    # create a new session
+  try:
+    yield db    # yield session
+  finally:
+    db.close()    # close the session regardless of outcome
