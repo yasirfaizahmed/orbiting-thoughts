@@ -35,14 +35,14 @@ async function handleLogin() {
     const password = document.getElementById('signinPassword').value;
 
     // Encrypt the password before sending
-    const encryptedPassword = btoa(password); // For demonstration, use a proper encryption in production
+    // const encryptedPassword = btoa(password); // For demonstration, use a proper encryption in production
 
     const response = await fetch('http://127.0.0.1:9000/signin/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password: encryptedPassword })
+        body: JSON.stringify({ email, password})
     });
 
     if (response.ok) {
@@ -51,7 +51,8 @@ async function handleLogin() {
         setAuthenticated(true, data.token);
         
         const sessionToken = data.token;
-        localStorage.setItem('token', "dummy_token");
+        console.log('Token received on signup:', sessionToken); // Debug log
+        localStorage.setItem('token', sessionToken);
         
         var closeButton = document.getElementById('closeSignin');
         if (closeButton) {
@@ -71,9 +72,6 @@ function setAuthenticated(isAuthenticated, data=null) {
         document.getElementById('signupButton').style.display = 'none';
         document.getElementById('signinButton').style.display = 'none';
         localStorage.setItem('isAuthenticated', 'true');
-        if (token) {
-            localStorage.setItem('token', token);
-        }
     } else {
         document.getElementById('signupButton').style.display = 'block';
         document.getElementById('signinButton').style.display = 'block';
