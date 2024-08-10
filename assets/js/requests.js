@@ -47,7 +47,7 @@ document.getElementById('profileButton').addEventListener('click', async () => {
         sessionStorage.setItem('profileData', JSON.stringify(data));
 
         // make DOM changes to view profile
-        showSection('profile');
+        showSection('profile', true);
     } catch (error) {
         console.error('Error:', error);
     }

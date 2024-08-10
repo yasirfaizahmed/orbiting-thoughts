@@ -16,10 +16,12 @@ import traceback
 import security
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+import os
 
 
 app = FastAPI()
-app.mount("static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 
 
 # Allow all origins for now, restrict this in production
@@ -176,9 +178,10 @@ async def create_article(title: str = Form(...),
 
 
 # basic endpoints
+# Wildcard route for SPA History API fallback
 @app.get("/{full_path:path}")
-async def serve_frontend(full_path: str):
-    return FileResponse("../index.html")
+async def spa_fallback(full_path: str):
+  return FileResponse(os.path.join("static", "index.html"))
 
 
 @app.get("/dunya/")

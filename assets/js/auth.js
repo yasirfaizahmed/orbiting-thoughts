@@ -26,7 +26,7 @@ async function handleSignup() {
         modify_navbar_elements();
         
         // show home
-        showSection('home');
+        // showSection('home', false);
         
         // close the modal
         var closeButton = document.getElementById('closeSignup');
@@ -68,7 +68,7 @@ async function handleSignin() {
         updateNavbarSection();
 
         // show home
-        showSection('home');
+        // showSection('home', false);
         
         // close the modal
         var closeButton = document.getElementById('closeSignin');
