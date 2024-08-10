@@ -14,4 +14,4 @@ function handleLoad() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', handleLoad);
+// document.addEventListener('DOMContentLoaded', handleLoad);

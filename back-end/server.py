@@ -14,9 +14,12 @@ from utils.paths import ARTICLE_IMAGES, RESOURCES, PROFILE_PICTURES
 from pathlib import Path as pp
 import traceback
 import security
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 
 app = FastAPI()
+app.mount("static", StaticFiles(directory="static"), name="static")
 
 
 # Allow all origins for now, restrict this in production
@@ -45,6 +48,7 @@ def prepare():
     logger.error(f"Error creating database tables: {e}")
 
 
+# TODO: add features
 @app.get("/articles/", response_model=List[schemas.Article])
 def get_articles(skip: int = 0,
                  limit: int = 5,
@@ -54,6 +58,7 @@ def get_articles(skip: int = 0,
   return articles
 
 
+# TODO: add features
 @app.get("/article/", response_model=schemas.Article)
 def get_aricle(id: int,
                db: Session = Depends(database.get_db)):
@@ -99,11 +104,11 @@ async def signin(signin_details: schemas.SigninDetails,
 @app.post("/edit-profile/", response_model=schemas.Response)
 async def edit_profile(username: str = Form(...),
                        email: str = Form(...),
-                       old_email: str = Form(...),
                        password: str = Form(...),
                        about: str = Form(...),
                        picture: UploadFile = File(...),
-                       db: Session = Depends(database.get_db)):
+                       db: Session = Depends(database.get_db),
+                       token_payload: dict = Depends(security.validate_token)):
   logger.info("serving POST request for /profile/ ")
   try:
     picture_path = f"{PROFILE_PICTURES}/{picture.filename}"
@@ -121,7 +126,7 @@ async def edit_profile(username: str = Form(...),
                                     picture=picture_path)
 
   crud_response: schemas.CrudResponse = crud.edit_profile(db=db, profile_details=profile_details,
-                                                          old_email=old_email)
+                                                          old_email=token_payload.get("sub"))
   if crud_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=crud_response.response_message)
@@ -132,11 +137,10 @@ async def edit_profile(username: str = Form(...),
 
 @app.get("/profile/", response_model=schemas.Response)
 async def get_profile(db: Session = Depends(database.get_db),
-                      user_info: dict = Depends(security.validate_token)):
+                      token_payload: dict = Depends(security.validate_token)):
   logger.info("serving GET request for /profile/ ")
-
   crud_response: schemas.CrudResponse = crud.get_profile(db=db,
-                                                         email=user_info.get("sub"))
+                                                         email=token_payload.get("sub"))
   if crud_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=crud_response.response_message)
@@ -172,9 +176,9 @@ async def create_article(title: str = Form(...),
 
 
 # basic endpoints
-@app.get("/")
-async def root():
-  return {"message": "home page!"}
+@app.get("/{full_path:path}")
+async def serve_frontend(full_path: str):
+    return FileResponse("../index.html")
 
 
 @app.get("/dunya/")

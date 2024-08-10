@@ -1,5 +1,6 @@
+// header to every request made after signin/signup
 function getHeaders() {
-    const token = localStorage.getItem('token'); // Or wherever you store your token
+    const token = sessionStorage.getItem('token'); // Or wherever you store your token
     // const email = localStorage.getItem('email'); // Or wherever you store the user's email
     
     return {
@@ -10,21 +11,21 @@ function getHeaders() {
 
 
 
-document.getElementById('deenCard').addEventListener('click', () => {
-    fetch('http://127.0.0.1:9000/deen/')
-        .then(response => response.json())
-        .then(data => console.log('GET Response:', data))
-        .then(window.location.href = 'pages/deen.html')
-        .catch(error => console.error('Error:', error));
-});
+// document.getElementById('deenCard').addEventListener('click', () => {
+//     fetch('http://127.0.0.1:9000/deen/')
+//         .then(response => response.json())
+//         .then(data => console.log('GET Response:', data))
+//         .then(window.location.href = 'pages/deen.html')
+//         .catch(error => console.error('Error:', error));
+// });
 
-document.getElementById('dunyaCard').addEventListener('click', () => {
-    fetch('http://127.0.0.1:9000/dunya/')
-        .then(response => response.json())
-        .then(data => console.log('GET Response:', data))
-        .then(window.location.href = 'pages/dunya.html')
-        .catch(error => console.error('Error:', error));
-});
+// document.getElementById('dunyaCard').addEventListener('click', () => {
+//     fetch('http://127.0.0.1:9000/dunya/')
+//         .then(response => response.json())
+//         .then(data => console.log('GET Response:', data))
+//         .then(window.location.href = 'pages/dunya.html')
+//         .catch(error => console.error('Error:', error));
+// });
 
 
 
@@ -43,11 +44,52 @@ document.getElementById('profileButton').addEventListener('click', async () => {
         console.log('GET Response:', data);
 
         // Store the profile data in localStorage or handle it as needed
-        localStorage.setItem('profileData', JSON.stringify(data));
+        sessionStorage.setItem('profileData', JSON.stringify(data));
 
-        // Redirect to the profile page
-        window.location.href = 'pages/profile.html';
+        // make DOM changes to view profile
+        showSection('profile');
     } catch (error) {
         console.error('Error:', error);
     }
 });
+
+// document.getElementById('saveProfileButton').addEventListener('click', async () => {
+//     alert("asdf");
+//     try {
+//         // Get the input values
+//         const username = document.getElementById('newUsernameInput').value;
+//         const about = document.getElementById('aboutYourselfInput').value;
+//         const password = document.getElementById('newPasswordInput').value;
+//         const profileImage = document.getElementById('selectedImageInput').files[0];
+
+//         // Create a new FormData object
+//         const formData = new FormData();
+//         formData.append('username', username);
+//         formData.append('about', about);
+//         formData.append('password', password);
+//         formData.append('profileImage', profileImage);
+
+//         const response = await fetch('http://127.0.0.1:9000/edit-profile/', {
+//             method: 'POST',
+//             headers: getHeaders(), // Ensure this function is defined correctly to not include 'Content-Type'
+//             body: formData
+//         });
+
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok ' + response.statusText);
+//         }
+
+//         const data = await response.json();
+//         console.log('GET Response:', data);
+
+//         // Store the profile data in localStorage or handle it as needed
+//         localStorage.setItem('profileData', JSON.stringify(data));
+
+//         var closeButton = document.getElementById('closeEditProfileButton');
+//         if (closeButton) {
+//             closeButton.click();
+//         }
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// });

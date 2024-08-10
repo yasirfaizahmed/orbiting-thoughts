@@ -1,3 +1,4 @@
+// signup handler
 async function handleSignup() {
 
     const username = document.getElementById('username').value;
@@ -15,22 +16,32 @@ async function handleSignup() {
     if (response.ok) {
         // alert('Signup successful');
         const data = await response.json();
-        setAuthenticated(true, data.token);
 
         const sessionToken = data.token;
-        localStorage.setItem('token', sessionToken);
+        console.log('Token received on signup:', sessionToken); // Debug log
+        sessionStorage.setItem('token', sessionToken);
+        sessionStorage.setItem('session_valid', 'true');
+
+        // update the navbar
+        modify_navbar_elements();
         
+        // show home
+        showSection('home');
+        
+        // close the modal
         var closeButton = document.getElementById('closeSignup');
         if (closeButton) {
             closeButton.click();
         }
     } else {
-        const errorData = await response.json();
-        alert('Signup failed' + errorData.detail);
+        alert('Signup failed');
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('session_valid');
     }
 }
 
-async function handleLogin() {
+// signin handler
+async function handleSignin() {
     const email = document.getElementById('signinEmail').value;
     const password = document.getElementById('signinPassword').value;
 
@@ -46,36 +57,28 @@ async function handleLogin() {
     });
 
     if (response.ok) {
-        alert('Login successful');
         const data = await response.json();
-        setAuthenticated(true, data.token);
         
         const sessionToken = data.token;
         console.log('Token received on signup:', sessionToken); // Debug log
-        localStorage.setItem('token', sessionToken);
+        sessionStorage.setItem('token', sessionToken);
+        sessionStorage.setItem('session_valid', 'true');
         
+        // update the navbar
+        updateNavbarSection();
+
+        // show home
+        showSection('home');
+        
+        // close the modal
         var closeButton = document.getElementById('closeSignin');
         if (closeButton) {
             closeButton.click();
         }
+        alert("Signin successfull")
     } else {
-        alert('Login failed');
-    }
-}
-
-
-function setAuthenticated(isAuthenticated, data=null) {
-    document.getElementById('profileButton').style.display = 'block';
-    if (isAuthenticated) {
-        document.getElementById('closeSignup').click();
-        document.getElementById('closeSignin').click();
-        document.getElementById('signupButton').style.display = 'none';
-        document.getElementById('signinButton').style.display = 'none';
-        localStorage.setItem('isAuthenticated', 'true');
-    } else {
-        document.getElementById('signupButton').style.display = 'block';
-        document.getElementById('signinButton').style.display = 'block';
-        localStorage.removeItem('isAuthenticated');
-        localStorage.removeItem('token');
+        alert('Signin failed');
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('session_valid');
     }
 }
