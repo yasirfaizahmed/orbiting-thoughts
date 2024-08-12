@@ -22,8 +22,14 @@ function showSection(section, addHistory = true) {
         if (addHistory) {
             history.pushState({ section: 'profile' }, '', '/profile');
         }
+        
+        // show actual profile details
+        showProfile();
     }
 }
+
+
+///////// UI handlers
 
 // Update navbar based on session validity
 function updateNavbarSection() {
@@ -34,6 +40,23 @@ function updateNavbarSection() {
         signinButton.style.display = 'none';
     }
 }
+
+function showProfile(){
+    const userName = document.getElementById('userName');
+    const profileImage = document.getElementById('profileImage');
+    const aboutValue = document.getElementById('aboutValue');
+
+    const profileData = sessionStorage.getItem("profileData");
+    const parsedData = JSON.parse(profileData);
+    if(parsedData){
+        userName.textContent = parsedData.crud_response.data.user.username;
+        // profileImage.src = 
+    }
+}
+
+
+
+///////// Section Hanlders
 
 // Handle the initial load based on the current path
 function handleReload() {

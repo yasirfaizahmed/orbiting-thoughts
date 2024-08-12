@@ -4,6 +4,8 @@ import schemas
 import logging
 import security
 from utils import util
+import base64
+import os
 
 
 logging.basicConfig(level=logging.INFO)
@@ -97,13 +99,23 @@ def edit_profile(db: Session, profile_details: schemas.Profile,
 
 
 def get_profile(db: Session, email: str) -> schemas.CrudResponse:
-  user = db.query(models.User).filter(models.User.email == email).first()
-  if user is None:
+  user_entry = db.query(models.User).filter(models.User.email == email).first()
+  if user_entry is None:
     return schemas.CrudResponse(response_code=1,
                                 response_message="account does not exist")
-  profile = db.query(models.Profile).filter(models.Profile.user_id == user.id).first()
+  profile_entry = db.query(models.Profile).filter(models.Profile.user_id == user_entry.id).first()
+
+  profile = util.model_to_dict(profile_entry)
+  user = util.model_to_dict(user_entry)
+
+  if os.path.exists(profile_entry.picture):
+    with open(profile_entry.picture, "rb") as file:
+      encoded_image = base64.b64encode(file.read()).decode('utf-8')
+  else:
+    encoded_image = ""
 
   return schemas.CrudResponse(response_code=0,
                               response_message="account exists",
-                              data={"user": util.model_to_dict(user),
-                                    "profile": util.model_to_dict(profile)})
+                              data={"user": user,
+                                    "profile": profile,
+                                    "profilePicture": encoded_image})
