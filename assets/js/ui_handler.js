@@ -62,10 +62,10 @@ function showProfile(){
 function handleReload() {
     const path = window.location.pathname;
     if (path === '/profile') {
-        showSection('profile', false);
+        // showSection('profile', false);       // for dev
         history.replaceState({ section: 'profile' }, '', '/profile');
     } else {
-        showSection('home', false);
+        // showSection('home', false);     // for dev
         history.replaceState({ section: 'home' }, '', '/home');
     }
 }
