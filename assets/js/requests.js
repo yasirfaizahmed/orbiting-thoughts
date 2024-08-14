@@ -57,43 +57,46 @@ document.getElementById('profileButton').addEventListener('click', async () => {
     }
 });
 
-// document.getElementById('saveProfileButton').addEventListener('click', async () => {
-//     alert("asdf");
-//     try {
-//         // Get the input values
-//         const username = document.getElementById('newUsernameInput').value;
-//         const about = document.getElementById('aboutYourselfInput').value;
-//         const password = document.getElementById('newPasswordInput').value;
-//         const profileImage = document.getElementById('selectedImageInput').files[0];
 
-//         // Create a new FormData object
-//         const formData = new FormData();
-//         formData.append('username', username);
-//         formData.append('about', about);
-//         formData.append('password', password);
-//         formData.append('profileImage', profileImage);
+document.getElementById('updateProfileButton').addEventListener('click', async () => {
+    try {
+        // Get the input values
+        const username = document.getElementById('newUsernameInput').value;
+        const about = document.getElementById('aboutYourselfInput').value;
+        const password = document.getElementById('newPasswordInput').value;
+        const profileImage = document.getElementById('selectedImageInput').files[0];
 
-//         const response = await fetch('http://127.0.0.1:9000/edit-profile/', {
-//             method: 'POST',
-//             headers: getHeaders(), // Ensure this function is defined correctly to not include 'Content-Type'
-//             body: formData
-//         });
+        // Create a new FormData object
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('about', about);
+        formData.append('password', password);
+        formData.append('profileImage', profileImage);
 
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok ' + response.statusText);
-//         }
+        const response = await fetch('http://127.0.0.1:9000/edit-profile/', {
+            method: 'POST',
+            headers: getHeaders(), // Ensure this function is defined correctly to not include 'Content-Type'
+            body: formData
+        });
 
-//         const data = await response.json();
-//         console.log('GET Response:', data);
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
 
-//         // Store the profile data in localStorage or handle it as needed
-//         localStorage.setItem('profileData', JSON.stringify(data));
+        const data = await response.json();
+        console.log('GET Response:', data);
 
-//         var closeButton = document.getElementById('closeEditProfileButton');
-//         if (closeButton) {
-//             closeButton.click();
-//         }
-//     } catch (error) {
-//         console.error('Error:', error);
-//     }
-// });
+        // Store the profile data in localStorage or handle it as needed
+        sessionStorage.setItem('profileData', JSON.stringify(data));
+
+        // var closeButton = document.getElementById('closeEditProfileButton');
+        // if (closeButton) {
+        //     closeButton.click();
+        // }
+
+        // show profile
+        showProfile();
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});

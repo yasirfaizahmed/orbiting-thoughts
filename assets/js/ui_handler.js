@@ -50,7 +50,8 @@ function showProfile(){
     const parsedData = JSON.parse(profileData);
     if(parsedData){
         userName.textContent = parsedData.crud_response.data.user.username;
-        // profileImage.src = 
+        aboutValue = parsedData.crud_response.data.profile.about;
+        profileImage.src = `data:image/jpeg;base64,${parsedData.crud_response.data.profile.profilePicture}`;
     }
 }
 
@@ -78,4 +79,4 @@ window.addEventListener('popstate', function(event) {
 });
 
 // Run initial load handler
-handleReload();
+// handleReload();
