@@ -105,7 +105,6 @@ async def signin(signin_details: schemas.SigninDetails,
 
 @app.post("/edit-profile/", response_model=schemas.Response)
 async def edit_profile(username: str = Form(...),
-                       email: str = Form(...),
                        password: str = Form(...),
                        about: str = Form(...),
                        picture: UploadFile = File(...),
@@ -122,7 +121,6 @@ async def edit_profile(username: str = Form(...),
                         detail="Internal Server Error")
 
   profile_details = schemas.Profile(username=username,
-                                    email=email,
                                     password=password,
                                     about=about,
                                     picture=picture_path)

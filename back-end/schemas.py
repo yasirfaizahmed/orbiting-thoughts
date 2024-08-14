@@ -45,7 +45,6 @@ class Response(BaseModel):
 
 class Profile(BaseModel):
   username: str
-  email: EmailStr
   password: str
   about: str
   picture: str

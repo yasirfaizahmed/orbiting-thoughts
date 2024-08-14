@@ -75,27 +75,35 @@ def try_signin(db: Session, signin_details: schemas.SigninDetails) -> schemas.Cr
 
 def edit_profile(db: Session, profile_details: schemas.Profile,
                  old_email: str):
-  user = db.query(models.User).filter(models.User.email == old_email).first()
-  if user is None:
+  user_entry = db.query(models.User).filter(models.User.email == old_email).first()
+  if user_entry is None:
     return schemas.CrudResponse(response_code=1,
                                 response_message="account does not exist")
-  user.username = profile_details.username
-  user.email = profile_details.email
-  user.password = profile_details.password
-
-  db.add(user)
+  user_entry.username = profile_details.username
+  user_entry.password = profile_details.password
+  db.add(user_entry)
   db.commit()
 
-  profile = db.query(models.Profile).filter(models.Profile.user_id == user.id).first()
-
-  profile.about = profile_details.about
-  profile.picture = profile_details.picture
-
-  db.add(profile)
+  profile_entry = db.query(models.Profile).filter(models.Profile.user_id == user_entry.id).first()
+  profile_entry.about = profile_details.about
+  profile_entry.picture = profile_details.picture
+  db.add(profile_entry)
   db.commit()
+
+  profile = util.model_to_dict(profile_entry)
+  user = util.model_to_dict(user_entry)
+
+  if os.path.exists(profile_entry.picture):
+    with open(profile_entry.picture, "rb") as file:
+      encoded_image = base64.b64encode(file.read()).decode('utf-8')
+  else:
+    encoded_image = ""
 
   return schemas.CrudResponse(response_code=0,
-                              response_message="profile edited successfuly")
+                              response_message="profile edited successfuly",
+                              data={"user": user,
+                                    "profile": profile,
+                                    "profilePicture": encoded_image})
 
 
 def get_profile(db: Session, email: str) -> schemas.CrudResponse:
