@@ -29,6 +29,13 @@ function showSection(section, addHistory = true) {
         
         // show actual profile details
         showProfile();
+    } else if (section === 'deen') {
+        homeSection.style.display = 'none';
+        profileSection.style.display = 'none';
+        deenSection.style.display = 'block';
+        if (addHistory) {
+            history.pushState( {section: 'deen'}, '', 'deen' )
+        }
     }
 }
 
@@ -64,6 +71,9 @@ function handleReload() {
     if (path === '/profile') {
         showSection('profile', false);       // for dev
         history.replaceState({ section: 'profile' }, '', '/profile');
+    } else if (path === '/deen'){
+        showSection('deen', false);       // for dev
+        history.replaceState({ section: 'deen' }, '', '/deen');
     } else {
         showSection('home', false);     // for dev
         history.replaceState({ section: 'home' }, '', '/home');

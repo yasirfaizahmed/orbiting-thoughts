@@ -42,12 +42,9 @@ def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.Cr
     return schemas.CrudResponse(response_code=1,
                                 response_message="account already exist")
 
-  # hash the password before storing it
-  hashed_password = security.hash_password(password=signup_details.password)
-
   new_user = models.User(username=signup_details.username,
                          email=signup_details.email,
-                         password=hashed_password)
+                         password=security.hash_password(password=signup_details.password))
   db.add(new_user)
   db.commit()
 
@@ -83,7 +80,7 @@ def edit_profile(db: Session, profile_details: schemas.Profile,
     return schemas.CrudResponse(response_code=1,
                                 response_message="account does not exist")
   user_entry.username = profile_details.username
-  user_entry.password = profile_details.password
+  user_entry.password = security.hash_password(password=profile_details.password)
   db.add(user_entry)
   db.commit()
 

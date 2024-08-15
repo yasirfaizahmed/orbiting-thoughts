@@ -112,43 +112,14 @@ document.getElementById('updateProfileButton').addEventListener('click', async (
 
 document.getElementById('deenCard').addEventListener('click', async () => {
     try {
-        alert("deen");
-        // // Get the input values
-        // const username = document.getElementById('newUsernameInput').value;
-        // const about = document.getElementById('aboutYourselfInput').value;
-        // const password = document.getElementById('newPasswordInput').value;
-        // const profileImage = document.getElementById('customFile1').files[0];
+        const response = await fetch('http://127.0.0.1:9000/deen/', {
+            method: 'GET',
+            headers: getHeaders()
+        });
 
-        // // Create a new FormData object
-        // const formData = new FormData();
-        // formData.append('username', username);
-        // formData.append('about', about);
-        // formData.append('password', password);
-        // formData.append('picture', profileImage);
+        // make DOM changes to view profile
+        showSection('deen', true); 
 
-        // const response = await fetch('http://127.0.0.1:9000/edit-profile/', {
-        //     method: 'POST',
-        //     headers: getHeaders(form=true), // Ensure this function is defined correctly to not include 'Content-Type'
-        //     body: formData
-        // });
-
-        // if (!response.ok) {
-        //     throw new Error('Network response was not ok ' + response.statusText);
-        // }
-
-        // const data = await response.json();
-        // console.log('GET Response:', data);
-
-        // // Store the profile data in localStorage or handle it as needed
-        // sessionStorage.setItem('profileData', JSON.stringify(data));
-
-        // // var closeButton = document.getElementById('closeEditProfileButton');
-        // // if (closeButton) {
-        // //     closeButton.click();
-        // // }
-
-        // // show profile
-        // showProfile();
     } catch (error) {
         console.error('Error:', error);
     }
