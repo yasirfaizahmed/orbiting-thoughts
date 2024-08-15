@@ -1,5 +1,7 @@
 const homeSection = document.getElementById('index');
 const profileSection = document.getElementById('profile');
+const deenSection = document.getElementById('deen');
+const dunyaSection = document.getElementById('dunya');
 const profileButton = document.getElementById('profileButton');
 const signupButton = document.getElementById('signupButton');
 const signinButton = document.getElementById('signinButton');
@@ -13,12 +15,14 @@ function showSection(section, addHistory = true) {
     if (section === 'home') {
         homeSection.style.display = 'block';
         profileSection.style.display = 'none';
+        deenSection.style.display = 'none';
         if (addHistory) {
             history.pushState({ section: 'home' }, '', '/home');
         }
     } else if (section === 'profile') {
         homeSection.style.display = 'none';
         profileSection.style.display = 'block';
+        deenSection.style.display = 'none';
         if (addHistory) {
             history.pushState({ section: 'profile' }, '', '/profile');
         }

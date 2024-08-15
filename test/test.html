@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Themed Articles Section</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .articles-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .article-card {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .article-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article-title {
+            font-size: 1.5em;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .article-excerpt {
+            font-size: 1em;
+            color: #c0c0c0;
+            margin-bottom: 15px;
+        }
+
+        .article-author {
+            font-size: 0.9em;
+            color: #888888;
+        }
+
+        .article-author a {
+            color: #1da1f2;
+            text-decoration: none;
+        }
+
+        .article-author a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="articles-section">
+        <div class="article-card">
+            <div class="article-image">
+                <img src="https://via.placeholder.com/400x200" alt="Article Image">
+            </div>
+            <div class="article-content">
+                <div class="article-title">The Power of Self-Discipline</div>
+                <div class="article-excerpt">Learn how self-discipline can transform your life and help you achieve your goals.</div>
+                <div class="article-author">
+                    <span>Author: John Doe</span> | 
+                    <a href="https://twitter.com/JohnDoe" target="_blank">@JohnDoe</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-card">
+            <div class="article-image">
+                <img src="https://via.placeholder.com/400x200" alt="Article Image">
+            </div>
+            <div class="article-content">
+                <div class="article-title">Understanding Tawakkul in Islam</div>
+                <div class="article-excerpt">A deep dive into the concept of reliance on Allah (Tawakkul) and how it shapes our lives.</div>
+                <div class="article-author">
+                    <span>Author: Aisha Malik</span> | 
+                    <a href="https://twitter.com/AishaMalik" target="_blank">@AishaMalik</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repeat similar blocks for more articles -->
+    </div>
+
+</body>
+</html>

@@ -32,7 +32,7 @@ async function handleSignup() {
         if (closeButton) {
             closeButton.click();
         }
-        alert("Signin successfull")
+        alert("Signin successfull");
     } else {
         alert('Signup failed');
         sessionStorage.removeItem('token');
@@ -75,7 +75,7 @@ async function handleSignin() {
         if (closeButton) {
             closeButton.click();
         }
-        alert("Signin successfull")
+        alert("Signin successfull");
     } else {
         alert('Signin failed');
         sessionStorage.removeItem('token');
