@@ -28,7 +28,7 @@ def create_article(db: Session, article: schemas.Article):    # function to crea
   except Exception as e:
     logger.error(f"Error creating article: {e}")
     db.rollback()  # Rollback in case of error
-    raise
+    raise e
 
 
 def get_article(db: Session, id: int):
@@ -40,7 +40,7 @@ def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.Cr
 
   if user_exists:
     return schemas.CrudResponse(response_code=1,
-                                response_message="account already exists")
+                                response_message="account already exist")
 
   # hash the password before storing it
   hashed_password = security.hash_password(password=signup_details.password)
@@ -62,11 +62,14 @@ def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.Cr
 
 
 def try_signin(db: Session, signin_details: schemas.SigninDetails) -> schemas.CrudResponse:
-  user_exists = db.query(models.User).filter(models.User.email == signin_details.email).first()
+  user_entry = db.query(models.User).filter(models.User.email == signin_details.email).first()
 
-  # TODO: password matching!
+  if security.verify_password(plain_password=signin_details.password,
+                              hashed_password=user_entry.password) is False:
+    return schemas.CrudResponse(response_code=1,
+                                response_message="wrong password")
 
-  if user_exists:
+  if user_entry:
     return schemas.CrudResponse(response_code=0,
                                 response_message="successfuly signed-in")
   return schemas.CrudResponse(response_code=1,

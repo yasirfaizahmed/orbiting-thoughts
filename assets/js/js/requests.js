@@ -1,12 +1,20 @@
 // header to every request made after signin/signup
-function getHeaders() {
+function getHeaders(form=false) {
     const token = sessionStorage.getItem('token'); // Or wherever you store your token
     // const email = localStorage.getItem('email'); // Or wherever you store the user's email
     
-    return {
-        // 'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-    };
+    if(form){
+        return {
+            'Authorization': `Bearer ${token}`
+        };
+    }
+    else{
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        };
+    }
+    
 }
 
 
@@ -75,7 +83,7 @@ document.getElementById('updateProfileButton').addEventListener('click', async (
 
         const response = await fetch('http://127.0.0.1:9000/edit-profile/', {
             method: 'POST',
-            headers: getHeaders(), // Ensure this function is defined correctly to not include 'Content-Type'
+            headers: getHeaders(form=true), // Ensure this function is defined correctly to not include 'Content-Type'
             body: formData
         });
 

@@ -14,17 +14,16 @@ async function handleSignup() {
     });
 
     if (response.ok) {
-        // alert('Signup successful');
         const data = await response.json();
-
+        
         const sessionToken = data.token;
         console.log('Token received on signup:', sessionToken); // Debug log
         sessionStorage.setItem('token', sessionToken);
         sessionStorage.setItem('session_valid', 'true');
-
-        // update the navbar
-        modify_navbar_elements();
         
+        // update the navbar
+        updateNavbarSection();
+
         // show home
         // showSection('home', false);
         
@@ -33,6 +32,7 @@ async function handleSignup() {
         if (closeButton) {
             closeButton.click();
         }
+        alert("Signin successfull")
     } else {
         alert('Signup failed');
         sessionStorage.removeItem('token');
