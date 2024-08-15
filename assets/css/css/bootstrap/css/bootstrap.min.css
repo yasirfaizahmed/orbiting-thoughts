@@ -3651,9 +3651,10 @@ textarea.form-control-lg {
 }
 
 .btn:hover {
-  color: var(--bs-btn-hover-color);
+  /*color: var(--bs-btn-hover-color);*/
   background-color: var(--bs-btn-hover-bg);
-  border-color: var(--bs-btn-hover-border-color);
+  /*border-color: var(--bs-btn-hover-border-color);*/
+  /*color: black;*/
 }
 
 .btn-check + .btn:hover {
@@ -3678,7 +3679,7 @@ textarea.form-control-lg {
 
 .btn-check:checked + .btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check) + .btn:active {
   color: var(--bs-btn-active-color);
-  background-color: var(--bs-btn-active-bg);
+  background-color: rgba(0,0,0,0);
   border-color: var(--bs-btn-active-border-color);
 }
 
@@ -15872,5 +15873,20 @@ textarea.form-control-lg {
   .fs-4 {
     font-size: 1.5rem!important;
   }
+}
+
+#signinSubmitButton:hover {
+  background-color: white;
+  color: black;
+}
+
+.signinButton:hover {
+  background-color: rgba(255,255,255,0);
+  color: #000000;
+}
+
+.signinSubmitButton:hover {
+  background-color: white;
+  color: black;
 }
 
