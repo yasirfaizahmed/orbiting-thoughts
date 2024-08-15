@@ -55,10 +55,10 @@ document.getElementById('profileButton').addEventListener('click', async () => {
         sessionStorage.setItem('profileData', JSON.stringify(data));
 
         // make DOM changes to view profile
-        // showSection('profile', true);        // for dev
+        showSection('profile', true);        // for dev
 
-        homeSection.style.display = 'none';     // for dev
-        profileSection.style.display = 'block';     // for dev
+        // homeSection.style.display = 'none';     // for dev
+        // profileSection.style.display = 'block';     // for dev
         showProfile();      // for dev6
     } catch (error) {
         console.error('Error:', error);

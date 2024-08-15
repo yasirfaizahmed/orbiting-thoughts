@@ -29,8 +29,6 @@ function showSection(section, addHistory = true) {
 }
 
 
-///////// UI handlers
-
 // Update navbar based on session validity
 function updateNavbarSection() {
     const valid_session = sessionStorage.getItem('session_valid');
@@ -56,17 +54,14 @@ function showProfile(){
 }
 
 
-
-///////// Section Hanlders
-
 // Handle the initial load based on the current path
 function handleReload() {
     const path = window.location.pathname;
     if (path === '/profile') {
-        // showSection('profile', false);       // for dev
+        showSection('profile', false);       // for dev
         history.replaceState({ section: 'profile' }, '', '/profile');
     } else {
-        // showSection('home', false);     // for dev
+        showSection('home', false);     // for dev
         history.replaceState({ section: 'home' }, '', '/home');
     }
 }
@@ -79,4 +74,4 @@ window.addEventListener('popstate', function(event) {
 });
 
 // Run initial load handler
-// handleReload();
+handleReload();
