@@ -17,6 +17,7 @@ import security
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 import os
+from http import HTTPStatus
 
 
 app = FastAPI()
@@ -109,7 +110,10 @@ async def edit_profile(username: str = Form(...),
                        about: str = Form(...),
                        picture: UploadFile = File(...),
                        db: Session = Depends(database.get_db),
-                       token_payload: dict = Depends(security.validate_token)):
+                       token_payload: schemas.TokenPayload = Depends(security.validate_token)):
+  if token_payload.validated is False:
+    raise HTTPException(status_code=token_payload.status_code,
+                        detail=HTTPStatus(token_payload.status_code).phrase)
   logger.info("serving POST request for /profile/ ")
   try:
     picture_path = f"{PROFILE_PICTURES}/{picture.filename}"
@@ -126,7 +130,7 @@ async def edit_profile(username: str = Form(...),
                                     picture=picture_path)
 
   crud_response: schemas.CrudResponse = crud.edit_profile(db=db, profile_details=profile_details,
-                                                          old_email=token_payload.get("sub"))
+                                                          old_email=token_payload.payload.get("sub"))
   if crud_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=crud_response.response_message)
@@ -137,10 +141,13 @@ async def edit_profile(username: str = Form(...),
 
 @app.get("/profile/", response_model=schemas.Response)
 async def get_profile(db: Session = Depends(database.get_db),
-                      token_payload: dict = Depends(security.validate_token)):
+                      token_payload: schemas.TokenPayload = Depends(security.validate_token)):
+  if token_payload.validated is False:
+    raise HTTPException(status_code=token_payload.status_code,
+                        detail=HTTPStatus(token_payload.status_code).phrase)
   logger.info("serving GET request for /profile/ ")
   crud_response: schemas.CrudResponse = crud.get_profile(db=db,
-                                                         email=token_payload.get("sub"))
+                                                         email=token_payload.payload.get("sub"))
   if crud_response.response_code == 1:
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail=crud_response.response_message)
@@ -173,6 +180,15 @@ async def create_article(title: str = Form(...),
     logger.error(traceback.format_exc())
     raise HTTPException(status_code=500,
                         detail="Internal Server Error")
+
+
+@app.get("/create/")
+async def create(token_payload: schemas.TokenPayload = Depends(security.validate_token)):
+  if token_payload.validated is False:
+    raise HTTPException(status_code=token_payload.status_code,
+                        detail=HTTPStatus(token_payload.status_code).phrase)
+  logger.info("asdf")
+  return True
 
 
 # basic endpoints

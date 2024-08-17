@@ -7,9 +7,9 @@ from jose import jwt, JWTError, ExpiredSignatureError
 from datetime import datetime
 import os
 from fastapi.security import HTTPBearer
-from fastapi import HTTPException
-from typing import Dict, Any
-from fastapi import Depends
+# from fastapi import HTTPException
+import schemas
+from fastapi import Depends, status
 from fastapi.security import HTTPAuthorizationCredentials
 
 
@@ -51,16 +51,17 @@ def create_access_token(email: str, expires_delta: Optional[timedelta] = None) -
   return token
 
 
-def validate_token(token: str = Depends(get_token)) -> Dict[str, Any]:
+def validate_token(token: str = Depends(get_token)) -> schemas.TokenPayload:
   try:
     payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
   except ExpiredSignatureError:
-    raise HTTPException(status_code=401, detail="Token has expired")
+    # raise HTTPException(status_code=401, detail="Token has expired")
+    return schemas.TokenPayload(validated=False, payload=None, status_code=status.HTTP_401_UNAUTHORIZED)
   except JWTError:
-    raise HTTPException(status_code=401,
-                        details="could not validate credentials")
-
-  return payload
+    # raise HTTPException(status_code=401,
+    #                     details="could not validate credentials")
+    return schemas.TokenPayload(validated=False, payload=None, status_code=status.HTTP_403_FORBIDDEN)
+  return schemas.TokenPayload(validated=True, payload=payload)
 
 
 if __name__ == "__main__":

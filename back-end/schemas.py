@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from typing import Literal
+from typing import Literal, Dict
 
 
 class ArticleBase(BaseModel):   # Base schema for article data
@@ -54,3 +54,9 @@ class Profile(BaseModel):
 class ClientSession(BaseModel):
   email: EmailStr
   token: str
+
+
+class TokenPayload(BaseModel):
+  validated: bool
+  payload: Dict[str, str | int] | None
+  status_code: int = 200

@@ -70,16 +70,6 @@ function showProfile(){
     }
 }
 
-document.getElementById('createArticleButton').addEventListener('click', async () => {
-    try {
-        showSection('createArticle', true); 
-
-    } catch (error) {
-        console.error('Error:', error);
-    }
-});
-
-
 // Handle the initial load based on the current path
 function handleReload() {
     const path = window.location.pathname;
