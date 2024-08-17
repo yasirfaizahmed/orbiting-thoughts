@@ -1,0 +1,37 @@
+.article-card-thumbnail {
+  border-color: blue;
+  transition: .4s;
+}
+.article-card-thumbnail:hover {
+  transform: scale(1.1);
+}
+
+.article-thumbnail-body {
+    background-color: rgb(26, 25, 25);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+.article-thumbnail-title {
+  color: white;
+  padding-left: 5px;
+}
+
+.article-thumbnail-text {
+  color: white;
+  padding-left: 10px;
+  font-weight: 400;
+  padding-right: 10px;
+}
+
+.article-thumbnail-author {
+  color: white;
+  font-weight: 200;
+}
+
+.article-thumbnail-image{
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
