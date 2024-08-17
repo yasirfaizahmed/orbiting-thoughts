@@ -1,10 +1,15 @@
+// sections
 const homeSection = document.getElementById('index');
 const profileSection = document.getElementById('profile');
 const deenSection = document.getElementById('deen');
 const dunyaSection = document.getElementById('dunya');
+const createArticleSection = document.getElementById('createArticle');
+
+// navbar buttons
 const profileButton = document.getElementById('profileButton');
 const signupButton = document.getElementById('signupButton');
 const signinButton = document.getElementById('signinButton');
+
 
 // This runs on every page reload/load
 updateNavbarSection();

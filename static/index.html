@@ -53,11 +53,13 @@
     <link rel="stylesheet" href="../assets/css/css/Pretty-Registration-Form-.css">
     <link rel="stylesheet" href="../assets/css/css/bootstrap/css/bootstrap.min-1.css">
     <link rel="stylesheet" href="../assets/css/css/article-thumbnail.css">
+    <link rel="stylesheet" href="../assets/css/css/create-button-animation.css">
+    <link rel="stylesheet" href="../assets/css/css/create-article.css">
 </head>
 
 <body>
     <!-- HOME SECTION -->
-    <div id="index">
+    <div id="index" style="display: block;">
         <div class="container-fluid" style="background:rgba(255,255,255,0);padding-bottom:0px;color:black;position:absolute;padding-left:12px;padding-top:0px;">
             <nav class="navbar navbar-expand-md sticky-top" style="height:85px;">
                 <div class="container-fluid"><a class="navbar-brand" style="padding-top:0px;padding-bottom:0px;font-family:'Open Sans', sans-serif;font-weight:900;font-size:30px;color:#000000;">Deen &amp; Dunya</a><button data-bs-toggle="collapse" data-bs-target="#navcol-1" class="navbar-toggler"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
@@ -188,7 +190,7 @@
 
 
     <!-- PROFILE SECTION -->
-    <div id="profile">
+    <div id="profile" style="display: none;">
         <section class="h-100 gradient-custom-2">
             <div class="container py-5 h-100">
                 <div class="row d-flex justify-content-center">
@@ -283,9 +285,9 @@
 
 
     <!-- DEEN SECTION -->
-    <div id="deen" class="articles-section deen-section" style="background-color: rgb(0, 0, 0);">
+    <div id="deen" class="articles-section deen-section" style="background-color: rgb(0, 0, 0); display: none;">
         <div id="createButtonContainer" style="position: absolute; top: 20px; right: 20px;">
-            <button id="createButton" class="create-article-button"><span class='create-article-button-txt'>C<span class='faulty-letter'>R</span>EATE</span></button>
+            <button id="createArticleButton" class="create-article-button"><span class='create-article-button-txt'>C<span class='faulty-letter'>R</span>EATE</span></button>
         </div>
         
         <div class="container py-4 py-xl-5">
@@ -337,6 +339,48 @@
                                     <p class="article-thumbnail-author">John Smith</p>
                                     <!-- <p class="text-muted mb-0">Erat netus</p> -->
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- CREATE ARTICLE -->
+    <div id="createArticle" class="article-container" style="display: none;">
+        <header class="header">
+            <h1>Create a New Article</h1>
+            <button id="submit-article" class="submit-button">Request Approval</button>
+        </header>
+        <div class="article-editor">
+            <input type="text" id="article-title" class="title-input" placeholder="Enter the title..." />
+            <input type="text" id="article-brief" class="title-input" placeholder="Brief about the topic..." />
+            <textarea id="article-content" class="content-input" placeholder="Write your article here..."></textarea>
+            <div class="image-upload">
+                <div class="row" style="display: flex; justify-content: center; align-items: center; width: 100% ;">
+                    <div class="col">
+                        <div class="mb-4 d-flex justify-content-center">
+                            <img id="articleCoverImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                            alt="example placeholder" style="width: 300px;" />
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div data-mdb-ripple-init class="btn btn-dark btn-rounded">
+                                <label style="color: white;" class="form-label m-1" for="customFile1">Choose file</label>
+                                <input type="file" class="form-control d-none" id="customFile1" onchange="displaySelectedImage(event, 'selectedImage')" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-4 d-flex justify-content-center">
+                            <img id="articleIntermediateImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                            alt="example placeholder" style="width: 300px;" />
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div data-mdb-ripple-init class="btn btn-dark btn-rounded">
+                                <label style="color: white;" class="form-label m-1" for="customFile1">Choose file</label>
+                                <input type="file" class="form-control d-none" id="customFile1" onchange="displaySelectedImage(event, 'selectedImage')" />
                             </div>
                         </div>
                     </div>
