@@ -2,8 +2,18 @@
 const homeSection = document.getElementById('index');
 const profileSection = document.getElementById('profile');
 const deenSection = document.getElementById('deen');
-const dunyaSection = document.getElementById('dunya');
+// const dunyaSection = document.getElementById('dunya');
 const createArticleSection = document.getElementById('createArticle');
+
+
+// Define your sections in an object
+const sections = {
+    home: homeSection,
+    profile: profileSection,
+    deen: deenSection,
+    // dunya: dunyaSection,
+    createArticle: createArticleSection,
+};
 
 // navbar buttons
 const profileButton = document.getElementById('profileButton');
@@ -17,30 +27,21 @@ profileSection.style.display = 'none';
 
 // Show the correct section based on the provided section name
 function showSection(section, addHistory = true) {
-    if (section === 'home') {
-        homeSection.style.display = 'block';
-        profileSection.style.display = 'none';
-        deenSection.style.display = 'none';
+    // Hide all sections
+    Object.values(sections).forEach(sec => sec.style.display = 'none');
+    
+    // Show the selected section
+    const activeSection = sections[section];
+    if (activeSection) {
+        activeSection.style.display = 'block';
         if (addHistory) {
-            history.pushState({ section: 'home' }, '', '/home');
+            history.pushState({ section }, '', `/${section}`);
         }
-    } else if (section === 'profile') {
-        homeSection.style.display = 'none';
-        profileSection.style.display = 'block';
-        deenSection.style.display = 'none';
-        if (addHistory) {
-            history.pushState({ section: 'profile' }, '', '/profile');
-        }
-        
-        // show actual profile details
+    }
+
+    // Perform specific actions for certain sections if needed
+    if (section === 'profile') {
         showProfile();
-    } else if (section === 'deen') {
-        homeSection.style.display = 'none';
-        profileSection.style.display = 'none';
-        deenSection.style.display = 'block';
-        if (addHistory) {
-            history.pushState( {section: 'deen'}, '', 'deen' )
-        }
     }
 }
 
