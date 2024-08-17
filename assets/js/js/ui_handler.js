@@ -48,8 +48,8 @@ function showSection(section, addHistory = true) {
 
 // Update navbar based on session validity
 function updateNavbarSection() {
-    const valid_session = sessionStorage.getItem('session_valid');
-    if (valid_session === 'true') {
+    const token = sessionStorage.getItem('token');
+    if (token !== 'dummy' && token !== '' && token != null) {
         profileButton.style.display = 'block';
         signupButton.style.display = 'none';
         signinButton.style.display = 'none';
@@ -70,6 +70,15 @@ function showProfile(){
     }
 }
 
+document.getElementById('createArticleButton').addEventListener('click', async () => {
+    try {
+        showSection('createArticle', true); 
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
 
 // Handle the initial load based on the current path
 function handleReload() {
@@ -80,7 +89,12 @@ function handleReload() {
     } else if (path === '/deen'){
         showSection('deen', false);       // for dev
         history.replaceState({ section: 'deen' }, '', '/deen');
-    } else {
+    } else if (path === '/createArticle'){
+        showSection('createArticle', false);       // for dev
+        history.replaceState({ section: 'createArticle' }, '', '/createArticle');
+    } 
+    
+    else {
         showSection('home', false);     // for dev
         history.replaceState({ section: 'home' }, '', '/home');
     }

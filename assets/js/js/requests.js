@@ -45,7 +45,16 @@ document.getElementById('profileButton').addEventListener('click', async () => {
         });
 
         if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
+            const statusCode = response.status;
+            if (statusCode == 401){
+                alert('Session Expired: Please sign in again');
+                // Show the signin modal
+                const signinModal = new bootstrap.Modal(document.getElementById('signin'));
+                signinModal.show();
+                return;
+            } else {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
         }
 
         const data = await response.json();
@@ -88,7 +97,16 @@ document.getElementById('updateProfileButton').addEventListener('click', async (
         });
 
         if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
+            const statusCode = response.status;
+            if (statusCode == 401){
+                alert('Session Expired: Please sign in again');
+                // Show the signin modal
+                const signinModal = new bootstrap.Modal(document.getElementById('signin'));
+                signinModal.show();
+                return;
+            } else{
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
         }
 
         const data = await response.json();
@@ -96,11 +114,6 @@ document.getElementById('updateProfileButton').addEventListener('click', async (
 
         // Store the profile data in localStorage or handle it as needed
         sessionStorage.setItem('profileData', JSON.stringify(data));
-
-        // var closeButton = document.getElementById('closeEditProfileButton');
-        // if (closeButton) {
-        //     closeButton.click();
-        // }
 
         // show profile
         showProfile();
@@ -116,6 +129,8 @@ document.getElementById('deenCard').addEventListener('click', async () => {
             method: 'GET',
             headers: getHeaders()
         });
+
+        // TODO: fetch deen articles here
 
         // make DOM changes to view profile
         showSection('deen', true); 

@@ -19,7 +19,6 @@ async function handleSignup() {
         const sessionToken = data.token;
         console.log('Token received on signup:', sessionToken); // Debug log
         sessionStorage.setItem('token', sessionToken);
-        sessionStorage.setItem('session_valid', 'true');
         
         // update the navbar
         updateNavbarSection();
@@ -32,8 +31,6 @@ async function handleSignup() {
         alert("Signin successfull");
     } else {
         alert('Signup failed');
-        sessionStorage.removeItem('token');
-        sessionStorage.removeItem('session_valid');
     }
 }
 
@@ -59,7 +56,6 @@ async function handleSignin() {
         const sessionToken = data.token;
         console.log('Token received on signup:', sessionToken); // Debug log
         sessionStorage.setItem('token', sessionToken);
-        sessionStorage.setItem('session_valid', 'true');
         
         // update the navbar
         updateNavbarSection();
@@ -72,7 +68,5 @@ async function handleSignin() {
         alert("Signin successfull");
     } else {
         alert('Signin failed');
-        sessionStorage.removeItem('token');
-        sessionStorage.removeItem('session_valid');
     }
 }
