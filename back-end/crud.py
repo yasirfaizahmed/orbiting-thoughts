@@ -13,7 +13,25 @@ logger = logging.getLogger(__name__)
 
 
 def get_articles(db: Session, skip: int = 0, limit: int = 5):   # function to get articles with pagination
-  return db.query(models.Article).offset(skip).limit(limit).all()
+  article_entries = db.query(models.Article).offset(skip).limit(limit).all()
+  articles = []
+  for article_ in [util.model_to_dict(article) for article in article_entries]:
+    if os.path.exists(article_.get("cover_image")):
+      encoded_cover_image = ""
+      with open(article_.get("cover_image"), "rb") as file:
+        encoded_cover_image = base64.b64encode(file.read()).decode('utf-8')
+    if os.path.exists(article_.get("intermediate_image")):
+      encoded_intermediate_image = ""
+      with open(article_.get("intermediate_image"), "rb") as file:
+        encoded_intermediate_image = base64.b64encode(file.read()).decode('utf-8')
+
+    article_.update({"cover_image": encoded_cover_image})
+    article_.update({"intermediate_image": encoded_intermediate_image})
+    articles.append(article_)
+
+  return schemas.CrudResponse(response_code=0,
+                              response_message="fetched all articles",
+                              data={"articles": articles})
 
 
 def create_article(db: Session, article: schemas.Article, email: str):    # function to create article

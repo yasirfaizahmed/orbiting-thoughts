@@ -178,6 +178,11 @@ document.getElementById('submit-article').addEventListener('click', async () => 
         const coverImage = document.getElementById('coverImage').files[0];
         const intermediateImage = document.getElementById('intermediateImage').files[0];
 
+        if (!title || !brief || !content || !coverImage || !intermediateImage) {
+            alert("One or more fields are empty");
+            return;
+        }
+
         const formData = new FormData();
         formData.append('title', title);
         formData.append('brief', brief);
@@ -198,13 +203,14 @@ document.getElementById('submit-article').addEventListener('click', async () => 
                 } else if (statusCode === 403){
                     alert('Please Sign in or Sign up');
                 }
+                // TODO: handle other exceptions
                 return;
             } else{
                 throw new Error('Network response was not ok ' + response.statusText);
             }
         }
         alert('Article sent for approval, you will recieve an email once approved'); 
-        // TODO: clear the input values, or redirect to deen page
+        showSection('deen', true); 
     } catch (error) {
         console.error('Error:', error);
     }

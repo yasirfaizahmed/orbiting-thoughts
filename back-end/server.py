@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 import database
 import schemas
 import crud
-from typing import List
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 import models
@@ -52,13 +51,13 @@ def prepare():
 
 
 # TODO: add features
-@app.get("/articles/", response_model=List[schemas.Article])
+@app.get("/articles/", response_model=schemas.Response)
 def get_articles(skip: int = 0,
                  limit: int = 5,
                  db: Session = Depends(database.get_db)):
   logger.info("serving GET request for /articles/ ")
-  articles = crud.get_articles(db=db, skip=skip, limit=limit)
-  return articles
+  crud_response: schemas.CrudResponse = crud.get_articles(db=db, skip=skip, limit=limit)
+  return schemas.Response(crud_response=crud_response)
 
 
 # TODO: add features
@@ -203,8 +202,9 @@ async def create(token_payload: schemas.TokenPayload = Depends(security.validate
   if token_payload.validated is False:
     raise HTTPException(status_code=token_payload.status_code,
                         detail=HTTPStatus(token_payload.status_code).phrase)
-  logger.info("asdf")
-  return True
+  logger.info("serving GET request for /create/ ")
+  response = schemas.Response(crud_response=None)
+  return response
 
 
 # basic endpoints

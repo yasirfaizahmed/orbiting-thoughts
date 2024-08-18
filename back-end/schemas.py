@@ -38,12 +38,13 @@ class CrudResponse(BaseModel):
                             "signin failed",
                             "profile edited successfuly",
                             "wrong password",
-                            "successfuly created article"]
+                            "successfuly created article",
+                            "fetched all articles"]
   data: dict = {}
 
 
 class Response(BaseModel):
-  crud_response: CrudResponse
+  crud_response: CrudResponse | None
   token: str = ""
 
 
