@@ -155,9 +155,6 @@ document.getElementById('createArticleButton').addEventListener('click', async (
                 } else if (statusCode === 403){
                     alert('Please Sign in or Sign up');
                 }
-                // Show the signin modal
-                // const signinModal = new bootstrap.Modal(document.getElementById('signin'));
-                // signinModal.show();
                 return;
             } else{
                 throw new Error('Network response was not ok ' + response.statusText);
@@ -185,8 +182,8 @@ document.getElementById('submit-article').addEventListener('click', async () => 
         formData.append('title', title);
         formData.append('brief', brief);
         formData.append('content', content);
-        formData.append('coverImage', coverImage);
-        formData.append('intermediateImage', intermediateImage);
+        formData.append('cover_image', coverImage);
+        formData.append('intermediate_image', intermediateImage);
 
         const response = await fetch('http://127.0.0.1:9000/article/', {
             method: 'POST',
@@ -201,17 +198,13 @@ document.getElementById('submit-article').addEventListener('click', async () => 
                 } else if (statusCode === 403){
                     alert('Please Sign in or Sign up');
                 }
-                // Show the signin modal
-                // const signinModal = new bootstrap.Modal(document.getElementById('signin'));
-                // signinModal.show();
                 return;
             } else{
                 throw new Error('Network response was not ok ' + response.statusText);
             }
         }
-
-        showSection('createArticle', true); 
-
+        alert('Article sent for approval, you will recieve an email once approved'); 
+        // TODO: clear the input values, or redirect to deen page
     } catch (error) {
         console.error('Error:', error);
     }
