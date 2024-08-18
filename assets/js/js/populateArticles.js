@@ -24,13 +24,13 @@ async function fetchAndDisplayArticles() {
                     <div class="article-card-thumbnail">
                         <img class="article-thumbnail-image w-100 d-block fit-cover" style="height: 200px; overflow: hidden; align-items: center; object-fit: cover" src="data:image/jpeg;base64,${article.cover_image}" />
                         <div class="article-thumbnail-body">
-                            <p class="text-primary card-text mb-0">Article</p>
+                            <p style="color: white; padding-left: 5px;" class="text-primary card-text mb-0">Article</p>
                             <h4 class="article-thumbnail-title">${article.title}</h4>
                             <p class="article-thumbnail-text">${article.brief}</p>
                             <div class="d-flex">
-                                <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="${article.authorImage}" />
+                                <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="data:image/jpeg;base64,${article.picture}" />
                                 <div>
-                                    <p class="article-thumbnail-author">${article.authorName}</p>
+                                    <p class="article-thumbnail-author">${article.username}</p>
                                 </div>
                             </div>
                         </div>

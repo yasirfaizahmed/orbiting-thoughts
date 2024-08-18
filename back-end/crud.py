@@ -6,6 +6,7 @@ import security
 from utils import util
 import base64
 import os
+from utils.paths import ASSETS_IMAGES
 
 
 logging.basicConfig(level=logging.INFO)
@@ -15,19 +16,28 @@ logger = logging.getLogger(__name__)
 def get_articles(db: Session, skip: int = 0, limit: int = 5):   # function to get articles with pagination
   article_entries = db.query(models.Article).offset(skip).limit(limit).all()
   articles = []
-  for article_ in [util.model_to_dict(article) for article in article_entries]:
-    if os.path.exists(article_.get("cover_image")):
-      encoded_cover_image = ""
-      with open(article_.get("cover_image"), "rb") as file:
+  for article_entry, article_dict in zip(article_entries, [util.model_to_dict(article) for article in article_entries]):
+    user_entry = article_entry.author
+    profile_entry = article_entry.profile
+
+    encoded_profile_picture = ""
+    if os.path.exists(profile_entry.picture):
+      with open(profile_entry.picture, "rb") as file:
+        encoded_profile_picture = base64.b64encode(file.read()).decode('utf-8')
+    encoded_cover_image = ""
+    if os.path.exists(article_dict.get("cover_image")):
+      with open(article_dict.get("cover_image"), "rb") as file:
         encoded_cover_image = base64.b64encode(file.read()).decode('utf-8')
-    if os.path.exists(article_.get("intermediate_image")):
-      encoded_intermediate_image = ""
-      with open(article_.get("intermediate_image"), "rb") as file:
+    encoded_intermediate_image = ""
+    if os.path.exists(article_dict.get("intermediate_image")):
+      with open(article_dict.get("intermediate_image"), "rb") as file:
         encoded_intermediate_image = base64.b64encode(file.read()).decode('utf-8')
 
-    article_.update({"cover_image": encoded_cover_image})
-    article_.update({"intermediate_image": encoded_intermediate_image})
-    articles.append(article_)
+    article_dict.update({"username": user_entry.username,
+                         "picture": encoded_profile_picture})
+    article_dict.update({"cover_image": encoded_cover_image})
+    article_dict.update({"intermediate_image": encoded_intermediate_image})
+    articles.append(article_dict)
 
   return schemas.CrudResponse(response_code=0,
                               response_message="fetched all articles",
@@ -74,7 +84,7 @@ def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.Cr
 
   new_profile = models.Profile(user_id=new_user.id,
                                about="",
-                               picture="")
+                               picture=f"{ASSETS_IMAGES}/userprofile.jpg")    # default profile image
   db.add(new_profile)
   db.commit()
 
