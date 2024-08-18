@@ -9,8 +9,10 @@ class Article(Base):    # Article class inheriting from Base, which creates a ta
 
   id = Column(Integer, primary_key=True, index=True)    # index column
   title = Column(String)    # title column
+  brief = Column(String)
   content = Column(String)    # text content
-  image = Column(String)    # file path
+  cover_image = Column(String)    # file path
+  intermediate_image = Column(String)
   profile_id = Column(Integer, ForeignKey("profiles.id"))
   user_id = Column(Integer, ForeignKey("users.id"))
 

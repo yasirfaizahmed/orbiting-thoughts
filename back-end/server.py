@@ -156,16 +156,25 @@ async def get_profile(db: Session = Depends(database.get_db),
   return response
 
 
-@app.post("/article/", response_model=schemas.Article)
+@app.post("/article/", response_model=schemas.Response)
 async def create_article(title: str = Form(...),
+                         brief: str = Form(...),
                          content: str = Form(...),
-                         image: UploadFile = File(...),
-                         db: Session = Depends(database.get_db)):
+                         cover_image: UploadFile = File(...),
+                         intermediate_image: UploadFile = File(...),
+                         db: Session = Depends(database.get_db),
+                         token_payload: schemas.TokenPayload = Depends(security.validate_token)):
+  if token_payload.validated is False:
+    raise HTTPException(status_code=token_payload.status_code,
+                        detail=HTTPStatus(token_payload.status_code).phrase)
   logger.info("serving POST request for /articles/ ")
   try:
-    image_path = f"{ARTICLE_IMAGES}/{image.filename}"
-    with open(image_path, "wb") as f:
-      f.write(await image.read())
+    cover_image_path = f"{ARTICLE_IMAGES}/{cover_image.filename}"
+    with open(cover_image_path, "wb") as f:
+      f.write(await cover_image.read())
+    intermediate_image_path = f"{ARTICLE_IMAGES}/{intermediate_image.filename}"
+    with open(intermediate_image_path, "wb") as f:
+      f.write(await intermediate_image.read())
   except Exception:
     logger.error(traceback.format_exc())
     raise HTTPException(status_code=500,
@@ -173,9 +182,16 @@ async def create_article(title: str = Form(...),
 
   try:
     new_article = schemas.Article(title=title,
+                                  brief=brief,
                                   content=content,
-                                  image=image_path)
-    return crud.create_article(db=db, article=new_article)
+                                  cover_image=cover_image_path,
+                                  intermediate_image=intermediate_image_path)
+    crud_response = crud.create_article(db=db, article=new_article, email=token_payload.payload.get("sub"))
+    if crud_response.response_code == 1:
+      raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                          detail=crud_response.response_message)
+    response = schemas.Response(crud_response=crud_response)
+    return response
   except Exception:
     logger.error(traceback.format_exc())
     raise HTTPException(status_code=500,

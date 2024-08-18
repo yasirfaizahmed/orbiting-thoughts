@@ -16,19 +16,25 @@ def get_articles(db: Session, skip: int = 0, limit: int = 5):   # function to ge
   return db.query(models.Article).offset(skip).limit(limit).all()
 
 
-def create_article(db: Session, article: schemas.Article):    # function to create article
-  try:
-    new_article = models.Article(title=article.title,
-                                 content=article.content,
-                                 image=article.image)    # create article object
-    db.add(new_article)    # add to session
-    db.commit()   # commit session
-    db.refresh(new_article)    # refresh session to get new aricle ID
-    return new_article   # return new article
-  except Exception as e:
-    logger.error(f"Error creating article: {e}")
-    db.rollback()  # Rollback in case of error
-    raise e
+def create_article(db: Session, article: schemas.Article, email: str):    # function to create article
+  user_entry = db.query(models.User).filter(models.User.email == email).first()
+  profile_entry = db.query(models.Profile).filter(models.Profile.user_id == user_entry.id).first()
+  if user_entry is None:
+    return schemas.CrudResponse(response_code=1,
+                                response_message="account does not exist")
+
+  new_article = models.Article(title=article.title,
+                               brief=article.brief,
+                               content=article.content,
+                               cover_image=article.cover_image,
+                               intermediate_image=article.intermediate_image,
+                               user_id=user_entry.id,
+                               profile_id=profile_entry.id)    # create article object
+  db.add(new_article)    # add to session
+  db.commit()   # commit session
+  db.refresh(new_article)    # refresh session to get new aricle ID
+  return schemas.CrudResponse(response_code=0,
+                              response_message="successfuly created article")
 
 
 def get_article(db: Session, id: int):
@@ -61,16 +67,18 @@ def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.Cr
 def try_signin(db: Session, signin_details: schemas.SigninDetails) -> schemas.CrudResponse:
   user_entry = db.query(models.User).filter(models.User.email == signin_details.email).first()
 
-  if security.verify_password(plain_password=signin_details.password,
-                              hashed_password=user_entry.password) is False:
+  if user_entry is None:
     return schemas.CrudResponse(response_code=1,
-                                response_message="wrong password")
+                                response_message="signin failed")
 
   if user_entry:
+    if security.verify_password(plain_password=signin_details.password,
+                                hashed_password=user_entry.password) is False:
+      return schemas.CrudResponse(response_code=1,
+                                  response_message="wrong password")
+
     return schemas.CrudResponse(response_code=0,
                                 response_message="successfuly signed-in")
-  return schemas.CrudResponse(response_code=1,
-                              response_message="signin failed")
 
 
 def edit_profile(db: Session, profile_details: schemas.Profile,

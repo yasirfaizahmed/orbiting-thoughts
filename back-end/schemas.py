@@ -4,8 +4,10 @@ from typing import Literal, Dict
 
 class ArticleBase(BaseModel):   # Base schema for article data
   title: str
+  brief: str
   content: str
-  image: str
+  cover_image: str
+  intermediate_image: str
 
 
 class Article(ArticleBase):   # article schema
@@ -35,7 +37,8 @@ class CrudResponse(BaseModel):
                             "successfuly signed-in",
                             "signin failed",
                             "profile edited successfuly",
-                            "wrong password"]
+                            "wrong password",
+                            "successfuly created article"]
   data: dict = {}
 
 

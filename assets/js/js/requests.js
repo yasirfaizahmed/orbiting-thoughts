@@ -170,3 +170,49 @@ document.getElementById('createArticleButton').addEventListener('click', async (
         console.error('Error:', error);
     }
 });
+
+
+document.getElementById('submit-article').addEventListener('click', async () => {
+    try {
+        // Get the input values
+        const title = document.getElementById('article-title').value;
+        const brief = document.getElementById('article-brief').value;
+        const content = document.getElementById('article-content').value;
+        const coverImage = document.getElementById('coverImage').files[0];
+        const intermediateImage = document.getElementById('intermediateImage').files[0];
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('brief', brief);
+        formData.append('content', content);
+        formData.append('coverImage', coverImage);
+        formData.append('intermediateImage', intermediateImage);
+
+        const response = await fetch('http://127.0.0.1:9000/article/', {
+            method: 'POST',
+            headers: getHeaders(form=true),
+            body: formData
+        });
+        if (!response.ok) {
+            const statusCode = response.status;
+            if (statusCode > 400 && statusCode < 500){
+                if (statusCode === 401){
+                    alert('Session Expired: Please sign in again');
+                } else if (statusCode === 403){
+                    alert('Please Sign in or Sign up');
+                }
+                // Show the signin modal
+                // const signinModal = new bootstrap.Modal(document.getElementById('signin'));
+                // signinModal.show();
+                return;
+            } else{
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+        }
+
+        showSection('createArticle', true); 
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
