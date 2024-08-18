@@ -133,7 +133,8 @@ document.getElementById('deenCard').addEventListener('click', async () => {
         // TODO: fetch deen articles here
 
         // make DOM changes to view profile
-        showSection('deen', true); 
+        showSection('deen', true);
+        fetchAndDisplayArticles();
 
     } catch (error) {
         console.error('Error:', error);

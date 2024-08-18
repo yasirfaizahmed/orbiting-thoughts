@@ -79,6 +79,7 @@ function handleReload() {
     } else if (path === '/deen'){
         showSection('deen', false);       // for dev
         history.replaceState({ section: 'deen' }, '', '/deen');
+        fetchAndDisplayArticles();
     } else if (path === '/createArticle'){
         showSection('createArticle', false);       // for dev
         history.replaceState({ section: 'createArticle' }, '', '/createArticle');
