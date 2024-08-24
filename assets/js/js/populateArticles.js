@@ -1,6 +1,3 @@
-import CONFIG from './config.js';
-
-
 async function fetchAndDisplayArticles() {
     try {
         const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.ARTICLES}`, {

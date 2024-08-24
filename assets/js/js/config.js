@@ -1,6 +1,6 @@
 // config.js
 const CONFIG = {
-    BACKEND_URL: '172.105.58.91:80',
+    BACKEND_URL: 'http://172.105.58.91:80',
     API_ENDPOINTS: {
         ARTICLES: '/articles',
         ARTICLE: '/article',
@@ -13,5 +13,3 @@ const CONFIG = {
         DEEN: '/deen'
     }
 };
-
-export default CONFIG;

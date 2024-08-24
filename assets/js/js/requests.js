@@ -1,5 +1,3 @@
-import CONFIG from './config.js';
-
 // header to every request made after signin/signup
 function getHeaders(form=false) {
     const token = sessionStorage.getItem('token'); // Or wherever you store your token
