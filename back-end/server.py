@@ -211,7 +211,7 @@ async def create(token_payload: schemas.TokenPayload = Depends(security.validate
 # Wildcard route for SPA History API fallback
 @app.get("/{full_path:path}")
 async def spa_fallback(full_path: str):
-  return FileResponse(os.path.join("static", "index.html"))
+  return FileResponse("index.html")
 
 
 @app.get("/dunya/")
