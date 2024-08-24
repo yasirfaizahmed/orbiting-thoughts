@@ -1,6 +1,9 @@
+import CONFIG from './config.js';
+
+
 async function fetchAndDisplayArticles() {
     try {
-        const response = await fetch('http://127.0.0.1:9000/articles/', {
+        const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.ARTICLES}`, {
             method: 'GET',
             headers: getHeaders(), // Assuming getHeaders is a function that returns the required headers
         });

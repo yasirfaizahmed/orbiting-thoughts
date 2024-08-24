@@ -1,3 +1,5 @@
+import CONFIG from './config.js';
+
 // header to every request made after signin/signup
 function getHeaders(form=false) {
     const token = sessionStorage.getItem('token'); // Or wherever you store your token
@@ -39,7 +41,7 @@ function getHeaders(form=false) {
 
 document.getElementById('profileButton').addEventListener('click', async () => {
     try {
-        const response = await fetch('http://127.0.0.1:9000/profile/', {
+        const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.PROFILE}`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -90,7 +92,7 @@ document.getElementById('updateProfileButton').addEventListener('click', async (
         formData.append('password', password);
         formData.append('picture', profileImage);
 
-        const response = await fetch('http://127.0.0.1:9000/edit-profile/', {
+        const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.EDIT_PROFILE}`, {
             method: 'POST',
             headers: getHeaders(form=true), // Ensure this function is defined correctly to not include 'Content-Type'
             body: formData
@@ -125,7 +127,7 @@ document.getElementById('updateProfileButton').addEventListener('click', async (
 
 document.getElementById('deenCard').addEventListener('click', async () => {
     try {
-        const response = await fetch('http://127.0.0.1:9000/deen/', {
+        const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.DEEN}`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -144,7 +146,7 @@ document.getElementById('deenCard').addEventListener('click', async () => {
 
 document.getElementById('createArticleButton').addEventListener('click', async () => {
     try {
-        const response = await fetch('http://127.0.0.1:9000/create/', {
+        const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.CREATE}`, {
             method: 'GET',
             headers: getHeaders()
         });
@@ -191,7 +193,7 @@ document.getElementById('submit-article').addEventListener('click', async () => 
         formData.append('cover_image', coverImage);
         formData.append('intermediate_image', intermediateImage);
 
-        const response = await fetch('http://127.0.0.1:9000/article/', {
+        const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.ARTICLE}`, {
             method: 'POST',
             headers: getHeaders(form=true),
             body: formData
