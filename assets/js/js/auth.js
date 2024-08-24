@@ -1,4 +1,4 @@
-import CONFIG from './config.js';
+// import CONFIG from './config.js';
 
 
 // signup handler
@@ -45,7 +45,7 @@ async function handleSignin() {
     // Encrypt the password before sending
     // const encryptedPassword = btoa(password); // For demonstration, use a proper encryption in production
 
-    const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.SIGNIN}`, {
+    const response = await fetch('http://172.105.58.91:80/signin/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
