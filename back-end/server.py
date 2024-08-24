@@ -50,7 +50,7 @@ def prepare():
 
 
 # TODO: add features
-@app.get("/articles/", response_model=schemas.Response)
+@app.get("/articles", response_model=schemas.Response)
 def get_articles(skip: int = 0,
                  limit: int = 5,
                  db: Session = Depends(database.get_db)):
@@ -60,7 +60,7 @@ def get_articles(skip: int = 0,
 
 
 # TODO: add features
-@app.get("/article/", response_model=schemas.Article)
+@app.get("/article", response_model=schemas.Article)
 def get_aricle(id: int,
                db: Session = Depends(database.get_db)):
   logger.info("serving GET request for /article/")
@@ -68,7 +68,7 @@ def get_aricle(id: int,
   return article
 
 
-@app.post("/signup/", response_model=schemas.Response)
+@app.post("/signup", response_model=schemas.Response)
 async def signup(signup_details: schemas.SignupDetails,
                  db: Session = Depends(database.get_db)):
   logger.info("serving POST request for /signup/ ")
@@ -85,7 +85,7 @@ async def signup(signup_details: schemas.SignupDetails,
   return response
 
 
-@app.post("/signin/", response_model=schemas.Response)
+@app.post("/signin", response_model=schemas.Response)
 async def signin(signin_details: schemas.SigninDetails,
                  db: Session = Depends(database.get_db)):
   logger.info("serving POST request for /signin/ ")
@@ -102,7 +102,7 @@ async def signin(signin_details: schemas.SigninDetails,
   return response
 
 
-@app.post("/edit-profile/", response_model=schemas.Response)
+@app.post("/edit-profile", response_model=schemas.Response)
 async def edit_profile(username: str = Form(...),
                        password: str = Form(...),
                        about: str = Form(...),
@@ -137,7 +137,7 @@ async def edit_profile(username: str = Form(...),
   return response
 
 
-@app.get("/profile/", response_model=schemas.Response)
+@app.get("/profile", response_model=schemas.Response)
 async def get_profile(db: Session = Depends(database.get_db),
                       token_payload: schemas.TokenPayload = Depends(security.validate_token)):
   if token_payload.validated is False:
@@ -154,7 +154,7 @@ async def get_profile(db: Session = Depends(database.get_db),
   return response
 
 
-@app.post("/article/", response_model=schemas.Response)
+@app.post("/article", response_model=schemas.Response)
 async def create_article(title: str = Form(...),
                          brief: str = Form(...),
                          content: str = Form(...),
@@ -196,7 +196,7 @@ async def create_article(title: str = Form(...),
                         detail="Internal Server Error")
 
 
-@app.get("/create/")
+@app.get("/create")
 async def create(token_payload: schemas.TokenPayload = Depends(security.validate_token)):
   if token_payload.validated is False:
     raise HTTPException(status_code=token_payload.status_code,
@@ -213,12 +213,12 @@ async def spa_fallback(full_path: str):
   return FileResponse("index.html")
 
 
-@app.get("/dunya/")
+@app.get("/dunya")
 async def dunya():
   return {"message": "home page!"}
 
 
-@app.get("/deen/")
+@app.get("/deen")
 async def deen():
   return {"message": "home page!"}
 
