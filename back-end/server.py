@@ -15,7 +15,6 @@ import traceback
 import security
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-import os
 from http import HTTPStatus
 
 
