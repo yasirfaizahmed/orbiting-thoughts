@@ -3,105 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Themed Articles Section</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .articles-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .article-card {
-            background-color: #1e1e1e;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .article-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .article-image img {
-            width: 100%;
-            height: auto;
-        }
-
-        .article-content {
-            padding: 20px;
-        }
-
-        .article-title {
-            font-size: 1.5em;
-            color: #ffd700;
-            margin-bottom: 10px;
-        }
-
-        .article-excerpt {
-            font-size: 1em;
-            color: #c0c0c0;
-            margin-bottom: 15px;
-        }
-
-        .article-author {
-            font-size: 0.9em;
-            color: #888888;
-        }
-
-        .article-author a {
-            color: #1da1f2;
-            text-decoration: none;
-        }
-
-        .article-author a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Basic HTML and CSS Page</title>
+    <link rel="stylesheet" href="test_assets/navbar.css">
 </head>
 <body>
-
-    <div class="articles-section">
-        <div class="article-card">
-            <div class="article-image">
-                <img src="https://via.placeholder.com/400x200" alt="Article Image">
-            </div>
-            <div class="article-content">
-                <div class="article-title">The Power of Self-Discipline</div>
-                <div class="article-excerpt">Learn how self-discipline can transform your life and help you achieve your goals.</div>
-                <div class="article-author">
-                    <span>Author: John Doe</span> | 
-                    <a href="https://twitter.com/JohnDoe" target="_blank">@JohnDoe</a>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-block" style="z-index: 2000;">
+            <div class="container-fluid">
+                <!-- Navbar brand -->
+                <a class="navbar-brand nav-link navbar-text" style="color: black;" href="https://mdbootstrap.com/docs/standard/">
+                    <strong>MDB</strong>
+                </a>
+                <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01"
+                    aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarExample01">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link navbar-text" style="color: black;" aria-current="page" href="#intro">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link navbar-text" style="color: black;" href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" rel="nofollow"
+                                target="_blank">Learn Bootstrap 5</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link navbar-text" style="color: black;" href="https://mdbootstrap.com/docs/standard/" target="_blank">Download MDB UI KIT</a>
+                        </li>
+                    </ul>
+        
+                    <ul class="navbar-nav list-inline">
+                        <!-- Icons -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" rel="nofollow" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://www.facebook.com/mdbootstrap" rel="nofollow" target="_blank">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://twitter.com/MDBootstrap" rel="nofollow" target="_blank">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://github.com/mdbootstrap/mdb-ui-kit" rel="nofollow" target="_blank">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
+        </nav>
 
-        <div class="article-card">
-            <div class="article-image">
-                <img src="https://via.placeholder.com/400x200" alt="Article Image">
-            </div>
-            <div class="article-content">
-                <div class="article-title">Understanding Tawakkul in Islam</div>
-                <div class="article-excerpt">A deep dive into the concept of reliance on Allah (Tawakkul) and how it shapes our lives.</div>
-                <div class="article-author">
-                    <span>Author: Aisha Malik</span> | 
-                    <a href="https://twitter.com/AishaMalik" target="_blank">@AishaMalik</a>
-                </div>
-            </div>
-        </div>
+    </header>
 
-        <!-- Repeat similar blocks for more articles -->
-    </div>
+    <main>
+        <section>
+            <h2>About Us</h2>
+            <p>This is a simple website template with a header, content section, and footer.</p>
+        </section>
 
+        <section>
+            <h2>Our Services</h2>
+            <p>We offer a variety of services to help you achieve your goals. Check out what we offer!</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+    </footer>
 </body>
 </html>
