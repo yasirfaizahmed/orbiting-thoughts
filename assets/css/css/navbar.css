@@ -1,40 +1,21 @@
-/* Carousel styling */
-#introCarousel,
-.carousel-inner,
-.carousel-item,
-.carousel-item.active {
-  height: 100vh;
+/* Default styles for larger screens */
+.navbar-collapse {
+  background-color: transparent; /* No background on larger screens */
 }
 
-.carousel-item:nth-child(1) {
-  background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
-.carousel-item:nth-child(2) {
-  background-image: url('https://mdbootstrap.com/img/Photos/Others/images/77.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
-.carousel-item:nth-child(3) {
-  background-image: url('https://mdbootstrap.com/img/Photos/Others/images/78.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
-/* Height for devices larger than 576px */
-@media (min-width: 992px) {
-  #introCarousel {
-    margin-top: -58.59px;
+/* Styles for smaller screens where the burger button is present */
+@media (max-width: 768px) {
+  .navbar-collapse.show {
+    background-color: rgba(255, 255, 255, 0.9) !important; /* White background when the dropdown is shown */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+    border-radius: 0.5rem; /* Optional: rounded corners */
   }
-}
 
-/* Override navbar text color */
-.nav-link.navbar-text {
-  color: black !important;
+  .navbar-nav .nav-item {
+    background-color: transparent !important; /* Ensure nav items are transparent */
+  }
+
+  .navbar-nav .nav-link {
+    color: #000000 !important; /* Ensure text color is visible */
+  }
 }
