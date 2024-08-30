@@ -1,0 +1,9 @@
+body, html{
+  margin: 0;
+  padding: 0;
+  display: flex;
+  font-family: Arial, sans-serif;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: rgba(0,0,0,1);
+}
