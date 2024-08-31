@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './navbar.css'
-// import './narbar-animation'
+import './animations'
 import './index.css'
-import './navbar-dropdown'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
-  // useEffect(() => {
-  //   // The jQuery code will be executed as it's already included in jqueryAnimations.js
-  // }, []);
+  useEffect(() => {
+    // The jQuery code will be executed as it's already included in jqueryAnimations.js
+  }, []);
 
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
@@ -51,7 +50,11 @@ function App() {
         </div>
       </nav>
 
-      
+      <div>
+
+      <h1 className='testing-scroll'> HELOOWWWW</h1>
+
+      </div>
 
     </div>
   )

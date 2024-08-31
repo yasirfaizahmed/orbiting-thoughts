@@ -6,4 +6,11 @@ body, html{
   min-width: 320px;
   min-height: 100vh;
   background-color: rgb(255, 255, 255);
+  background-image: url("assets/homepagebg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background-attachment: fixed; */
+  /* background:linear-gradient(0deg, black, rgba(255,255,255,0)), url(&quot;assets/img/pexels-apasaric-356286.jpg&quot;) center / cover;position:relative; */
+  background-position: top center;
+  transition: background-size ease-in-out;
 }
