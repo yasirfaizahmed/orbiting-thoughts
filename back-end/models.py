@@ -2,7 +2,6 @@ from sqlalchemy import Column, String, Integer, ForeignKey
 # from sqlalchemy.dialects.sqlite import BLOB
 from database import Base
 from sqlalchemy.orm import relationship
->
 
 class Article(Base):    # Article class inheriting from Base, which creates a table
   __tablename__ = "articles"    # Name of the table in database
