@@ -5,5 +5,5 @@ body, html{
   font-family: Arial, sans-serif;
   min-width: 320px;
   min-height: 100vh;
-  background-color: rgba(0,0,0,1);
+  background-color: rgb(255, 255, 255);
 }

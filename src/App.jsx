@@ -1,31 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './navbar.css'
-import './narbar-animation'
+// import './narbar-animation'
 import './index.css'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
-  useEffect(() => {
-    // The jQuery code will be executed as it's already included in jqueryAnimations.js
-  }, []);
+  // useEffect(() => {
+  //   // The jQuery code will be executed as it's already included in jqueryAnimations.js
+  // }, []);
 
   return (
     <div>
 
-      <a className="navbar-brand" id="brand" href="#">
-        Deen & Dunya
-      </a>
-
-      <nav className="navbar navbar-inverse">
-        <div className="container-fluid">
-          <ul className="nav navbar-nav">
-            <li><a id="len1" className="hoverable navbar-text" href="#">Home</a></li>
-            <li><a id="len2" className="hoverable navbar-text" href="#">About</a></li>
-            <li><a id="len3" className="hoverable navbar-text" href="#">Portfolio</a></li>
-            <li><a id="len4" className="hoverable navbar-text" href="#">Contact</a></li>
-          </ul>
+      <nav className="navbar">
+        <div className="brand">
+            <a href="#">Deen & Dunya</a>
+        </div>
+        <div className="nav-links">
+            <a className='hoverable' href="#">Home</a>
+            <a className='hoverable' href="#">About</a>
+            <a className='hoverable' href="#">Services</a>
+            <a className='hoverable' href="#">Contact</a>
+        </div>
+        <div className="nav-buttons">
+            <button class="login">Signin</button>
+            <button class="signup">Sign Up</button>
+        </div>
+        <div className="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div className="dropdown-menu">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+            <button className="login">Login</button>
+            <button className="signup">Sign Up</button>
         </div>
       </nav>
 

@@ -1,10 +1,4 @@
-body {
-    background-color: rgba(0,0,0,1);
-    font-weight:600;
-    /* text-align:center !important; */
-    color: white;
-}
-
+/* Hover animation of navbar elements */
 .hoverable{
     display:inline-block;
     backface-visibility: hidden;
@@ -25,32 +19,17 @@ left: 5%;
 height:10px;
 width:90%;
 opacity:0;
-background: -webkit-radial-gradient(center, ellipse, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 80%);
-background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 80%);
+background: -webkit-radial-gradient(center, ellipse, rgba(69, 69, 69, 0.35) 0%, rgba(255, 255, 255, 0) 80%);
+background: radial-gradient(ellipse at center, rgba(28, 28, 28, 0.35) 0%, rgba(255, 255, 255, 0) 80%);
 /* W3C */
 transition-duration: 0.3s;
 transition-property: transform, opacity;
 }
 
-.navbar-brand {
-    font-weight:900;
-    color: white;
-    font-family:'Open Sans', sans-serif;
-    text-decoration: none;
-}
-
-.navbar-nav {
-    display: flex;
-    align-items: center;
-    list-style-type: none; /* Removes bullets */
-    padding-left: 0; /* Removes left padding */
-    text-decoration: none
-    /* margin: 0; Removes margin if any */
-}
-  
 .hoverable:hover, .hoverable:active, .hoverable:focus{
 transform: translateY(-5px);
 }
+
 .hoverable:hover:before, .hoverable:active:before, .hoverable:focus:before{
 opacity: 1;
 transform: translateY(-5px);
@@ -59,75 +38,109 @@ transform: translateY(-5px);
 .navbar-text {
     color: white;
 }
+
 .hoverable:hover {
+    color: rgb(0, 0, 0);
+}
+
+
+
+/* navar layout */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.navbar {
+    display: flex;
+    width: 100vw;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #00000000;
+    padding: 10px 20px;
+}
+
+.brand a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.nav-buttons .login {
+    background-color: white;
+    color: #333;
+}
+
+.nav-buttons .signup {
+    background-color: #000000;
     color: white;
 }
 
-
-@keyframes bounce-animation {
-16.65% {
-    -webkit-transform: translateY(8px);
-    transform: translateY(8px);
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
 }
 
-33.3% {
-    -webkit-transform: translateY(-6px);
-    transform: translateY(-6px);
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: rgb(0, 0, 0);
 }
 
-49.95% {
-    -webkit-transform: translateY(4px);
-    transform: translateY(4px);
+.dropdown-menu {
+    display: none;
+    flex-direction: column;
+    background-color: #333;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    padding: 10px;
+    border-radius: 5px;
 }
 
-66.6% {
-    -webkit-transform: translateY(-2px);
-    transform: translateY(-2px);
+.dropdown-menu a,
+.dropdown-menu button {
+    margin: 5px 0;
 }
 
-83.25% {
-    -webkit-transform: translateY(1px);
-    transform: translateY(1px);
-}
-
-100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-}
-}
-
-.bounce {
-animation-name: bounce-animation;
-animation-duration: 2s;
-}
-  
-  
-  
-/*everything below here is just setting up the page, so dont worry about it */
-
-
-@media (min-width: 768px) {
-.navbar{
-    text-align: center !important;
-    float: none;
-    display: inline-block;
-}
-}
-
-
-
-nav {
-background: none !important;
-li {
-    margin-left: 3em;
-    margin-right: 3em;
-    a{
-    transition: .5s color ease-in-out;
-    text-decoration: none;
+@media (max-width: 768px) {
+    .nav-links, .nav-buttons {
+        display: none;
     }
-}
-}
 
-.page-title {
-opacity: .75 !important;
+    .hamburger {
+        display: flex;
+    }
+
+    .dropdown-menu.show {
+        display: flex;
+    }
 }
