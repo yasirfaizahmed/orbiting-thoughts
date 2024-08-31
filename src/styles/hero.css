@@ -1,0 +1,15 @@
+.hero-container {
+    text-align: center; /* Centers the text */
+    padding: 50px; /* Adds some spacing around the text */
+    background-color: #ffffff00; /* Light grey background for the hero section */
+  }
+  
+  .hero-container h1 {
+    font-size: 3em; /* Increases the size of the hero text */
+    margin-bottom: 20px;
+  }
+  
+  .hero-container p {
+    font-size: 1.2em;
+    color: #555; /* Slightly darker grey for the paragraph */
+  }
