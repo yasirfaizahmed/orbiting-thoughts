@@ -2,12 +2,19 @@ import React, { useState, useEffect } from 'react';
 import './navbar.css'
 // import './narbar-animation'
 import './index.css'
+import './navbar-dropdown'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
   // useEffect(() => {
   //   // The jQuery code will be executed as it's already included in jqueryAnimations.js
   // }, []);
+
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!isDropdownVisible);
+  };
 
   return (
     <div>
@@ -23,21 +30,24 @@ function App() {
             <a className='hoverable' href="#">Contact</a>
         </div>
         <div className="nav-buttons">
-            <button class="login">Signin</button>
-            <button class="signup">Sign Up</button>
+            <button className="login">Sign in</button>
+            <button className="signup">Sign up</button>
         </div>
-        <div className="hamburger">
+        <div className="hamburger" onClick={toggleDropdown}>
             <span></span>
             <span></span>
             <span></span>
         </div>
-        <div className="dropdown-menu">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Services</a>
-            <a href="#">Contact</a>
-            <button className="login">Login</button>
-            <button className="signup">Sign Up</button>
+        <div className={`dropdown-menu ${isDropdownVisible ? 'show' : ''}`}>
+            <a className='hoverable' href="#">Home</a>
+            <a className='hoverable' href="#">About</a>
+            <a className='hoverable' href="#">Services</a>
+            <a className='hoverable' href="#">Contact</a>
+            <div className="dropdown-buttons">
+              <button className="login">Sign in</button>
+              <button className="signup">Sign up</button>
+            </div>
+            
         </div>
       </nav>
 

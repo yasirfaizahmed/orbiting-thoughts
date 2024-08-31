@@ -7,6 +7,8 @@
     box-shadow: 0 0 1px rgba(0,0,0,0);
     transition-duration: .3s;
     transition-property:transform;
+    color: black;
+    text-decoration: none;
 }
 
 .hoverable:before{
@@ -117,18 +119,58 @@ transform: translateY(-5px);
 
 .dropdown-menu {
     display: none;
+    align-items: center;
     flex-direction: column;
-    background-color: #333;
+    background-color: #33333337;
     position: absolute;
     top: 60px;
     right: 20px;
     padding: 10px;
     border-radius: 5px;
+    color: rgb(0, 0, 0);
 }
 
 .dropdown-menu a,
 .dropdown-menu button {
     margin: 5px 0;
+}
+
+.dropdown-buttons {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    
+}
+
+.dropdown-buttons .login {
+    background-color: rgba(255, 255, 255, 0);
+    color: #000000;
+    border-radius: 20px;
+    border-color: rgba(255, 255, 255, 0);
+    font-size: 18px;
+}
+
+.dropdown-buttons .signup {
+    background-color: #000000;
+    color: white;
+    border-radius: 5px;
+    border-color: rgba(255, 255, 255, 0);
+    font-size: 18px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.login:hover {
+    transition: all 0.1s ease;
+    transform: scale(1.2);
+}
+.signup:hover {
+    transition: all 0.1s ease;
+    transform: scale(1.2);
 }
 
 @media (max-width: 768px) {
