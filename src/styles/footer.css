@@ -1,0 +1,10 @@
+.footer-dark {
+  background-color: black;
+  color: white;
+  text-align: center;
+  width: 100%;
+}
+
+.footer-dark h2 {
+  margin-top: 0px;
+}

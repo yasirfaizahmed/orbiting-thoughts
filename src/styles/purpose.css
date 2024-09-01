@@ -1,9 +1,11 @@
 .purpose-container{
+  /* position: relative; */
   text-align: center; 
   padding: 30px;
-  background-color: #ffffff8a;
+  background-color: #ffffffd6;
   border-radius: 40px;
-  margin-top: 250px;
+  width: 90vw;
+  margin-top: 200px;
 }
 
 .purpose-container h1 {
@@ -15,7 +17,7 @@
 }
 
 .purpose-container p {
-  margin-top: 50px;
+  margin-top: 25px;
   font-family: "Cabin", sans-serif;
   font-size: 20px;
 }

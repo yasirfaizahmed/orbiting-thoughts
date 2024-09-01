@@ -5,6 +5,7 @@ import './styles/index.css'
 import Navbar from './components/navbar'
 import Hero from './components/hero'
 import Purpose from './components/purpose'
+import Footer from './components/footer'
 
 
 // Import Google Fonts
@@ -33,6 +34,7 @@ function App() {
 
       <Purpose />
 
+      <Footer />
     </div>
   )
 }
