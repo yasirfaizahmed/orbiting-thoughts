@@ -9,6 +9,9 @@ function Footer() {
                 <h3 className='company-name'>Deen &amp; Dunya</h3>
                 <a className="actual-quote"><span>"How difficult can it be? - To do Good and be Good?"</span></a>
             </div>
+
+            <div className="vertical-line"></div>
+
             <div className="about">
                 <h3>About</h3>
                 <ul>

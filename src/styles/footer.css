@@ -19,6 +19,7 @@
 
 .quote {
   margin-left: 3%;
+  text-align: left;
 }
 .company-name {
   text-align: left;
@@ -28,11 +29,18 @@
   /* margin-left: 5%; */
   font-family: "Cabin";
   color: rgb(157, 157, 157);
-  text-align: left;
+  font-size: 0.8em;
+}
+
+.footer-row-new .vertical-line {
+  width: 1px; /* Adjust the thickness of the line */
+  height: auto;
+  background-color: #ffffff; /* Color of the line */
+  margin-left: 2%;
 }
 
 .about {
-  margin-left: 5%;
+  margin-left: 3%;
   text-align: left;
 }
 .about h3{
@@ -88,3 +96,7 @@ ul li:hover {
 .copyright {
   color: rgb(162, 162, 162);
 }
+
+/* .quote, .company-name, .about, .services, .follow-us {
+  flex: 2; 
+} */
