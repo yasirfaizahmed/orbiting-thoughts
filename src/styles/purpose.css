@@ -1,6 +1,21 @@
 .purpose-container{
-  text-align: center; /* Centers the text */
-  padding: 50px; /* Adds some spacing around the text */
-  background-color: #ffffff00; /* Light grey background for the hero section */
-  margin-top: 1200px;
+  text-align: center; 
+  padding: 30px;
+  background-color: #ffffff8a;
+  border-radius: 40px;
+  margin-top: 250px;
+}
+
+.purpose-container h1 {
+  font-family: "Cabin", sans-serif;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 35px;
+}
+
+.purpose-container p {
+  margin-top: 50px;
+  font-family: "Cabin", sans-serif;
+  font-size: 20px;
 }
