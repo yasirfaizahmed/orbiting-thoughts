@@ -1,12 +1,8 @@
-window.addEventListener('scroll', function() {
-    const scrollPosition = window.scrollY; // Get current scroll position
-    const maxZoom = 200; // Maximum zoom percentage (e.g., 120%)
-    const minZoom = 110; // Minimum zoom percentage (starting point)
-    const zoomRange = maxZoom - minZoom;
-
-    // Calculate new background size based on scroll position
-    const newZoom = minZoom + (scrollPosition / document.body.scrollHeight) * zoomRange;
-
-    // Apply the new zoom value
-    document.body.style.backgroundSize = `${newZoom}%`;
+window.addEventListener("scroll", function() {
+    const heroContainer = document.querySelector('.hero-container');
+    let scrollPosition = window.scrollY;
+    
+    // Adjust the background size based on scroll position
+    let scale = 100 + scrollPosition / 10; // Adjust the division factor to control zoom speed
+    heroContainer.style.backgroundSize = `${scale}% auto`;
 });
