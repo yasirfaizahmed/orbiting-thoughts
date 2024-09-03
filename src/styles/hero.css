@@ -1,20 +1,21 @@
 .hero-container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure at least full viewport height */
+    /* min-height: 70vh; */
+    height: 70vh;
     width: 100%;
     text-align: center;
     position: relative; /* Allow relative positioning for child elements */
     background-color: rgb(0, 0, 0);
-    background-image: url("../assets/tree-alone.jpg");
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0) 20%), url("../assets/homepagebg.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center top; /* Center the image horizontally and align top */
+    background-position: center center; /* Center the image horizontally and align top */
     padding-top: 60px; /* Adjust padding to ensure content is below the fixed navbar */
 }
   
 .hero-container h1 {
-    margin-top: 400px;
+    margin-top: 15vh;
     font-size: 2.5em; /* Increases the size of the hero text */
     font-family: "Anton", sans-serif;
     font-weight: 500;
@@ -24,8 +25,8 @@
 }
   
 .hero-container p {
-    margin-top: 50px;
-    font-size: 1.5em;
+    margin-top: 30px;
+    font-size: 1.15em;
     color: #414141; /* Slightly darker grey for the paragraph */
     font-weight: 600;
     padding-left: 0.5%;

@@ -26,7 +26,7 @@ function Navbar() {
   return (
     <>
 
-    <nav className="navbar">
+    <nav className="navbar" id='navbarId'>
       <div className="brand">
           <a href="#">Deen & Dunya</a>
       </div>
