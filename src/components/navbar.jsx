@@ -9,7 +9,8 @@ function Navbar() {
   // signup modal handler
   const [isSignupModalVisible, setSignupModalVisible] = useState(false);
   const openSignupModal = () => {
-    setSignupModalVisible(true);
+    setSignupModalVisible(true);   // set isSignupModalVisible to true
+    setDropdownVisible(false);    // set isDropdownVisible to false
   }
   const closeSignupModal = () => {
     setSignupModalVisible(false);
@@ -18,14 +19,15 @@ function Navbar() {
   //signin modal handler
   const [isSigninModalVisible, setSigninModalVisible] = useState(false);
   const openSigninModal = () => {
-    setSigninModalVisible(true);
+    setSigninModalVisible(true);  // set isSigninModalVisible to true
+    setDropdownVisible(false);    // set isDropdownVisible to false
   }
   const closeSigninModal = () => {
     setSigninModalVisible(false);
   }
 
 
-  // API auth requests
+  // signupButton click handler
   const handleSignup = async () => {
     event.preventDefault(); // Prevent the form from submitting and reloading the page
 
@@ -63,19 +65,20 @@ function Navbar() {
     }
   }
 
+  // effect hook for attaching and detaching signupButton handler onclick when modal is visible
   useEffect(() => {
     // button event listener attachement, and detachment cleanup
     const signupButton = document.getElementById('signupSubmitButtonId');
-    if (signupButton && isSignupModalVisible) {
+    if (signupButton && isSignupModalVisible) {   // only attach handler when both modal and button are visible
       signupButton.addEventListener('click', handleSignup);
     }
 
-    return () => {
+    return () => {    // detach the handler
       if (signupButton) {
         signupButton.removeEventListener('click', handleSignup);
       }
     };
-}, [isSignupModalVisible]);
+}, [isSignupModalVisible]);   // dependencies, this effect will trigger if this dependency changes its state
 
 
   return (
@@ -113,7 +116,7 @@ function Navbar() {
       </div>
     </nav>
 
-    {isSignupModalVisible && (
+    {isSignupModalVisible && (    //conditional DOM rendering
       <div className="signup-modal">
           <div className="modal-content">
               <span className="close" onClick={closeSignupModal}>&times;</span>
@@ -128,7 +131,7 @@ function Navbar() {
       </div>
     )}
 
-    {isSigninModalVisible && (
+    {isSigninModalVisible && (    //conditional DOM rendering
       <div className="signup-modal">
           <div className="modal-content">
               <span className="close" onClick={closeSigninModal}>&times;</span>
