@@ -27,6 +27,8 @@ function Navbar() {
 
   // API auth requests
   const handleSignup = async () => {
+    event.preventDefault(); // Prevent the form from submitting and reloading the page
+
     const username = document.getElementById('signupUsernameId').value;
     const email = document.getElementById('signupEmailId').value;
     const password = document.getElementById('signupPasswordId').value;
@@ -47,7 +49,7 @@ function Navbar() {
       sessionStorage.setItem('token', sessionToken);
       
       // update the navbar
-      updateNavbarSection();
+      // updateNavbarSection();   TODO:
 
       // close the modal
       var closeButton = document.getElementById('closeSignup');
@@ -55,6 +57,7 @@ function Navbar() {
         closeButton.click();
       }
       alert("Signin successfull");
+      closeSignupModal();
     } else {
       alert('Signup failed');
     }
@@ -63,16 +66,16 @@ function Navbar() {
   useEffect(() => {
     // button event listener attachement, and detachment cleanup
     const signupButton = document.getElementById('signupSubmitButtonId');
-    if (signupButton){
-      if (isSignupModalVisible) {
-        const signupButton = document.getElementById('signupSubmitButtonId');
-        signupButton.addEventListener('click', handleSignup);
-      }
-      return () => {
+    if (signupButton && isSignupModalVisible) {
+      signupButton.addEventListener('click', handleSignup);
+    }
+
+    return () => {
+      if (signupButton) {
         signupButton.removeEventListener('click', handleSignup);
       }
-    }
-  }, [isSignupModalVisible])
+    };
+}, [isSignupModalVisible]);
 
 
   return (
