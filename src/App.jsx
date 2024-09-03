@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './js/animations'
+// import './js/auth'
+// import './js/config'
 // import './js/bg-resize'
 import './styles/index.css'
 import Navbar from './components/navbar'

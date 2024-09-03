@@ -13,14 +13,16 @@ from utils.paths import ARTICLE_IMAGES, RESOURCES, PROFILE_PICTURES
 from pathlib import Path as pp
 import traceback
 import security
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from http import HTTPStatus
+import os
 
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
-app.mount("/assets", StaticFiles(directory="assets"), name="assets")
+app.mount("/dist", StaticFiles(directory="dist"), name="dist")
+app.mount("/assets", StaticFiles(directory=os.path.join("dist", "assets")), name="assets")
+# app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 
 
 # Allow all origins for now, restrict this in production
@@ -210,7 +212,11 @@ async def create(token_payload: schemas.TokenPayload = Depends(security.validate
 # Wildcard route for SPA History API fallback
 @app.get("/{full_path:path}")
 async def spa_fallback(full_path: str):
-  return FileResponse("index.html")
+  file_path = os.path.join("dist", "index.html")
+  if os.path.exists(file_path):
+    return FileResponse(file_path)
+  else:
+    return Response(status_code=404, content="Index file not found")
 
 
 @app.get("/dunya")

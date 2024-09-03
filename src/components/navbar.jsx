@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../styles/navbar.css'
+import CONFIG from '../js/config'
 
 function Navbar() {
   // navbar dropdown for smaller screens
@@ -22,6 +23,57 @@ function Navbar() {
   const closeSigninModal = () => {
     setSigninModalVisible(false);
   }
+
+
+  // API auth requests
+  const handleSignup = async () => {
+    const username = document.getElementById('signupUsernameId').value;
+    const email = document.getElementById('signupEmailId').value;
+    const password = document.getElementById('signupPasswordId').value;
+    
+    const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.SIGNUP}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, email, password })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      
+      const sessionToken = data.token;
+      console.log('Token received on signup:', sessionToken); // Debug log
+      sessionStorage.setItem('token', sessionToken);
+      
+      // update the navbar
+      updateNavbarSection();
+
+      // close the modal
+      var closeButton = document.getElementById('closeSignup');
+      if (closeButton) {
+        closeButton.click();
+      }
+      alert("Signin successfull");
+    } else {
+      alert('Signup failed');
+    }
+  }
+
+  useEffect(() => {
+    // button event listener attachement, and detachment cleanup
+    const signupButton = document.getElementById('signupSubmitButtonId');
+    if (signupButton){
+      if (isSignupModalVisible) {
+        const signupButton = document.getElementById('signupSubmitButtonId');
+        signupButton.addEventListener('click', handleSignup);
+      }
+      return () => {
+        signupButton.removeEventListener('click', handleSignup);
+      }
+    }
+  }, [isSignupModalVisible])
+
 
   return (
     <>
@@ -64,10 +116,10 @@ function Navbar() {
               <span className="close" onClick={closeSignupModal}>&times;</span>
               <h2>Sign Up</h2>
               <form className='signupForm'>
-                <input type="email" id="email" name="email" required placeholder="Email"/>
-                <input type="username" id="username" name="username" required placeholder="User name"/>
-                <input type="password" id="password" name="password" required placeholder="Password"/>
-                <button className="signupSubmitButton" type="submit">Sign Up</button>
+                <input type="email" id="signupEmailId" name="email" required placeholder="Email"/>
+                <input type="username" id="signupUsernameId" name="username" required placeholder="User name"/>
+                <input type="password" id="signupPasswordId" name="password" required placeholder="Password"/>
+                <button className="signupSubmitButton" id="signupSubmitButtonId" type="submit">Sign Up</button>
               </form>
           </div>
       </div>
