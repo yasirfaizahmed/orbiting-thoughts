@@ -158,6 +158,14 @@ function Navbar() {
             <button className="login" onClick={openSigninModal}>Sign in</button>
             <button className="signup" onClick={openSignupModal}>Sign up</button>
           </>
+          )}
+
+        {!isSigninSignupButtonsVisible && (   // conditional rendering of profile button
+          <>
+            <button className='profileButton'>
+              <img src="https://img.icons8.com/ios-glyphs/30/user--v1.png"></img>
+            </button>
+          </>
         )}
       </div>
       
@@ -172,8 +180,20 @@ function Navbar() {
           <a className='hoverable' href="#">Services</a>
           <a className='hoverable' href="#">Contact</a>
           <div className="dropdown-buttons">
-            <button className="login" onClick={openSigninModal}>Sign in</button>
-            <button className="signup" onClick={openSignupModal}>Sign up</button>
+            {isSigninSignupButtonsVisible && (    // conditional rendering of signin, signup buttons
+            <>
+              <button className="login" onClick={openSigninModal}>Sign in</button>
+              <button className="signup" onClick={openSignupModal}>Sign up</button>
+            </>
+            )}
+
+            {!isSigninSignupButtonsVisible && (   // conditional rendering of profile button
+              <>
+                <button className='profileButton'>
+                  <img src="https://img.icons8.com/ios-glyphs/30/user--v1.png"></img>
+                </button>
+              </>
+            )}
           </div>
           
       </div>

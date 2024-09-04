@@ -193,6 +193,18 @@ transform: translateY(-5px);
     }
 }
 
+.profileButton {
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    border-color: black;
+    border-width: 0px;
+    cursor: pointer;
+}
+.profileButton:hover {
+    transition: all 0.1s ease;
+    transform: scale(1.2);
+}
+
 
 /* modal */
 .signup-modal {
