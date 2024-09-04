@@ -65,6 +65,45 @@ function Navbar() {
     }
   }
 
+  const handleSignin = async () => {
+    event.preventDefault(); // Prevent the form from submitting and reloading the page
+
+    const email = document.getElementById('signinEmailId').value;
+    const password = document.getElementById('signinPasswordId').value;
+
+    // Encrypt the password before sending
+    // const encryptedPassword = btoa(password); // For demonstration, use a proper encryption in production
+
+    const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.SIGNIN}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({email, password})
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      
+      const sessionToken = data.token;
+      console.log('Token received on signup:', sessionToken); // Debug log
+      sessionStorage.setItem('token', sessionToken);
+      
+      // update the navbar
+      // TODO
+
+      // close the modal
+      var closeButton = document.getElementById('closeSignin');
+      if (closeButton) {
+        closeButton.click();
+      }
+      alert("Signin successfull");
+      closeSigninModal();
+    } else {
+      alert('Signin failed');
+  }
+  }
+
   // effect hook for attaching and detaching signupButton handler onclick when modal is visible
   useEffect(() => {
     // button event listener attachement, and detachment cleanup
@@ -78,8 +117,20 @@ function Navbar() {
         signupButton.removeEventListener('click', handleSignup);
       }
     };
-}, [isSignupModalVisible]);   // dependencies, this effect will trigger if this dependency changes its state
+  }, [isSignupModalVisible]);   // dependencies, this effect will trigger if this dependency changes its state
 
+  useEffect(() => {
+    const signinButton = document.getElementById('signinSubmitButtonId');
+    if (signinButton && isSigninModalVisible) {   // only attach handler when both modal and button are visible
+      signinButton.addEventListener('click', handleSignin);
+    }
+
+    return () => {    // detach the handler
+      if (signinButton) {
+        signinButton.removeEventListener('click', handleSignin);
+      }
+    };
+  }, [isSigninModalVisible]);   // dependencies, this effect will trigger if this dependency changes its state
 
   return (
     <>
@@ -137,9 +188,9 @@ function Navbar() {
               <span className="close" onClick={closeSigninModal}>&times;</span>
               <h2>Sign In</h2>
               <form className='signupForm'>
-                <input type="email" id="email" name="email" required placeholder="Email"/>
-                <input type="password" id="password" name="password" required placeholder="Password"/>
-                <button className="signupSubmitButton" type="submit">Sign In</button>
+                <input type="email" id="signinEmailId" name="email" required placeholder="Email"/>
+                <input type="password" id="signinPasswordId" name="password" required placeholder="Password"/>
+                <button className="signupSubmitButton" id="signinSubmitButtonId" type="submit">Sign In</button>
               </form>
           </div>
       </div>

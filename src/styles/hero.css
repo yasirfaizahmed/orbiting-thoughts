@@ -6,7 +6,7 @@
     width: 100%;
     text-align: center;
     position: relative; /* Allow relative positioning for child elements */
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
     background-image: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0) 20%), url("../assets/homepagebg.jpg");
     background-size: cover;
     background-repeat: no-repeat;
