@@ -16,7 +16,7 @@ function Navbar() {
     setSignupModalVisible(false);
   }
 
-  //signin modal handler
+  // signin modal handler
   const [isSigninModalVisible, setSigninModalVisible] = useState(false);
   const openSigninModal = () => {
     setSigninModalVisible(true);  // set isSigninModalVisible to true
@@ -25,6 +25,9 @@ function Navbar() {
   const closeSigninModal = () => {
     setSigninModalVisible(false);
   }
+
+  // signin, signup button
+  const [isSigninSignupButtonsVisible, setSigninSignupButtonVisible] = useState(true);
 
 
   // signupButton click handler
@@ -58,8 +61,9 @@ function Navbar() {
       if (closeButton) {
         closeButton.click();
       }
-      alert("Signin successfull");
-      closeSignupModal();
+      alert("Signup successfull");
+      closeSignupModal();   // close the modal after successfull signup
+      setSigninSignupButtonVisible(false);    // hide the signin signup buttons
     } else {
       alert('Signup failed');
     }
@@ -98,10 +102,11 @@ function Navbar() {
         closeButton.click();
       }
       alert("Signin successfull");
-      closeSigninModal();
+      closeSigninModal();   // close the modal after successfull signin
+      setSigninSignupButtonVisible(false);    // hide the signin signup buttons
     } else {
       alert('Signin failed');
-  }
+    }
   }
 
   // effect hook for attaching and detaching signupButton handler onclick when modal is visible
@@ -119,6 +124,7 @@ function Navbar() {
     };
   }, [isSignupModalVisible]);   // dependencies, this effect will trigger if this dependency changes its state
 
+  // effect hook for attaching and detaching signinButton handler onclick when modal is visible
   useEffect(() => {
     const signinButton = document.getElementById('signinSubmitButtonId');
     if (signinButton && isSigninModalVisible) {   // only attach handler when both modal and button are visible
@@ -145,10 +151,16 @@ function Navbar() {
           <a className='hoverable' href="#">Services</a>
           <a className='hoverable' href="#">Contact</a>
       </div>
+
       <div className="nav-buttons">
-          <button className="login" onClick={openSigninModal}>Sign in</button>
-          <button className="signup" onClick={openSignupModal}>Sign up</button>
+        {isSigninSignupButtonsVisible && (    // conditional rendering of signin, signup buttons
+          <>
+            <button className="login" onClick={openSigninModal}>Sign in</button>
+            <button className="signup" onClick={openSignupModal}>Sign up</button>
+          </>
+        )}
       </div>
+      
       <div className="hamburger" onClick={() => setDropdownVisible(!isDropdownVisible)}>
           <span></span>
           <span></span>
@@ -167,7 +179,7 @@ function Navbar() {
       </div>
     </nav>
 
-    {isSignupModalVisible && (    //conditional DOM rendering
+    {isSignupModalVisible && (    //conditional rendering of modals
       <div className="signup-modal">
           <div className="modal-content">
               <span className="close" onClick={closeSignupModal}>&times;</span>
