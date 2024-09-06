@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './js/animations'
 // import './js/auth'
 // import './js/config'
@@ -9,6 +10,8 @@ import Hero from './components/hero'
 import Purpose from './components/purpose'
 import Footer from './components/footer'
 import Profile from './components/profile'
+// import 'bootstrap/dist/css/bootstrap.min.css'
+
 
 
 // Import Google Fonts
@@ -26,11 +29,13 @@ function App() {
   // lifted states, for both navbar.jsx and profile.jsx
   const [isProfileVisible, setProfileVisible] = useState(false);
 
+  // setProfileVisible(true);
+
   return (
     <div className='main-page'>
 
       {/* passing isProfileVisible setter to Navbar, since it has profile button */}
-      <Navbar setProfileVisible={setProfileVisible}/>   
+      <Navbar setProfileVisible={setProfileVisible}/>
 
       {isProfileVisible ? <Profile/> : (
         <>
@@ -38,7 +43,7 @@ function App() {
 
           <Purpose />
         </>
-      )} 
+      )}
       <Footer />
 
     </div>

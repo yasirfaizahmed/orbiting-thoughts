@@ -3,6 +3,7 @@ import '../styles/navbar.css'
 import CONFIG from '../js/config'
 import '../js/utils'
 
+
 function Navbar({setProfileVisible}) {
   // navbar dropdown for smaller screens
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -47,7 +48,7 @@ function Navbar({setProfileVisible}) {
     setProfileVisible(prevState => !prevState);  // Toggle profile visibility
   };
 
-  
+
   // signupButton click handler
   const handleSignup = async () => {
     event.preventDefault(); // Prevent the form from submitting and reloading the page

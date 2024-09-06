@@ -1,7 +1,6 @@
 // header to every request made after signin/signup
 function getHeaders(form=false) {
-  const token = sessionStorage.getItem('token'); // Or wherever you store your token
-  // const email = localStorage.getItem('email'); // Or wherever you store the user's email
+  const token = sessionStorage.getItem('jwtToken');
   
   if(form){
     return {
