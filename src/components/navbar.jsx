@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import '../styles/navbar.css'
 import CONFIG from '../js/config'
+import '../js/utils'
 
-function Navbar() {
+function Navbar({setProfileVisible}) {
   // navbar dropdown for smaller screens
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
@@ -26,10 +27,27 @@ function Navbar() {
     setSigninModalVisible(false);
   }
 
-  // signin, signup button
+  // signin, signup button state
   const [isSigninSignupButtonsVisible, setSigninSignupButtonVisible] = useState(true);
 
 
+  // session state
+  const [token, setToken] = useState(localStorage.getItem('jwtToken') || '');
+  useEffect(() => {   // attaching hook to update localStorage when token state changes
+    if (token) {
+      localStorage.setItem('jwtToken', token);
+    } else {
+      localStorage.removeItem('jwtToken');
+    }
+  }, [token]);
+
+
+  //profileButton handler
+  const handleProfileButtonClick = () => {
+    setProfileVisible(prevState => !prevState);  // Toggle profile visibility
+  };
+
+  
   // signupButton click handler
   const handleSignup = async () => {
     event.preventDefault(); // Prevent the form from submitting and reloading the page
@@ -50,11 +68,8 @@ function Navbar() {
       const data = await response.json();
       
       const sessionToken = data.token;
-      console.log('Token received on signup:', sessionToken); // Debug log
-      sessionStorage.setItem('token', sessionToken);
-      
-      // update the navbar
-      // updateNavbarSection();   TODO:
+      // console.log('Token received on signup:', sessionToken);
+      setToken(sessionToken);   // storing token
 
       // close the modal
       var closeButton = document.getElementById('closeSignup');
@@ -66,6 +81,7 @@ function Navbar() {
       setSigninSignupButtonVisible(false);    // hide the signin signup buttons
     } else {
       alert('Signup failed');
+      setToken('');   // clear token state
     }
   }
 
@@ -90,11 +106,8 @@ function Navbar() {
       const data = await response.json();
       
       const sessionToken = data.token;
-      console.log('Token received on signup:', sessionToken); // Debug log
-      sessionStorage.setItem('token', sessionToken);
-      
-      // update the navbar
-      // TODO
+      // console.log('Token received on signup:', sessionToken);
+      setToken(sessionToken);   // storing token
 
       // close the modal
       var closeButton = document.getElementById('closeSignin');
@@ -106,6 +119,7 @@ function Navbar() {
       setSigninSignupButtonVisible(false);    // hide the signin signup buttons
     } else {
       alert('Signin failed');
+      setToken('');   // clear token state
     }
   }
 
@@ -162,7 +176,7 @@ function Navbar() {
 
         {!isSigninSignupButtonsVisible && (   // conditional rendering of profile button
           <>
-            <button className='profileButton'>
+            <button className='profileButton' onClick={handleProfileButtonClick}>
               <img src="https://img.icons8.com/ios-glyphs/30/user--v1.png"></img>
             </button>
           </>
@@ -189,7 +203,7 @@ function Navbar() {
 
             {!isSigninSignupButtonsVisible && (   // conditional rendering of profile button
               <>
-                <button className='profileButton'>
+                <button className='profileButton' onClick={handleProfileButtonClick}>
                   <img src="https://img.icons8.com/ios-glyphs/30/user--v1.png"></img>
                 </button>
               </>

@@ -8,6 +8,7 @@ import Navbar from './components/navbar'
 import Hero from './components/hero'
 import Purpose from './components/purpose'
 import Footer from './components/footer'
+import Profile from './components/profile'
 
 
 // Import Google Fonts
@@ -21,21 +22,23 @@ cabin.rel = "stylesheet";
 document.head.appendChild(cabin);
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home');
-  // useEffect(() => {
-  //   // The jQuery code will be executed as it's already included in jqueryAnimations.js
-  // }, []);
 
+  // lifted states, for both navbar.jsx and profile.jsx
+  const [isProfileVisible, setProfileVisible] = useState(false);
 
   return (
     <div className='main-page'>
 
-      <Navbar />
+      {/* passing isProfileVisible setter to Navbar, since it has profile button */}
+      <Navbar setProfileVisible={setProfileVisible}/>   
 
-      <Hero />
+      {isProfileVisible ? <Profile/> : (
+        <>
+          <Hero />
 
-      <Purpose />
-
+          <Purpose />
+        </>
+      )} 
       <Footer />
 
     </div>
