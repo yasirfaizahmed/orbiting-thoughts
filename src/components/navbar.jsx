@@ -36,6 +36,7 @@ function Navbar({setProfileVisible}) {
   const [token, setToken] = useState(localStorage.getItem('jwtToken') || '');
   useEffect(() => {   // attaching hook to update localStorage when token state changes
     if (token) {
+      setSigninSignupButtonVisible(false);
       localStorage.setItem('jwtToken', token);
     } else {
       localStorage.removeItem('jwtToken');
