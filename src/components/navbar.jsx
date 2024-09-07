@@ -1,10 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import '../styles/navbar.css'
 import CONFIG from '../js/config'
+import { useNavigate, useLocation} from 'react-router-dom'
 import '../js/utils'
 
 
 function Navbar({setProfileVisible}) {
+  // navigation varaibles
+  const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
+
   // navbar dropdown for smaller screens
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
@@ -46,7 +51,10 @@ function Navbar({setProfileVisible}) {
 
   //profileButton handler
   const handleProfileButtonClick = () => {
-    setProfileVisible(prevState => !prevState);  // Toggle profile visibility
+    // Only navigate if the current location is not already /profile
+    if (location.pathname !== '/profile') {
+      navigate('/profile');
+    }
   };
 
 
@@ -154,15 +162,18 @@ function Navbar({setProfileVisible}) {
     };
   }, [isSigninModalVisible]);   // dependencies, this effect will trigger if this dependency changes its state
 
+
+
+
   return (
     <>
 
     <nav className="navbar" id='navbarId'>
       <div className="brand">
-          <a href="#">Deen & Dunya</a>
+          <a href="/">Deen & Dunya</a>
       </div>
       <div className="nav-links">
-          <a className='hoverable' href="#">Home</a>
+          <a className='hoverable' href='/' onClick={() => navigate('/')}>Home</a>
           <a className='hoverable' href="#">About</a>
           <a className='hoverable' href="#">Services</a>
           <a className='hoverable' href="#">Contact</a>
@@ -191,7 +202,7 @@ function Navbar({setProfileVisible}) {
           <span></span>
       </div>
       <div className={`dropdown-menu ${isDropdownVisible ? 'show' : ''}`}>
-          <a className='hoverable' href="#">Home</a>
+          <a className='hoverable' href="/">Home</a>
           <a className='hoverable' href="#">About</a>
           <a className='hoverable' href="#">Services</a>
           <a className='hoverable' href="#">Contact</a>

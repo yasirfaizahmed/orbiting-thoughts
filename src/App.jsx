@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './js/animations'
 // import './js/auth'
 // import './js/config'
 // import './js/bg-resize'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
 import './styles/index.css'
 import Navbar from './components/navbar'
 import Hero from './components/hero'
@@ -26,28 +27,24 @@ document.head.appendChild(cabin);
 
 function App() {
 
-  // lifted states, for both navbar.jsx and profile.jsx
-  const [isProfileVisible, setProfileVisible] = useState(false);
-
-  // setProfileVisible(true);
-
   return (
-    <div className='main-page'>
+    <Router>
+      <div className='main-page'>
+        <Navbar />
 
-      {/* passing isProfileVisible setter to Navbar, since it has profile button */}
-      <Navbar setProfileVisible={setProfileVisible}/>
+        {/* Define the routes */}
+        <Routes>
+          {/* Home route */}
+          <Route path="/" element={<><Hero /><Purpose /></>} />
 
-      {isProfileVisible ? <Profile/> : (
-        <>
-          <Hero />
+          {/* Profile route */}
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
 
-          <Purpose />
-        </>
-      )}
-      <Footer />
-
-    </div>
-  )
+        <Footer />
+      </div>
+    </Router>
+  );
 }
 
 export default App;
