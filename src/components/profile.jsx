@@ -73,10 +73,12 @@ function Profile ({setToken,
           if (statusCode == 401){
             alert('Session Expired: Please sign in again');
             setToken('');
+            setEditProfileModalVisible(false);
             openSigninModal();    // Show the signin modal
             return;
           } else{
             setToken('');
+            setEditProfileModalVisible(false);
             openSigninModal();    // Show the signin modal
             throw new Error('Network response was not ok ' + response.statusText);
           }
@@ -117,7 +119,7 @@ function Profile ({setToken,
                   {/* <p>New York</p> */}
                 </div>
               </div>
-              <div className="p-4 text-black bg-body-tertiary">
+              <div className="p-4 text-black bg-body-tertiary articles-number-container">
                 <div className="d-flex justify-content-end text-center py-1 text-body">
                   <div>
                     <p className="mb-1 h5">253</p>
@@ -206,7 +208,7 @@ function Profile ({setToken,
                                   <div className="d-flex justify-content-center">
                                       <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
                                           <label className="form-label m-1" htmlFor="customFile1">Choose file</label>
-                                          <input type="file" className="form-control d-none" id="customFile1" onChange={() => displaySelectedImage(event, 'selectedImage')} required/>
+                                          <input type="file" className="form-control d-none" id="customFile1" onChange={(event) => displaySelectedImage(event, 'selectedImage')} required/>
                                       </div>
                                   </div>
                               </div>

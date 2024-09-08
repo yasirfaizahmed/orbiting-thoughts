@@ -9,7 +9,7 @@
 
 .img-fluid {
   width: 150px;
-  z-index: 1;
+  /* z-index: 1; */
 }
 
 .ms-3 {
@@ -86,10 +86,13 @@
   transition: all 0.3s ease-in-out;
   transform: scale(1.05);
 }
+.articles-number-container {
+  z-index: -1;
+}
 
 .edit-profile {
-  /* margin-top: 30px; */
-  z-index: 1000;
+  margin-top: 50px;
+  /* z-index: 1000; */
 }
 
 .edit-profile:hover {
@@ -97,3 +100,5 @@
   transform: scale(1.2);
   background-color: white;
 }
+
+
