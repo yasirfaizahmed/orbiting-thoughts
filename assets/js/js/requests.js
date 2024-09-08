@@ -76,7 +76,7 @@ document.getElementById('profileButton').addEventListener('click', async () => {
 
 
 document.getElementById('updateProfileButton').addEventListener('click', async () => {
-    try {
+     {
         // Get the input values
         const username = document.getElementById('newUsernameInput').value;
         const about = document.getElementById('aboutYourselfInput').value;
@@ -118,7 +118,7 @@ document.getElementById('updateProfileButton').addEventListener('click', async (
         // show profile
         showProfile();
     } catch (error) {
-        console.error('Error:', error);
+        tryconsole.error('Error:', error);
     }
 });
 

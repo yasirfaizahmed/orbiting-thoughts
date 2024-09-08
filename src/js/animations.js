@@ -4,7 +4,10 @@ window.addEventListener("scroll", function() {
     
     // Adjust the background size based on scroll position
     let scale = 100 + scrollPosition / 10; // Adjust the division factor to control zoom speed
-    heroContainer.style.backgroundSize = `${scale}% auto`;
+    if (heroContainer) {
+        heroContainer.style.backgroundSize = `${scale}% auto`;
+    }
+    
 });
 
 

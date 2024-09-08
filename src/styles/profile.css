@@ -1,29 +1,98 @@
 .rounded-top {
-    background-color: black;
-    height: 200px;
+  background-color: black;
+  height: 200px;
 }
 
 .ms-4 {
-    width: 150px;
+  width: 150px;
 }
 
 .img-fluid {
-    width: 150px;
-    z-index: 1;
+  width: 150px;
+  z-index: 1;
 }
 
 .ms-3 {
-    margin-top: 130px;
+  margin-top: 130px;
 }
 
 
 .gradient-custom-2 {
-    /* fallback for old browsers */
-    background: #fbc2eb;
-    
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1));
-    
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1))
+  /* fallback for old browsers */
+  background: #fbc2eb;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1));
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1))
+}
+
+/* Ensure the modal has enough width */
+.modal-dialog {
+  max-width: 600px; /* Adjust as needed */
+  width: 100%;      /* Ensure it takes full width available */
+}
+
+/* Ensure the image stays within the container */
+.mb-4 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#selectedImage {
+  max-width: 100%;  /* Constrain the image within its container */
+  height: auto;     /* Keep the aspect ratio */
+  object-fit: contain; /* Prevent stretching or overflowing */
+}
+
+/* Ensure the upload button stays inside the modal */
+.form-label {
+  color: white;
+}
+
+/* Hover styles for the update button */
+.update-button {
+  background-color: black;
+  border-color: black;
+}
+.update-button:hover {
+  background-color: rgb(66, 66, 66);
+  border-color: rgb(66, 66, 66);
+}
+
+/* Padding adjustments for form sections */
+.col-md-12 {
+  padding-top: 0px;
+  /* margin-top: -50px; */
+}
+
+.p-3 {
+  padding-top: 52px;
+  margin-top: -70px;
+}
+
+.form-control {
+  width: 250px;
+}
+
+.about-yourself {
+  height: 100px;
+}
+
+/* Hover effects for profile and edit profile buttons */
+.main-profile-container:hover {
+  transition: all 0.3s ease-in-out;
+  transform: scale(1.05);
+}
+
+.edit-profile {
+  z-index: 1;
+}
+
+.edit-profile:hover {
+  transition: all 0.1s ease-in-out;
+  transform: scale(1.2);
+  background-color: white;
 }
