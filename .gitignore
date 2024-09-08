@@ -3,6 +3,7 @@
 __pycache__/
 *.db
 test.html
+.vite/
 
 # Logs
 logs
