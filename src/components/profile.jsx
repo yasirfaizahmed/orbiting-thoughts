@@ -6,7 +6,26 @@ import getHeaders from '../js/utils';
 
 function Profile () {
 
-    // TODO: fetch localStorage.profileData and form the component here
+  const [profileData, setProfileData] = useState(null);
+
+  // Retrieve profileData from localStorage when the component mounts
+  useEffect(() => {
+    const storedProfileData = localStorage.getItem('profileData');
+    if (storedProfileData) {
+      setProfileData(JSON.parse(storedProfileData));
+    }
+  }, []);  
+
+  if (!profileData) {
+    return (
+      <>
+        <p> Could not fetch profile Data, something went wrong!! </p>
+      </>
+    );
+  }
+
+  // Access user and profile information from the profileData
+  const { user, profile, profilePicture } = profileData.crud_response.data;
 
   return (
     <>
@@ -17,7 +36,7 @@ function Profile () {
             <div className="card">
               <div className="rounded-top text-white d-flex flex-row" >
                 <div className="ms-4 mt-5 d-flex flex-column" >
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                  <img src={`data:image/jpeg;base64,${profilePicture}`}
                     alt="Generic placeholder image" className="img-fluid img-thumbnail mt-4 mb-2"
                     ></img>
                   <button  type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-dark text-body" data-mdb-ripple-color="dark" >
@@ -25,33 +44,31 @@ function Profile () {
                   </button>
                 </div>
                 <div className="ms-3" >
-                  <h5>Andy Horwitz</h5>
-                  <p>New York</p>
+                  <h5>{user.username}</h5>
+                  {/* <p>New York</p> */}
                 </div>
               </div>
               <div className="p-4 text-black bg-body-tertiary">
                 <div className="d-flex justify-content-end text-center py-1 text-body">
                   <div>
                     <p className="mb-1 h5">253</p>
-                    <p className="small text-muted mb-0">Photos</p>
+                    <p className="small text-muted mb-0">Articles</p>
                   </div>
-                  <div className="px-3">
+                  {/* <div className="px-3">
                     <p className="mb-1 h5">1026</p>
                     <p className="small text-muted mb-0">Followers</p>
                   </div>
                   <div>
                     <p className="mb-1 h5">478</p>
                     <p className="small text-muted mb-0">Following</p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="card-body p-4 text-black">
                 <div className="mb-5  text-body">
                   <p className="lead fw-normal mb-1">About</p>
                   <div className="p-4 bg-body-tertiary">
-                    <p className="font-italic mb-1">Web Developer</p>
-                    <p className="font-italic mb-1">Lives in New York</p>
-                    <p className="font-italic mb-0">Photographer</p>
+                    <p className="font-italic mb-1">{profile.about}</p>
                   </div>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-4 text-body">
