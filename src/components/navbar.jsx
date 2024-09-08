@@ -5,49 +5,23 @@ import { useNavigate, useLocation} from 'react-router-dom';
 import getHeaders from '../js/utils';
 
 
-function Navbar({setProfileVisible}) {
+function Navbar({ setToken,
+                  setSigninSignupButtonVisible,
+                  isSigninSignupButtonsVisible,
+                  openSigninModal,
+                  closeSigninModal,
+                  isSigninModalVisible,
+                  openSignupModal,
+                  closeSignupModal,
+                  isSignupModalVisible,
+                  isDropdownVisible,
+                  setDropdownVisible }) {
+
   // navigation varaibles
   const navigate = useNavigate();
   const location = useLocation(); // Get the current location
 
-  // navbar dropdown for smaller screens
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
-
-  // signup modal handler
-  const [isSignupModalVisible, setSignupModalVisible] = useState(false);
-  const openSignupModal = () => {
-    setSignupModalVisible(true);   // set isSignupModalVisible to true
-    setDropdownVisible(false);    // set isDropdownVisible to false
-  }
-  const closeSignupModal = () => {
-    setSignupModalVisible(false);
-  }
-
-  // signin modal handler
-  const [isSigninModalVisible, setSigninModalVisible] = useState(false);
-  const openSigninModal = () => {
-    setSigninModalVisible(true);  // set isSigninModalVisible to true
-    setDropdownVisible(false);    // set isDropdownVisible to false
-  }
-  const closeSigninModal = () => {
-    setSigninModalVisible(false);
-  }
-
-  // signin, signup button state
-  const [isSigninSignupButtonsVisible, setSigninSignupButtonVisible] = useState(true);
-
-
-  // session state
-  const [token, setToken] = useState(localStorage.getItem('jwtToken') || '');
-  useEffect(() => {   // attaching hook to update localStorage when token state changes
-    if (token) {
-      setSigninSignupButtonVisible(false);
-      localStorage.setItem('jwtToken', token);
-    } else {
-      localStorage.removeItem('jwtToken');
-      setSigninSignupButtonVisible(true);
-    }
-  }, [token]);
+  
 
 
   //profileButton handler

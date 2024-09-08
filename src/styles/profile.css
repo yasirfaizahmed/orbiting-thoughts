@@ -88,7 +88,8 @@
 }
 
 .edit-profile {
-  z-index: 1;
+  /* margin-top: 30px; */
+  z-index: 1000;
 }
 
 .edit-profile:hover {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './js/animations'
 // import './js/auth'
@@ -27,10 +27,57 @@ document.head.appendChild(cabin);
 
 function App() {
 
+  // lifted session state
+  // signin, signup button state
+  const [isSigninSignupButtonsVisible, setSigninSignupButtonVisible] = useState(true);
+  const [token, setToken] = useState(localStorage.getItem('jwtToken') || '');
+  useEffect(() => {   // attaching hook to update localStorage when token state changes
+    if (token) {
+      setSigninSignupButtonVisible(false);
+      localStorage.setItem('jwtToken', token);
+    } else {
+      localStorage.removeItem('jwtToken');
+      setSigninSignupButtonVisible(true);
+    }
+  }, [token]);
+
+  // navbar dropdown for smaller screens
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+
+   // signin modal handler
+    const [isSigninModalVisible, setSigninModalVisible] = useState(false);
+    const openSigninModal = () => {
+      setSigninModalVisible(true);  // set isSigninModalVisible to true
+      setDropdownVisible(false);    // set isDropdownVisible to false
+    }
+    const closeSigninModal = () => {
+      setSigninModalVisible(false);
+    }
+
+    // signup modal handler
+    const [isSignupModalVisible, setSignupModalVisible] = useState(false);
+    const openSignupModal = () => {
+      setSignupModalVisible(true);   // set isSignupModalVisible to true
+      setDropdownVisible(false);    // set isDropdownVisible to false
+    }
+    const closeSignupModal = () => {
+      setSignupModalVisible(false);
+    }
+
   return (
     <Router>
       <div className='main-page'>
-        <Navbar />
+        <Navbar setToken={setToken} 
+                setSigninSignupButtonVisible={setSigninSignupButtonVisible} 
+                isSigninSignupButtonsVisible={isSigninSignupButtonsVisible}
+                openSigninModal={openSigninModal}
+                closeSigninModal={closeSigninModal}
+                isSigninModalVisible={isSigninModalVisible}
+                openSignupModal={openSignupModal}
+                closeSignupModal={closeSignupModal}
+                isSignupModalVisible={isSignupModalVisible}
+                isDropdownVisible={isDropdownVisible}
+                setDropdownVisible={setDropdownVisible}/>
 
         {/* Define the routes */}
         <Routes>
@@ -38,7 +85,8 @@ function App() {
           <Route path="/" element={<><Hero /><Purpose /></>} />
 
           {/* Profile route */}
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile setToken={setToken}
+                                                   openSigninModal={openSigninModal}/>} />
         </Routes>
 
         <Footer />

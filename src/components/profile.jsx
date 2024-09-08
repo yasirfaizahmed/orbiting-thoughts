@@ -4,11 +4,11 @@ import CONFIG from '../js/config'
 import getHeaders from '../js/utils';
 
 
-function Profile () {
+function Profile ({setToken,
+                  openSigninModal}) {
+
   // state to set edit profile modal visibility
   const [editProfileModalVisible, setEditProfileModalVisible] = useState(false);
-
-  const [selectedImagePreview, setSelectedImagePreview] = useState('https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'); // Placeholder image
 
   const [profileData, setProfileData] = useState(null);
 
@@ -42,7 +42,7 @@ function Profile () {
 
         reader.readAsDataURL(fileInput.files[0]);
     }
-}
+  }
 
   // Access user and profile information from the profileData
   const { user, profile, profilePicture } = profileData.crud_response.data;
@@ -64,31 +64,33 @@ function Profile () {
 
       const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.EDIT_PROFILE}`, {
           method: 'POST',
-          headers: getHeaders(form=true), // Ensure this function is defined correctly to not include 'Content-Type'
+          headers: getHeaders(true), // Ensure this function is defined correctly to not include 'Content-Type'
           body: formData
       });
 
       if (!response.ok) {
           const statusCode = response.status;
           if (statusCode == 401){
-              alert('Session Expired: Please sign in again');
-              // Show the signin modal
-              const signinModal = new bootstrap.Modal(document.getElementById('signin'));
-              signinModal.show();
-              return;
+            alert('Session Expired: Please sign in again');
+            setToken('');
+            openSigninModal();    // Show the signin modal
+            return;
           } else{
-              throw new Error('Network response was not ok ' + response.statusText);
+            setToken('');
+            openSigninModal();    // Show the signin modal
+            throw new Error('Network response was not ok ' + response.statusText);
           }
       }
 
       const data = await response.json();
       console.log('GET Response:', data);
+      alert("successfully updated profile data");
+      setEditProfileModalVisible(false);
+      
 
       // Store the profile data in localStorage or handle it as needed
-      sessionStorage.setItem('profileData', JSON.stringify(data));
+      setProfileData(data);
 
-      // show profile
-      showProfile();
     } catch (error) {
         console.error('Error:', error);
     }
@@ -182,11 +184,14 @@ function Profile () {
                                       <div className="col-md-12">
                                           <div className="p-3 py-5">
                                               <div className="row mt-2">
-                                                  <div className="col-sm-11 col-md-6"><input type="text" className="form-control" id="newUsernameInput" placeholder="New user name"></input></div>
+                                                  <div className="col-sm-11 col-md-6"><input type="text" className="form-control" id="newUsernameInput" placeholder="New user name" required></input></div>
+                                              </div>
+                                              <div className="row mt-3">
+                                                  <div className="col-md-12"><input type="text" className="form-control" id="newPasswordInput" placeholder="New password" required></input></div>
                                               </div>
                                               
                                               <div className="row mt-3">
-                                                  <div className="col-md-12"><input type="text" className="form-control about-yourself" id="aboutYourselfInput" placeholder="About yourself"></input></div>
+                                                  <div className="col-md-12"><input type="text" className="form-control about-yourself" id="aboutYourselfInput" placeholder="About yourself" required></input></div>
                                               </div>
                                           </div>
                                       </div>
@@ -201,7 +206,7 @@ function Profile () {
                                   <div className="d-flex justify-content-center">
                                       <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
                                           <label className="form-label m-1" htmlFor="customFile1">Choose file</label>
-                                          <input type="file" className="form-control d-none" id="customFile1" onChange={() => displaySelectedImage(event, 'selectedImage')} />
+                                          <input type="file" className="form-control d-none" id="customFile1" onChange={() => displaySelectedImage(event, 'selectedImage')} required/>
                                       </div>
                                   </div>
                               </div>
@@ -209,7 +214,7 @@ function Profile () {
                           </div>
                           <div className="modal-footer">
                             <button className="btn btn-light"  onClick={() => setEditProfileModalVisible(prevState => !prevState)}  data-bs-dismiss="modal" type="button">Close</button>
-                            <button className="btn btn-primary update-button" id="updateProfileButton" type="button">Update</button>
+                            <button className="btn btn-primary update-button" id="updateProfileButton" onClick={updateProfileButtonHandler}type="button">Update</button>
                             </div>
                       </div>
                   </div>

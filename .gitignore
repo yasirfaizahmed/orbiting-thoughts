@@ -4,6 +4,7 @@ __pycache__/
 *.db
 test.html
 .vite/
+resources/
 
 # Logs
 logs
