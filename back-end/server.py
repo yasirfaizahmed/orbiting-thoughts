@@ -114,7 +114,7 @@ async def edit_profile(username: str = Form(...),
   if token_payload.validated is False:
     raise HTTPException(status_code=token_payload.status_code,
                         detail=HTTPStatus(token_payload.status_code).phrase)
-  logger.info("serving POST request for /profile/ ")
+  logger.info("serving POST request for /edit-profile/ ")
   try:
     picture_path = f"{PROFILE_PICTURES}/{picture.filename}"
     with open(picture_path, "wb") as f:
@@ -139,13 +139,13 @@ async def edit_profile(username: str = Form(...),
   return response
 
 
-@app.get("/profile", response_model=schemas.Response)
+@app.get("/get-profile", response_model=schemas.Response)
 async def get_profile(db: Session = Depends(database.get_db),
                       token_payload: schemas.TokenPayload = Depends(security.validate_token)):
   if token_payload.validated is False:
     raise HTTPException(status_code=token_payload.status_code,
                         detail=HTTPStatus(token_payload.status_code).phrase)
-  logger.info("serving GET request for /profile/ ")
+  logger.info("serving GET request for /get-profile/ ")
   crud_response: schemas.CrudResponse = crud.get_profile(db=db,
                                                          email=token_payload.payload.get("sub"))
   if crud_response.response_code == 1:

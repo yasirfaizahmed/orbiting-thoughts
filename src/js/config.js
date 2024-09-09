@@ -8,7 +8,7 @@ const CONFIG = {
 	SIGNUP: '/signup',
 	SIGNIN: '/signin',
 	EDIT_PROFILE: '/edit-profile',
-	PROFILE: '/profile',
+	PROFILE: '/get-profile',
 	CREATE: '/create',
 	USERS: '/users',
 	DEEN: '/deen'
