@@ -198,12 +198,12 @@ async def create_article(title: str = Form(...),
                         detail="Internal Server Error")
 
 
-@app.get("/create")
+@app.get("/create-article")
 async def create(token_payload: schemas.TokenPayload = Depends(security.validate_token)):
   if token_payload.validated is False:
     raise HTTPException(status_code=token_payload.status_code,
                         detail=HTTPStatus(token_payload.status_code).phrase)
-  logger.info("serving GET request for /create/ ")
+  logger.info("serving GET request for /create-article/ ")
   response = schemas.Response(crud_response=None)
   return response
 
