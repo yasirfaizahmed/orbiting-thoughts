@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import '../styles/create.css';
+import CONFIG from '../js/config'
+import getHeaders from '../js/utils';
 
 
 function Create () {
@@ -10,15 +12,61 @@ function Create () {
     const fileInput = event.target;
 
     if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
+      const reader = new FileReader();
 
-        reader.onload = function(e) {
-            selectedImage.src = e.target.result;
-        };
-
-        reader.readAsDataURL(fileInput.files[0]);
+      reader.onload = function(e) {
+        selectedImage.src = e.target.result;
+      };
+      reader.readAsDataURL(fileInput.files[0]);
     }
   }
+
+  const submitArticleButtonHandler = async () => {
+    try {
+      // Get the input values
+      const title = document.getElementById('article-title').value;
+      const brief = document.getElementById('article-brief').value;
+      const content = document.getElementById('article-content').value;
+      const coverImage = document.getElementById('coverImage').files[0];
+      const intermediateImage = document.getElementById('intermediateImage').files[0];
+
+      if (!title || !brief || !content || !coverImage || !intermediateImage) {
+        alert("One or more fields are empty");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('brief', brief);
+      formData.append('content', content);
+      formData.append('cover_image', coverImage);
+      formData.append('intermediate_image', intermediateImage);
+
+      const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.ARTICLE}`, {
+        method: 'POST',
+        headers: getHeaders(true),
+        body: formData
+      });
+      if (!response.ok) {
+        const statusCode = response.status;
+        if (statusCode > 400 && statusCode < 500){
+          if (statusCode === 401){
+            alert('Session Expired: Please sign in again');
+          } else if (statusCode === 403){
+            alert('Please Sign in or Sign up');
+          }
+          // TODO: handle other exceptions
+          return;
+        } else{
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+      }
+      alert('Article sent for approval, you will recieve an email once approved'); 
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
 
   return (
   <>
@@ -59,7 +107,7 @@ function Create () {
           </div>
         </div>
         <div className='approval-row'>
-          <button id="submit-article" className="create-article-submit-button">Request Approval</button>
+          <button id="submit-article" onClick={submitArticleButtonHandler} className="create-article-submit-button">Request Approval</button>
         </div>
       </div>
     </div>

@@ -10,14 +10,11 @@
   width: 100%;
 }
 
-#articleCoverImage {
-  width: 300px;
+#articleCoverImage, #articleIntermediateImage {
+  width: 100%; /* Make image upload inputs responsive */
+  max-width: 300px; /* Limit their maximum size */
+  border-radius: 10px;
 }
-
-#articleIntermediateImage {
-  width: 300px;
-}
-
 
 
 
@@ -124,6 +121,7 @@ input[type="file"] {
   border-color: rgba(255, 255, 255, 0);
   font-size: 18px;
   padding : 10px;
+  margin: 30px;
 }
 
 .create-article-submit-button:hover {
