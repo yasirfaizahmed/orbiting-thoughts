@@ -16,6 +16,9 @@
   margin-top: 130px;
 }
 
+.card {
+  margin-top: 20px;
+}
 
 .gradient-custom-2 {
   /* fallback for old browsers */
@@ -82,16 +85,16 @@
 }
 
 /* Hover effects for profile and edit profile buttons */
-.main-profile-container:hover {
+/* .main-profile-container:hover {
   transition: all 0.3s ease-in-out;
   transform: scale(1.05);
-}
+} */
 .articles-number-container {
   z-index: -1;
 }
 
 .edit-profile {
-  margin-top: 50px;
+  margin-top: 10px;
   /* z-index: 1000; */
 }
 

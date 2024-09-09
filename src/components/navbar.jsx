@@ -179,8 +179,8 @@ function Navbar({ setToken,
       </div>
       <div className="nav-links">
           <a className='hoverable' href='/' onClick={() => navigate('/')}>Home</a>
-          <a className='hoverable' href="#">About</a>
-          <a className='hoverable' href="#">Services</a>
+          <a className='hoverable' href="/create">Create</a>
+          <a className='hoverable' href="#">Read</a>
           <a className='hoverable' href="#">Contact</a>
       </div>
 
@@ -208,8 +208,8 @@ function Navbar({ setToken,
       </div>
       <div className={`dropdown-menu ${isDropdownVisible ? 'show' : ''}`}>
           <a className='hoverable' href="/">Home</a>
-          <a className='hoverable' href="#">About</a>
-          <a className='hoverable' href="#">Services</a>
+          <a className='hoverable' href="/create">Create</a>
+          <a className='hoverable' href="#">Read</a>
           <a className='hoverable' href="#">Contact</a>
           <div className="dropdown-buttons">
             {isSigninSignupButtonsVisible && (    // conditional rendering of signin, signup buttons

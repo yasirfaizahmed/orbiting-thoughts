@@ -11,6 +11,7 @@ import Hero from './components/hero'
 import Purpose from './components/purpose'
 import Footer from './components/footer'
 import Profile from './components/profile'
+import Create from './components/create'
 // import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -87,6 +88,10 @@ function App() {
           {/* Profile route */}
           <Route path="/profile" element={<Profile setToken={setToken}
                                                    openSigninModal={openSigninModal}/>} />
+        
+          {/* Create article route */}
+          <Route path="/create" element={<Create />}></Route>
+
         </Routes>
 
         <Footer />
