@@ -1,0 +1,48 @@
+.article-card-thumbnail {
+  border-color: rgb(0, 0, 0);
+  transition: .4s;
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+.article-card-thumbnail:hover {
+  transform: scale(1.1);
+}
+
+.article-thumbnail-body {
+  background-color: rgb(26, 25, 25);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.article-thumbnail-title {
+  color: white;
+  padding-left: 5px;
+}
+
+.article-thumbnail-text {
+  color: white;
+  padding-left: 10px;
+  font-weight: 400;
+  padding-right: 10px;
+}
+
+.article-thumbnail-author {
+  color: white;
+  font-weight: 200;
+}
+
+.article-thumbnail-image {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  width: 100%; /* Ensure it takes the full width of the parent */
+  height: 200px; /* Set a consistent height for all images */
+  object-fit: cover; /* Crop the image to fill the box while maintaining aspect ratio */
+  object-position: center center; /* Center the image within the box */
+}
+
+.article-body {
+  padding-top: 80px;
+  padding-bottom: 40px;
+}

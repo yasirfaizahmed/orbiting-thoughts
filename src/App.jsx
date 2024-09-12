@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './js/animations'
 // import './js/auth'
 // import './js/config'
@@ -12,6 +12,7 @@ import Purpose from './components/purpose'
 import Footer from './components/footer'
 import Profile from './components/profile'
 import Create from './components/create'
+import Read from './components/read'
 // import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -91,6 +92,9 @@ function App() {
         
           {/* Create article route */}
           <Route path="/create" element={<Create />}></Route>
+
+          {/* Create article route */}
+          <Route path="/read" element={<Read />}></Route>
 
         </Routes>
 

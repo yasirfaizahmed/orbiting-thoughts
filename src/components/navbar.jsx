@@ -64,7 +64,7 @@ function Navbar({ setToken,
 
 
   // signupButton click handler
-  const handleSignup = async () => {
+  const handleSignup = async (event) => {
     event.preventDefault(); // Prevent the form from submitting and reloading the page
 
     const username = document.getElementById('signupUsernameId').value;
@@ -180,7 +180,7 @@ function Navbar({ setToken,
       <div className="nav-links">
           <a className='hoverable' href='/' onClick={() => navigate('/')}>Home</a>
           <a className='hoverable' href="/create">Create</a>
-          <a className='hoverable' href="#">Read</a>
+          <a className='hoverable' href="/read">Read</a>
           <a className='hoverable' href="#">Contact</a>
       </div>
 
@@ -209,7 +209,7 @@ function Navbar({ setToken,
       <div className={`dropdown-menu ${isDropdownVisible ? 'show' : ''}`}>
           <a className='hoverable' href="/">Home</a>
           <a className='hoverable' href="/create">Create</a>
-          <a className='hoverable' href="#">Read</a>
+          <a className='hoverable' href="/read">Read</a>
           <a className='hoverable' href="#">Contact</a>
           <div className="dropdown-buttons">
             {isSigninSignupButtonsVisible && (    // conditional rendering of signin, signup buttons
