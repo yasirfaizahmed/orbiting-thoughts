@@ -23,7 +23,8 @@ function Read () {
 
   const fetchArticlesHandler = async () => {
     try {
-      const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.ARTICLES}`, {
+      const limit = 20;
+      const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.ARTICLES}?limit=${limit}`, {
         method: 'GET',
         headers: getHeaders(), // Assuming getHeaders is a function that returns the required headers
       });
@@ -47,9 +48,9 @@ function Read () {
 
 
   return (
-    <div className="row">
+    <div className="row articles-container">
       {articles.map((article, index) => (
-        <div className="col article-body" key={index}>
+        <div className="col-12 col-md-8 col-lg-4 article-body" key={index}>
           <div className="article-card-thumbnail">
             <img
               className="article-thumbnail-image w-100 d-block fit-cover"
@@ -57,14 +58,12 @@ function Read () {
               alt={article.title}
             />
             <div className="article-thumbnail-body">
-              <p className="text-primary card-text mb-0">
-                Article
-              </p>
-              <h4 className="article-thumbnail-title">{article.title}</h4>
+              <p className=" card-text mb-0" style={{paddingLeft: '5px', color: 'white'}}>Article</p>
+              <h4 className="article-thumbnail-title" style={{paddingLeft: '15px', color: 'white'}}>{article.title}</h4>
               <p className="article-thumbnail-text">{article.brief}</p>
-              <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center" style={{paddingLeft: '5px', paddingBottom: '5px'}}>
                 <img
-                  className="rounded-circle flex-shrink-0 me-3 fit-cover"
+                  className="article-author-image rounded-circle flex-shrink-0 me-3 fit-cover"
                   width="50"
                   height="50"
                   src={`data:image/jpeg;base64,${article.picture}`}
@@ -79,6 +78,7 @@ function Read () {
         </div>
       ))}
     </div>
+
   );
 }
 

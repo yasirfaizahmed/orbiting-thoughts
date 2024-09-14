@@ -42,7 +42,15 @@
   object-position: center center; /* Center the image within the box */
 }
 
+.article-author-image {
+  object-fit: cover;
+}
+
 .article-body {
   padding-top: 80px;
   padding-bottom: 40px;
+}
+
+.articles-container {
+  padding: 20px;
 }

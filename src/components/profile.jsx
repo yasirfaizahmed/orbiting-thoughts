@@ -189,7 +189,7 @@ function Profile ({setToken,
                                                   <div className="col-sm-11 col-md-6"><input type="text" className="form-control" id="newUsernameInput" placeholder="New user name" required></input></div>
                                               </div>
                                               <div className="row mt-3">
-                                                  <div className="col-md-12"><input type="text" className="form-control" id="newPasswordInput" placeholder="New password" required></input></div>
+                                                  <div className="col-md-12"><input type="password" className="form-control" id="newPasswordInput" placeholder="New password" required></input></div>
                                               </div>
                                               
                                               <div className="row mt-3">

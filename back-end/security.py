@@ -15,7 +15,7 @@ from fastapi.security import HTTPAuthorizationCredentials
 
 SECRET_KEY = os.environ.get("KEY", "someHardPassword#@GGWP@1357")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 6    # 3hrs
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
