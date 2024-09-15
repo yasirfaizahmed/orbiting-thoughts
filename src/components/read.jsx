@@ -36,6 +36,7 @@ function Read () {
 
       const data = await response.json(); // Assuming the response is a JSON array of articles
       const articles = data?.crud_response?.data?.articles || [];
+      setArticles(articles);
       localStorage.setItem('articlesData', JSON.stringify(articles));
 
     } catch (error) {
@@ -48,9 +49,9 @@ function Read () {
 
 
   return (
-    <div className="row articles-container">
+    <div className="row articles-container" style={{width: '100%', paddingTop: '80px'}}>
       {articles.map((article, index) => (
-        <div className="col-12 col-md-8 col-lg-4 article-body" key={index}>
+        <div className="col-12 col-md-8 col-lg-6 article-body" key={index}>
           <div className="article-card-thumbnail">
             <img
               className="article-thumbnail-image w-100 d-block fit-cover"
@@ -58,14 +59,14 @@ function Read () {
               alt={article.title}
             />
             <div className="article-thumbnail-body">
-              <p className=" card-text mb-0" style={{paddingLeft: '5px', color: 'white'}}>Article</p>
+              <p className=" card-text mb-0" style={{paddingLeft: '5px', color: 'rgb(150,150,150)'}}>Article</p>
               <h4 className="article-thumbnail-title" style={{paddingLeft: '15px', color: 'white'}}>{article.title}</h4>
               <p className="article-thumbnail-text">{article.brief}</p>
               <div className="d-flex align-items-center" style={{paddingLeft: '5px', paddingBottom: '5px'}}>
                 <img
                   className="article-author-image rounded-circle flex-shrink-0 me-3 fit-cover"
-                  width="50"
-                  height="50"
+                  width="30"
+                  height="30"
                   src={`data:image/jpeg;base64,${article.picture}`}
                   alt={article.username}
                 />
