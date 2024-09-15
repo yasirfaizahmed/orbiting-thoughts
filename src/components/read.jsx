@@ -10,15 +10,15 @@ function Read () {
 
   useEffect(() => {
     fetchArticlesHandler(); // Run the article fetch when /read route is accessed
-    const storedArticles = localStorage.getItem('articlesData');
-    if (storedArticles) {
-      try {
-        const parsedArticles = JSON.parse(storedArticles);
-        setArticles(parsedArticles);
-      } catch (error) {
-        console.error('Error parsing articles data:', error);
-      }
-    }
+    // const storedArticles = localStorage.getItem('articlesData');
+    // if (storedArticles) {
+    //   try {
+    //     const parsedArticles = JSON.parse(storedArticles);
+    //     setArticles(parsedArticles);
+    //   } catch (error) {
+    //     console.error('Error parsing articles data:', error);
+    //   }
+    // }
   }, []);
 
   const fetchArticlesHandler = async () => {
@@ -37,7 +37,7 @@ function Read () {
       const data = await response.json(); // Assuming the response is a JSON array of articles
       const articles = data?.crud_response?.data?.articles || [];
       setArticles(articles);
-      localStorage.setItem('articlesData', JSON.stringify(articles));
+      // localStorage.setItem('articlesData', JSON.stringify(articles));
 
     } catch (error) {
       console.error('Error fetching articles:', error);
