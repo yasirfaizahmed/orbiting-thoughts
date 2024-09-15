@@ -17,6 +17,9 @@ function Navbar({ setToken,
                   isDropdownVisible,
                   setDropdownVisible }) {
 
+
+  const [isLoading, setLoading] = useState(false);
+  
   // navigation varaibles
   const navigate = useNavigate();
   const location = useLocation(); // Get the current location
@@ -26,6 +29,7 @@ function Navbar({ setToken,
 
   //profileButton handler
   const handleProfileButtonClick = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.PROFILE}`, {
         method: 'GET',
@@ -54,6 +58,9 @@ function Navbar({ setToken,
 
     } catch (error) {
       console.error('Error:', error);
+    }
+    finally {
+      setLoading(false); // Set loading to false once data is fetched
     }
 
     // Only navigate if the current location is not already /profile
@@ -172,6 +179,16 @@ function Navbar({ setToken,
 
   return (
     <>
+    {isLoading &&(
+      <>
+        <div className="loading-spinner-container">
+          {/* Loading spinner */}
+          <div className="spinner-border" role="status" style={{position: 'center'}}>
+            <span className="sr-only"></span>
+          </div>
+        </div>
+      </>
+    )}
 
     <nav className="navbar" id='navbarId'>
       <div className="brand">

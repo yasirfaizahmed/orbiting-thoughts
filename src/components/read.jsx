@@ -7,6 +7,7 @@ import getHeaders from '../js/utils';
 function Read () {
 
   const [articles, setArticles] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchArticlesHandler(); // Run the article fetch when /read route is accessed
@@ -42,9 +43,21 @@ function Read () {
     } catch (error) {
       console.error('Error fetching articles:', error);
     }
+    finally {
+      setLoading(false); // Set loading to false once data is fetched
+    }
   };
 
-  
+  if (isLoading) {
+    return (
+      <div className="loading-spinner-container">
+        {/* Loading spinner */}
+        <div className="spinner-border" role="status" style={{position: 'center'}}>
+          <span className="sr-only"></span>
+        </div>
+      </div>
+    );
+  }
 
 
 

@@ -7,6 +7,9 @@ import getHeaders from '../js/utils';
 function Profile ({setToken,
                   openSigninModal}) {
 
+
+  const [isLoading, setLoading] = useState(false);
+
   // state to set edit profile modal visibility
   const [editProfileModalVisible, setEditProfileModalVisible] = useState(false);
 
@@ -48,6 +51,7 @@ function Profile ({setToken,
   const { user, profile, profilePicture } = profileData.crud_response.data;
 
   const updateProfileButtonHandler = async () => {
+    setLoading(true);
     try {
       // Get the input values
       const username = document.getElementById('newUsernameInput').value;
@@ -96,7 +100,23 @@ function Profile ({setToken,
     } catch (error) {
         console.error('Error:', error);
     }
+    finally {
+      setLoading(false); // Set loading to false once data is fetched
+    }
   }
+
+
+  if (isLoading) {
+    return (
+      <div className="loading-spinner-container">
+        {/* Loading spinner */}
+        <div className="spinner-border" role="status" style={{position: 'center'}}>
+          <span className="sr-only"></span>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <>
