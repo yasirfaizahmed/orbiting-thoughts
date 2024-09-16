@@ -16,7 +16,7 @@
 
 .article-thumbnail-title {
   color: white;
-  padding-left: 5px;
+  /* padding-left: 5px; */
 }
 
 .article-thumbnail-text {
@@ -48,7 +48,7 @@
 
 .article-body {
   /* padding-top: 80px; */
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 }
 
 .articles-container {

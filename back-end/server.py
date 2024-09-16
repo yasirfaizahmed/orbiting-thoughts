@@ -62,12 +62,12 @@ def get_articles(skip: int = 0,
 
 
 # TODO: add features
-@app.get("/article", response_model=schemas.Article)
+@app.get("/article", response_model=schemas.Response)
 def get_aricle(id: int,
                db: Session = Depends(database.get_db)):
   logger.info("serving GET request for /article/")
-  article = crud.get_article(db=db, id=id)
-  return article
+  crud_response: schemas.CrudResponse = crud.get_article(db=db, id=id)
+  return schemas.Response(crud_response=crud_response)
 
 
 @app.post("/signup", response_model=schemas.Response)

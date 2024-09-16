@@ -39,7 +39,8 @@ class CrudResponse(BaseModel):
                             "profile edited successfuly",
                             "wrong password",
                             "successfuly created article",
-                            "fetched all articles"]
+                            "fetched all articles",
+                            "fetched article"]
   data: dict = {}
 
 

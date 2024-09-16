@@ -64,7 +64,7 @@ function Read () {
     );
   }
 
-  
+
 
   return (
     <div className="row articles-container" style={{width: '100%', paddingTop: '80px'}}>
@@ -77,10 +77,10 @@ function Read () {
               alt={article.title}
             />
             <div className="article-thumbnail-body">
-              <p className=" card-text mb-0" style={{paddingLeft: '5px', color: 'rgb(150,150,150)'}}>Article</p>
-              <h4 className="article-thumbnail-title" style={{paddingLeft: '15px', color: 'white'}}>{article.title}</h4>
-              <p className="article-thumbnail-text">{article.brief}</p>
-              <div className="d-flex align-items-center" style={{paddingLeft: '5px', paddingBottom: '5px'}}>
+              {/* <p className=" card-text mb-0" style={{paddingLeft: '15px', color: 'rgb(150,150,150)'}}>Article</p> */}
+              <h4 className="article-thumbnail-title" style={{paddingLeft: '15px', color: 'white', paddingTop: '10px', fontWeight: '950'}}>{article.title}</h4>
+              <p className="article-thumbnail-text" style={{paddingLeft: '15px', color: 'rgb(150,150,150)', fontSize: '20px', paddingBottom: '5px'}}>{article.brief}</p>
+              <div className="d-flex align-items-center" style={{ paddingLeft: '15px', paddingBottom: '5px' }}>
                 <img
                   className="article-author-image rounded-circle flex-shrink-0 me-3 fit-cover"
                   width="30"
@@ -89,7 +89,7 @@ function Read () {
                   alt={article.username}
                 />
                 <div>
-                  <p className="article-thumbnail-author">{article.username}</p>
+                  <p className="article-thumbnail-author mb-0">{article.username}</p>
                 </div>
               </div>
             </div>

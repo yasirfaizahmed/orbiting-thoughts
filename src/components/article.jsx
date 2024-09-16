@@ -29,7 +29,7 @@ function Article () {
       }
 
       const article = await response.json(); // Assuming the response is a JSON array of articles
-      setArticle(article);
+      setArticle(article.crud_response.data.article);
       // localStorage.setItem('articlesData', JSON.stringify(articles));
 
     } catch (error) {
@@ -56,18 +56,20 @@ function Article () {
       <div className="container mt-5 article-blog-container">
         <div className="row">
           <div className="col-lg-8 mx-auto">
-            {/* Article Header */}
-            <div className="article-header text-center mb-4">
-              <h1 className="article-title">{article.title}</h1>
-              {/* <h className="article-title">{article.brief}</h1> */}
-              <p className="article-meta text-muted">
-                Posted by John Doe on September 12, 2024
-              </p>
-              <img 
-                className="img-fluid rounded mb-4"
-                src={article.cover_image}
-                alt="Article Cover" 
-              />
+            <div className='blog-article-header'>
+              {/* Article Header */}
+              <div className="article-header text-center mb-4">
+                <h1 className="article-title" style={{textAlign: 'left'}}>{article.title}</h1>
+                {/* <h className="article-title">{article.brief}</h1> */}
+                <p className="article-meta text-muted" style={{textAlign: 'left'}}>
+                  Posted by John Doe on September 12, 2024
+                </p>
+                <img 
+                  className="img-fluid rounded mb-4"
+                  src={`data:image/jpeg;base64,${article.cover_image}`}
+                  // alt="Article Cover"
+                />
+              </div>
             </div>
 
             {/* Article Content */}
@@ -80,7 +82,7 @@ function Article () {
             </div>
         </div>
       </div>
-  </>
+    </>
   );
 }
 

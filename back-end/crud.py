@@ -66,7 +66,32 @@ def create_article(db: Session, article: schemas.Article, email: str):    # func
 
 
 def get_article(db: Session, id: int):
-  return db.query(models.Article).filter(models.Article.id == id).one_or_none()
+  article_entry = db.query(models.Article).filter(models.Article.id == id).one_or_none()
+  user_entry = article_entry.author
+  profile_entry = article_entry.profile
+  article_entry_dict: dict = util.model_to_dict(article_entry)
+
+  encoded_profile_picture = ""
+  if os.path.exists(profile_entry.picture):
+    with open(profile_entry.picture, "rb") as file:
+      encoded_profile_picture = base64.b64encode(file.read()).decode('utf-8')
+  encoded_cover_image = ""
+  if os.path.exists(article_entry_dict.get("cover_image")):
+    with open(article_entry_dict.get("cover_image"), "rb") as file:
+      encoded_cover_image = base64.b64encode(file.read()).decode('utf-8')
+  encoded_intermediate_image = ""
+  if os.path.exists(article_entry_dict.get("intermediate_image")):
+    with open(article_entry_dict.get("intermediate_image"), "rb") as file:
+      encoded_intermediate_image = base64.b64encode(file.read()).decode('utf-8')
+
+  article_entry_dict.update({"username": user_entry.username,
+                             "picture": encoded_profile_picture})
+  article_entry_dict.update({"cover_image": encoded_cover_image})
+  article_entry_dict.update({"intermediate_image": encoded_intermediate_image})
+
+  return schemas.CrudResponse(response_code=0,
+                              response_message="fetched article",
+                              data={"article": article_entry_dict})
 
 
 def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.CrudResponse:
