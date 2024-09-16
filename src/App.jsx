@@ -13,6 +13,7 @@ import Footer from './components/footer'
 import Profile from './components/profile'
 import Create from './components/create'
 import Read from './components/read'
+import Article from './components/article';
 // import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -95,6 +96,9 @@ function App() {
 
           {/* Create article route */}
           <Route path="/read" element={<Read />}></Route>
+
+          {/* Create article route */}
+          <Route path="/article/:id" element={<Article />}></Route>
 
         </Routes>
 

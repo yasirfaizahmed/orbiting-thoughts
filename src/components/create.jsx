@@ -6,6 +6,8 @@ import getHeaders from '../js/utils';
 
 function Create () {
 
+  const [isLoading, setLoading] = useState(false);
+
   // Function to handle the image preview
   function displaySelectedImage(event, elementId) {
     const selectedImage = document.getElementById(elementId);
@@ -22,6 +24,7 @@ function Create () {
   }
 
   const submitArticleButtonHandler = async () => {
+    setLoading(true);
     try {
       // Get the input values
       const title = document.getElementById('article-title').value;
@@ -65,6 +68,21 @@ function Create () {
     } catch (error) {
       console.error('Error:', error);
     }
+    finally {
+      setLoading(false); // Set loading to false once data is fetched
+    }
+  }
+
+
+  if (isLoading) {
+    return (
+      <div className="loading-spinner-container">
+        {/* Loading spinner */}
+        <div className="spinner-border" role="status" style={{position: 'center'}}>
+          <span className="sr-only"></span>
+        </div>
+      </div>
+    );
   }
 
 

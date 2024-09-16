@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useNavigate, useLocation} from 'react-router-dom';
 import '../styles/read.css';
 import CONFIG from '../js/config'
 import getHeaders from '../js/utils';
@@ -8,6 +9,10 @@ function Read () {
 
   const [articles, setArticles] = useState([]);
   const [isLoading, setLoading] = useState(true);
+
+  // navigation varaibles
+  const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
 
   useEffect(() => {
     fetchArticlesHandler(); // Run the article fetch when /read route is accessed
@@ -59,13 +64,13 @@ function Read () {
     );
   }
 
-
+  
 
   return (
     <div className="row articles-container" style={{width: '100%', paddingTop: '80px'}}>
       {articles.map((article, index) => (
         <div className="col-12 col-md-8 col-lg-6 article-body" key={index}>
-          <div className="article-card-thumbnail">
+          <div className="article-card-thumbnail" onClick={() => {navigate(`/article/${article.id}`)}}>
             <img
               className="article-thumbnail-image w-100 d-block fit-cover"
               src={`data:image/jpeg;base64,${article.cover_image}`}

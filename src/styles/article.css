@@ -1,0 +1,38 @@
+.article-blog-container {
+  padding-top: 80px;
+}
+
+.blog-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #343a40;
+}
+
+.blog-intro {
+  margin-bottom: 2rem;
+  color: #6c757d;
+  font-size: 1.2rem;
+}
+
+.post-title {
+  font-size: 1.75rem;
+  color: #343a40;
+}
+
+.post-meta {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.post-content {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.sidebar-heading {
+  font-size: 1.25rem;
+  color: #343a40;
+  margin-bottom: 1rem;
+}
