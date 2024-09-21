@@ -1,3 +1,9 @@
+body {
+  background-color: #f0f0f0; /* Example background color (light gray) */
+  margin: 0; /* Remove default margin */
+  font-family: Arial, sans-serif; /* Optional: Set a default font */
+}
+
 .create-article-heading {
   color: rgb(255, 255, 255);
   text-align: center;
@@ -21,9 +27,15 @@
 .article-container {
   /* max-width: 800px; */
   margin-top: 70px;
-  width: 100%;
+  width: 70%;
   padding: 20px;
   background-color: #1e1e1e;
+}
+@media (max-width: 768px) {
+  .article-container {
+    width: 100%; /* Full width for screens smaller than 768px */
+    padding: 10px; /* Optional: Adjust padding for smaller screens */
+  }
 }
 
 .header {
@@ -58,13 +70,38 @@
 
 .title-input {
   width: 100%;
+  font-size: 32px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #33333300;
+  background-color: #28282800;
+  color: #e0e0e0;
+  border-radius: 5px;
+}
+.title-input::placeholder {
+  font-size: 32px; /* Adjust this size as per your requirement */
+}
+.title-input:focus {
+  border-color: #00000000; /* Optional: Customize border color on focus */
+  outline: none; /* Ensures no extra outline appears on focus */
+}
+
+.brief-input {
+  width: 100%;
   font-size: 22px;
   padding: 10px;
   margin-bottom: 20px;
-  border: 1px solid #333;
-  background-color: #282828;
-  color: #e0e0e0;
+  border: 1px solid #33333300;
+  background-color: #28282800;
+  color: #8f8f8f;
   border-radius: 5px;
+}
+.brief-input::placeholder {
+    font-size: 16px; /* Adjust this size as per your requirement */
+}
+.brief-input:focus {
+  border-color: #00000000; /* Optional: Customize border color on focus */
+  outline: none; /* Ensures no extra outline appears on focus */
 }
 
 #articleIntermediateImage {
@@ -76,15 +113,22 @@
 
 .content-input {
   width: 100%;
-  height: 300px;
+  /* height: 300px; */
   padding: 15px;
   font-size: 18px;
-  border: 1px solid #333;
-  background-color: #282828;
-  color: #e0e0e0;
+  border: 1px solid #33333300;
+  background-color: #28282800;
+  color: #d1d1d1;
   border-radius: 5px;
   resize: none;
   margin-bottom: 20px;
+}
+.content-input::placeholder{
+  font-size: 16px;
+}
+.content-input:focus {
+  border-color: #5757574f; /* Optional: Customize border color on focus */
+  outline: none; /* Ensures no extra outline appears on focus */
 }
 
 .image-upload {
@@ -125,6 +169,19 @@ input[type="file"] {
 }
 
 .create-article-submit-button:hover {
-  transition: all 0.1s ease;
-  transform: scale(1.2);
+  transition: all 0.3s ease;
+  transform: scale(1.1);
 }
+
+
+.add-btn {
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #314e3200;
+  color: white;
+  border: none;
+  border-radius: 50%;
+}
+
+

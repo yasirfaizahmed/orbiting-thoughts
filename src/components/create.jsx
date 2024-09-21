@@ -23,6 +23,23 @@ function Create () {
     }
   }
 
+  // function to handle the height of content dynamically
+  useEffect(() => {
+  const textarea = document.getElementById('article-content');
+
+  const adjustHeight = () => {
+    textarea.style.height = 'auto'; // Reset the height
+    textarea.style.height = textarea.scrollHeight + 'px'; // Set it to the scroll height
+  };
+
+  textarea.addEventListener('input', adjustHeight);
+
+  // Clean up event listener when component unmounts
+  return () => {
+    textarea.removeEventListener('input', adjustHeight);
+  };
+  }, []);
+
   const submitArticleButtonHandler = async () => {
     setLoading(true);
     try {
@@ -88,44 +105,60 @@ function Create () {
 
   return (
   <>
-    <div id="createArticle" className="article-container">
-      <header className="header">
-        <h1 className='create-article-heading'>Create a New Article</h1>
-      </header>
-      <div className="article-editor">
-        <input type="text" id="article-title" className="title-input" placeholder="Enter the title..." />
-        <input type="text" id="article-brief" className="title-input" placeholder="Brief about the topic..." />
-        <textarea id="article-content" className="content-input" placeholder="Write your article here..."></textarea>
-        <div className="image-upload">
-          <div className="create-article-row-container">
-            <div className="col">
-              <div className="mb-4 d-flex justify-content-center">
-                <img id="articleCoverImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                alt="example placeholder"/>
+    <div style={{width: '100%', backgroundColor: 'black', display: 'flex',
+      justifyContent: 'center'
+    }}>
+      <div id="createArticle" className="article-container">
+        <header className="header">
+          <h1 className='create-article-heading'>Create a New Article</h1>
+        </header>
+        <div className="article-editor">
+          <input type="text" id="article-title" className="title-input" placeholder="Title..." autocomplete="off"/>
+          <input type="text" id="article-brief" className="brief-input" placeholder="Brief about the topic..." autocomplete="off"/>
+          <textarea
+            id="article-content"
+            className="content-input"
+            placeholder="Write your article here..."
+            rows="4" /* Set initial rows */
+            style={{ overflow: 'hidden', resize: 'none' }} /* Prevent manual resizing */
+          />
+          
+        <button onClick={() => setShowOptions(!showOptions)} className="add-btn">
+        <span class="material-symbols-outlined">add</span>
+        </button>
+        
+          
+          {/* <div className="image-upload">
+            <div className="create-article-row-container">
+              <div className="col">
+                <div className="mb-4 d-flex justify-content-center">
+                  <img id="articleCoverImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                  alt="example placeholder"/>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
+                    <label className="form-label m-1" for="coverImage">Choose file</label>
+                    <input type="file" className="form-control d-none" id="coverImage" onChange={(event) => displaySelectedImage(event, 'articleCoverImage')} />
+                  </div>
+                </div>
               </div>
-              <div className="d-flex justify-content-center">
-                <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
-                  <label className="form-label m-1" for="coverImage">Choose file</label>
-                  <input type="file" className="form-control d-none" id="coverImage" onChange={(event) => displaySelectedImage(event, 'articleCoverImage')} />
+              <div className="col">
+                <div className="mb-4 d-flex justify-content-center">
+                  <img id="articleIntermediateImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                  alt="example placeholder" />
+                </div>
+                <div className="d-flex justify-content-center">
+                  <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
+                    <label className="form-label m-1" for="intermediateImage">Choose file</label>
+                    <input type="file" className="form-control d-none" id="intermediateImage" onChange={(event) => displaySelectedImage(event, 'articleIntermediateImage')} />
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="col">
-              <div className="mb-4 d-flex justify-content-center">
-                <img id="articleIntermediateImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                alt="example placeholder" />
-              </div>
-              <div className="d-flex justify-content-center">
-                <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
-                  <label className="form-label m-1" for="intermediateImage">Choose file</label>
-                  <input type="file" className="form-control d-none" id="intermediateImage" onChange={(event) => displaySelectedImage(event, 'articleIntermediateImage')} />
-                </div>
-              </div>
-            </div>
+          </div> */}
+          <div className='approval-row'>
+            <button id="submit-article" onClick={submitArticleButtonHandler} className="create-article-submit-button">Request Approval</button>
           </div>
-        </div>
-        <div className='approval-row'>
-          <button id="submit-article" onClick={submitArticleButtonHandler} className="create-article-submit-button">Request Approval</button>
         </div>
       </div>
     </div>
