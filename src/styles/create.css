@@ -1,7 +1,36 @@
-body {
-  background-color: #f0f0f0; /* Example background color (light gray) */
-  margin: 0; /* Remove default margin */
-  font-family: Arial, sans-serif; /* Optional: Set a default font */
+.addcontent-menu {
+  display: none; /* Initially hide the dropdown */
+}
+
+.addcontent-menu.show {
+  display: block; /* Show the dropdown when the 'show' class is added */
+}
+
+.icon-wrapper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(255, 255, 255, 0);
+
+}
+.icon-wrapper:hover {
+  transition: all 0.3s ease;
+  transform: scale(1.3);
+}
+
+.add-image:hover {
+  transition: all 0.3s ease;
+  transform: scale(1.1);
+}
+.add-code:hover {
+  transition: all 0.3s ease;
+  transform: scale(1.1);
+}
+.add-section:hover {
+  transition: all 0.3s ease;
+  transform: scale(1.1);
 }
 
 .create-article-heading {

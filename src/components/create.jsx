@@ -2,11 +2,22 @@ import React, {useState, useEffect} from 'react';
 import '../styles/create.css';
 import CONFIG from '../js/config'
 import getHeaders from '../js/utils';
+import addIcon from '../assets/icons8-add-24.png';
+import addImage from '../assets/icons8-add-image-30.png';
+import addCode from '../assets/icons8-code-32.png'
+import addSection from '../assets/icons8-lines-32.png'
 
 
 function Create () {
 
   const [isLoading, setLoading] = useState(false);
+  const [isAddContentDropdownVisible, setAddContetnDropdown] = useState(false);
+
+  //handle the dropdown click
+  function handleAddContentButton() {
+    setAddContetnDropdown(!isAddContentDropdownVisible);
+
+  }
 
   // Function to handle the image preview
   function displaySelectedImage(event, elementId) {
@@ -113,8 +124,8 @@ function Create () {
           <h1 className='create-article-heading'>Create a New Article</h1>
         </header>
         <div className="article-editor">
-          <input type="text" id="article-title" className="title-input" placeholder="Title..." autocomplete="off"/>
-          <input type="text" id="article-brief" className="brief-input" placeholder="Brief about the topic..." autocomplete="off"/>
+          <input type="text" id="article-title" className="title-input" placeholder="Title..." autoComplete="off"/>
+          <input type="text" id="article-brief" className="brief-input" placeholder="Brief about the topic..." autoComplete="off"/>
           <textarea
             id="article-content"
             className="content-input"
@@ -122,43 +133,67 @@ function Create () {
             rows="4" /* Set initial rows */
             style={{ overflow: 'hidden', resize: 'none' }} /* Prevent manual resizing */
           />
-          
-        <button onClick={() => setShowOptions(!showOptions)} className="add-btn">
-        <span class="material-symbols-outlined">add</span>
-        </button>
-        
-          
-          {/* <div className="image-upload">
-            <div className="create-article-row-container">
-              <div className="col">
-                <div className="mb-4 d-flex justify-content-center">
-                  <img id="articleCoverImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                  alt="example placeholder"/>
-                </div>
-                <div className="d-flex justify-content-center">
-                  <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
-                    <label className="form-label m-1" for="coverImage">Choose file</label>
-                    <input type="file" className="form-control d-none" id="coverImage" onChange={(event) => displaySelectedImage(event, 'articleCoverImage')} />
-                  </div>
-                </div>
+
+          <div className='addcontent-container' style={{display: 'inline-flex',
+                                                        border: isAddContentDropdownVisible ? '2px solid white' : 'none',
+                                                        alignItems: 'center',
+                                                        borderColor: 'white',
+                                                        borderRadius: '40px'}}>
+            <button className='btn' style={{ position: 'relative' }} onClick={() => handleAddContentButton()}>
+              <div className="icon-wrapper">
+                <img src={addIcon} alt="Add Image" />
               </div>
-              <div className="col">
-                <div className="mb-4 d-flex justify-content-center">
-                  <img id="articleIntermediateImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                  alt="example placeholder" />
-                </div>
-                <div className="d-flex justify-content-center">
-                  <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
-                    <label className="form-label m-1" for="intermediateImage">Choose file</label>
-                    <input type="file" className="form-control d-none" id="intermediateImage" onChange={(event) => displaySelectedImage(event, 'articleIntermediateImage')} />
-                  </div>
-                </div>
+            </button>
+            
+              
+            {/* Dropdown menu */}
+            <div className={`addcontent-menu ${isAddContentDropdownVisible ? 'show' : ''}`}>
+              <div className="addcontent-dropdown">
+                <button className="add-image" style={{borderRadius: '50%', marginLeft: '5px'}}>
+                  <img src={addImage} style={{borderRadius: '50%'}} alt="Add Image" />
+                </button>
+                <button className="add-code" style={{borderRadius: '50%', marginLeft: '5px'}}>
+                  <img  src={addCode} style={{borderRadius: '50%'}} alt="Add Code" />
+                </button>
+                <button className="add-section" style={{borderRadius: '50%', marginLeft: '5px', marginRight: '5px'}}>
+                  <img src={addSection} alt="Add Section" style={{borderRadius: '50%'}}/>
+                </button>
               </div>
             </div>
-          </div> */}
-          <div className='approval-row'>
-            <button id="submit-article" onClick={submitArticleButtonHandler} className="create-article-submit-button">Request Approval</button>
           </div>
+        {/* <div className="image-upload">
+              <div className="create-article-row-container">
+                <div className="col">
+                  <div className="mb-4 d-flex justify-content-center">
+                    <img id="articleCoverImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                    alt="example placeholder"/>
+                  </div>
+                  <div className="d-flex justify-content-center">
+                    <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
+                      <label className="form-label m-1" for="coverImage">Choose file</label>
+                      <input type="file" className="form-control d-none" id="coverImage" onChange={(event) => displaySelectedImage(event, 'articleCoverImage')} />
+                    </div>
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="mb-4 d-flex justify-content-center">
+                    <img id="articleIntermediateImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                    alt="example placeholder" />
+                  </div>
+                  <div className="d-flex justify-content-center">
+                    <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
+                      <label className="form-label m-1" for="intermediateImage">Choose file</label>
+                      <input type="file" className="form-control d-none" id="intermediateImage" onChange={(event) => displaySelectedImage(event, 'articleIntermediateImage')} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> */}
+
+              <div className='approval-row'>
+                <button id="submit-article" onClick={submitArticleButtonHandler} className="create-article-submit-button">Request Approval</button>
+              </div>
+            
         </div>
       </div>
     </div>
