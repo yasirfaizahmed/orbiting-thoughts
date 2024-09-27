@@ -12,12 +12,24 @@ function Create () {
 
   const [isLoading, setLoading] = useState(false);
   const [isAddContentDropdownVisible, setAddContetnDropdown] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
 
   //handle the dropdown click
   function handleAddContentButton() {
     setAddContetnDropdown(!isAddContentDropdownVisible);
 
   }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the selected file
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target.result); // Set image preview URL
+      };
+      reader.readAsDataURL(file); // Read the file
+    }
+  };
 
   // Function to handle the image preview
   function displaySelectedImage(event, elementId) {
@@ -134,33 +146,29 @@ function Create () {
             style={{ overflow: 'hidden', resize: 'none' }} /* Prevent manual resizing */
           />
 
-          <div className='addcontent-container' style={{display: 'inline-flex',
-                                                        border: isAddContentDropdownVisible ? '2px solid white' : 'none',
-                                                        alignItems: 'center',
-                                                        borderColor: 'white',
-                                                        borderRadius: '40px'}}>
-            <button className='btn' style={{ position: 'relative' }} onClick={() => handleAddContentButton()}>
-              <div className="icon-wrapper">
-                <img src={addIcon} alt="Add Image" />
-              </div>
-            </button>
-            
+
               
-            {/* Dropdown menu */}
-            <div className={`addcontent-menu ${isAddContentDropdownVisible ? 'show' : ''}`}>
-              <div className="addcontent-dropdown">
-                <button className="add-image" style={{borderRadius: '50%', marginLeft: '5px'}}>
-                  <img src={addImage} style={{borderRadius: '50%'}} alt="Add Image" />
-                </button>
-                <button className="add-code" style={{borderRadius: '50%', marginLeft: '5px'}}>
-                  <img  src={addCode} style={{borderRadius: '50%'}} alt="Add Code" />
-                </button>
-                <button className="add-section" style={{borderRadius: '50%', marginLeft: '5px', marginRight: '5px'}}>
-                  <img src={addSection} alt="Add Section" style={{borderRadius: '50%'}}/>
-                </button>
-              </div>
+          {/* Dropdown menu */}
+          <div className="expandable-container">
+            <div className={`expander ${isAddContentDropdownVisible ? 'expanded' : ''}`}>
+              <button className="center-button" onClick={handleAddContentButton}>+</button>
+              {isAddContentDropdownVisible && (
+                <div className="button-group">
+                  <button className="add-image" style={{borderRadius: '50%', marginLeft: '5px'}}>
+                  <img src={addImage} style={{borderRadius: '50%'}} alt="Add Code" />
+                  </button>
+                  <button className="add-code" style={{borderRadius: '50%', marginLeft: '5px'}}>
+                    <img src={addCode} style={{borderRadius: '50%'}} alt="Add Code" />
+                  </button>
+                  <button className="add-section" style={{borderRadius: '50%', marginLeft: '5px', marginRight: '5px'}}>
+                    <img src={addSection} alt="Add Section" style={{borderRadius: '50%'}}/>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
+
+
         {/* <div className="image-upload">
               <div className="create-article-row-container">
                 <div className="col">

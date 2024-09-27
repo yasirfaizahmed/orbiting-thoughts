@@ -10,10 +10,9 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   background-color: rgba(255, 255, 255, 0);
-
 }
 .icon-wrapper:hover {
   transition: all 0.3s ease;
@@ -44,6 +43,89 @@
   align-items: center;
   width: 100%;
 }
+
+
+.expandable-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align everything to the left */
+  /* height: 100vh; */
+  position: relative;
+}
+
+.expander {
+  position: relative;
+  width: 50px; /* Starts with the size of the button */
+  height: 50px;
+  background-color: #2e2e2e;
+  border-radius: 25px;
+  transition: width 0.5s ease;
+  display: flex;
+  justify-content: flex-start; /* The content stays to the left */
+  align-items: center;
+}
+
+.expander.expanded {
+  width: 220px; /* Expands only towards the right */
+}
+
+.center-button {
+  position: relative; /* Position relative within the expanding div */
+  width: 40px;
+  height: 40px;
+  margin-left: 5px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  left: 60px; /* Position the button group to the right of the central button */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 140px; /* Total width for 3 buttons */
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.expander.expanded .button-group {
+  opacity: 1; /* Make buttons appear when expanded */
+}
+
+.inner-button {
+  width: 40px;
+  height: 40px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.inner-button:hover {
+  background-color: #707070;
+}
+
+
+
+
+
 
 #articleCoverImage, #articleIntermediateImage {
   width: 100%; /* Make image upload inputs responsive */
