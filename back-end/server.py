@@ -17,6 +17,7 @@ from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from http import HTTPStatus
 import os
+from typing import List
 
 
 app = FastAPI()
@@ -160,10 +161,10 @@ async def get_profile(db: Session = Depends(database.get_db),
 async def create_article(title: str = Form(...),
                          brief: str = Form(...),
                          content: str = Form(...),
-                         cover_image: UploadFile = File(...),
-                         intermediate_image: UploadFile = File(...),
+                         image_list: List[UploadFile] = File(...),
                          db: Session = Depends(database.get_db),
                          token_payload: schemas.TokenPayload = Depends(security.validate_token)):
+  cover_image = intermediate_image = None
   if token_payload.validated is False:
     raise HTTPException(status_code=token_payload.status_code,
                         detail=HTTPStatus(token_payload.status_code).phrase)
@@ -232,4 +233,4 @@ prepare()
 
 
 if __name__ == "__main__":
-  uvicorn.run("server:app", host="127.0.0.1", port=9000, reload=True)
+  uvicorn.run("server:app", host="127.0.0.1", port=9000, reload=True, log_level="debug", access_log=True)

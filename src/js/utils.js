@@ -4,7 +4,7 @@ function getHeaders(form=false) {
   
   if(form){
     return {
-        'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`
     };
   }
   else{

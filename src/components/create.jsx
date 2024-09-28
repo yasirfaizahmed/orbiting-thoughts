@@ -23,7 +23,6 @@ function Create () {
   //handle the dropdown click
   function handleAddContentButton() {
     setAddContetnDropdown(!isAddContentDropdownVisible);
-
   }
 
   // Handle adding a new text section
@@ -83,6 +82,18 @@ function Create () {
     }
   };
 
+  // Function to handle image selection
+  const handleImageSelection = (event, sectionId) => {
+    const selectedFile = event.target.files[0]; // Get the selected image file
+    if (selectedFile) {
+      setSections(prevSections =>
+        prevSections.map(section => 
+          section.id === sectionId ? { ...section, content: selectedFile } : section
+        )
+      );
+    }
+  };
+
 
   // Resize image using canvas before displaying
   const resizeImage = (file, maxWidth, maxHeight, callback) => {
@@ -121,29 +132,35 @@ function Create () {
 
     reader.readAsDataURL(file);
   };
-  
+
 
   const submitArticleButtonHandler = async () => {
     setLoading(true);
     try {
+      let articleText = ''; // To hold concatenated text content
+      let imageList = []; // To hold all image sources
       // Get the input values
       const title = document.getElementById('article-title').value;
       const brief = document.getElementById('article-brief').value;
-      const content = document.getElementById('article-content').value;
-      const coverImage = document.getElementById('coverImage').files[0];
-      const intermediateImage = document.getElementById('intermediateImage').files[0];
 
-      if (!title || !brief || !content || !coverImage || !intermediateImage) {
-        alert("One or more fields are empty");
-        return;
-      }
+      sections.forEach(section => {
+        if (section.type === 'text') {
+          // Concatenate all text sections
+          articleText += section.content.trim() + ' ';
+        } else if (section.type === 'image') {
+          // Add all image sources to the image list
+          imageList.push(section.content);
+        }
+      });
 
       const formData = new FormData();
       formData.append('title', title);
       formData.append('brief', brief);
-      formData.append('content', content);
-      formData.append('cover_image', coverImage);
-      formData.append('intermediate_image', intermediateImage);
+      formData.append('content', articleText);
+      // Append each image file to the FormData object
+      imageList.forEach((file) => {
+        formData.append(`image_list`, file);
+      });
 
       const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.ARTICLE}`, {
         method: 'POST',
@@ -232,7 +249,7 @@ function Create () {
                       <input
                         type="file"
                         accept="image/*"
-                        onChange={(e) => handleImageChange(index, e)}
+                        onChange={(event) => handleImageSelection(event, section.id)} 
                       />
                       {section.content && (
                         <div>
