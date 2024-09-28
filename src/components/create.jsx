@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
+import { v4 as uuidv4 } from 'uuid'; // Import UUID to generate unique identifiers
 import '../styles/create.css';
 import CONFIG from '../js/config'
 import getHeaders from '../js/utils';
@@ -6,14 +7,17 @@ import addIcon from '../assets/icons8-add-24.png';
 import addImage from '../assets/icons8-add-image-30.png';
 import addCode from '../assets/icons8-code-32.png'
 import addSection from '../assets/icons8-lines-32.png'
+import clsoeIcon from '../assets/icons8-close-24.png'
 
 
 function Create () {
 
   const [isLoading, setLoading] = useState(false);
   const [isAddContentDropdownVisible, setAddContetnDropdown] = useState(false);
-  const [sections, setSections] = useState(['']);
+  const [sections, setSections] = useState([{ id: uuidv4(), type: 'text', content: '' }]);
+  const [images, setImages] = useState([]); // Image sections
   const textAreaRefs = useRef([]); // To store references to all textareas
+  
 
 
   //handle the dropdown click
@@ -22,15 +26,24 @@ function Create () {
 
   }
 
-  // Handle adding a new section
-  const addNewSection = () => {
-    setSections([...sections, '']);    // Add an empty string as a new section
-  }
+  // Handle adding a new text section
+  const addNewTextSection = () => {
+    setSections([...sections, { id: uuidv4(), type: 'text', content: '' }]); // Add new text section
+  };
+  // Handle adding a new image section
+  const addNewImageSection = () => {
+    setSections([...sections, { id: uuidv4(), type: 'image', content: null }]); // Add new empty image section
+  };
 
-   // Handle text change and auto-resize for specific section
-   const handleSectionChange = (index, value) => {
+  // Handle removing a section
+  const removeSection = (index) => {
+    setSections(sections.filter((_, i) => i !== index)); // Remove section based on index
+  };
+
+  // Handle text change and auto-resize for specific section
+  const handleSectionChange = (index, value) => {
     const updatedSections = sections.map((section, i) =>
-      i === index ? value : section
+      i === index ? { ...section, content: value } : section
     );
     setSections(updatedSections);
 
@@ -46,24 +59,69 @@ function Create () {
       textarea.style.height = textarea.scrollHeight + 'px'; // Set height based on content
     }
   };
+
+   // Generate a unique file name
+   const generateUniqueFileName = (file) => {
+    const extension = file.name.split('.').pop(); // Get the file extension
+    const uniqueName = `${uuidv4()}.${extension}`; // Generate unique name using UUID
+    return uniqueName;
+  };
+
+  const handleImageChange = (index, event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const uniqueFileName = generateUniqueFileName(file); // Generate a unique name
+      console.log(`Unique file name: ${uniqueFileName}`);
   
+      // Resize the image before displaying or uploading
+      resizeImage(file, 800, 600, (resizedImage) => {
+        const updatedSections = sections.map((section, i) =>
+          i === index ? { ...section, content: { src: resizedImage, fileName: uniqueFileName } } : section
+        );
+        setSections(updatedSections); // Update the sections array with the resized image
+      });
+    }
+  };
 
-  // function to handle the height of content dynamically
-  // useEffect(() => {
-  // const textarea = document.getElementById('article-content');
 
-  // const adjustHeight = () => {
-  //   textarea.style.height = 'auto'; // Reset the height
-  //   textarea.style.height = textarea.scrollHeight + 'px'; // Set it to the scroll height
-  // };
+  // Resize image using canvas before displaying
+  const resizeImage = (file, maxWidth, maxHeight, callback) => {
+    const img = new Image();
+    const reader = new FileReader();
 
-  // textarea.addEventListener('input', adjustHeight);
+    reader.onload = (e) => {
+      img.src = e.target.result;
+    };
 
-  // Clean up event listener when component unmounts
-  // return () => {
-  //   textarea.removeEventListener('input', adjustHeight);
-  // };
-  // }, []);
+    img.onload = () => {
+      let width = img.width;
+      let height = img.height;
+
+      // Maintain aspect ratio while resizing
+      if (width > maxWidth) {
+        height = Math.round((height * maxWidth) / width);
+        width = maxWidth;
+      }
+      if (height > maxHeight) {
+        width = Math.round((width * maxHeight) / height);
+        height = maxHeight;
+      }
+
+      // Create a canvas to draw the resized image
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // Convert the canvas back to a base64 image
+      callback(canvas.toDataURL(file.type));
+    };
+
+    reader.readAsDataURL(file);
+  };
+  
 
   const submitArticleButtonHandler = async () => {
     setLoading(true);
@@ -140,36 +198,72 @@ function Create () {
         <div className="article-editor">
           <input type="text" id="article-title" className="title-input" placeholder="Title..." autoComplete="off"/>
           <input type="text" id="article-brief" className="brief-input" placeholder="Brief about the topic..." autoComplete="off"/>
-          {sections.map((section, index) => (
-            <textarea
-              key={index}
-              id={`article-content-${index}`}
-              className="content-input"
-              placeholder="Write your article here..."
-              rows="4" /* Set initial rows */
-              style={{ overflow: 'hidden', resize: 'none', marginBottom: '10px' }} /* Prevent manual resizing */
-              value={section}
-              onChange={(e) => handleSectionChange(index, e.target.value)}
-              ref={(el) => (textAreaRefs.current[index] = el)} // Store the textarea ref
-              onInput={() => autoResizeTextarea(index)} // Adjust the height as content changes
-            />
-          ))}
+          
+          {/* Render sections dynamically */}
+          <div className="sections-container">
+              {sections.map((section, index) => (
+                <div key={section.id} style={{ marginBottom: '10px', position: 'relative' }}>
+                  <span
+                    onClick={() => removeSection(index)}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      cursor: 'pointer',
+                      color: 'white',
+                      fontSize: '16px'
+                    }}>
+                    <img src={clsoeIcon} style={{borderRadius: '50%'}} alt="Add Code" />
+                  </span>
+
+                  {section.type === 'text' ? (
+                    <textarea
+                      className="content-input"
+                      placeholder="Write your article here..."
+                      rows="4"
+                      style={{ overflow: 'hidden', resize: 'none', marginBottom: '10px' }}
+                      value={section.content}
+                      onChange={(e) => handleSectionChange(index, e.target.value)}
+                      ref={(el) => (textAreaRefs.current[index] = el)} // Store the textarea ref
+                      onInput={() => autoResizeTextarea(index)} // Adjust the height as content changes
+                    />
+                  ) : (
+                    <div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleImageChange(index, e)}
+                      />
+                      {section.content && (
+                        <div>
+                          <img
+                            src={section.content.src}
+                            alt={`Uploaded Preview ${index}`}
+                            style={{ maxWidth: '100%', height: 'auto', marginTop: '10px' }}
+                          />
+                          <p>File Name: {section.content.fileName}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>   
 
 
-              
           {/* Dropdown menu */}
           <div className="expandable-container">
             <div className={`expander ${isAddContentDropdownVisible ? 'expanded' : ''}`}>
               <button className="center-button" onClick={handleAddContentButton}>+</button>
               {isAddContentDropdownVisible && (
                 <div className="button-group">
-                  <button className="add-image" style={{borderRadius: '50%', marginLeft: '5px'}}>
+                  <button className="add-image" onClick={addNewImageSection} style={{borderRadius: '50%', marginLeft: '5px'}}>
                   <img src={addImage} style={{borderRadius: '50%'}} alt="Add Code" />
                   </button>
                   <button className="add-code" style={{borderRadius: '50%', marginLeft: '5px'}}>
                     <img src={addCode} style={{borderRadius: '50%'}} alt="Add Code" />
                   </button>
-                  <button className="add-section" onClick={addNewSection} style={{borderRadius: '50%', marginLeft: '5px', marginRight: '5px'}}>
+                  <button className="add-section" onClick={addNewTextSection} style={{borderRadius: '50%', marginLeft: '5px', marginRight: '5px'}}>
                     <img src={addSection} alt="Add Section" style={{borderRadius: '50%'}}/>
                   </button>
                 </div>
@@ -178,38 +272,9 @@ function Create () {
           </div>
 
 
-        {/* <div className="image-upload">
-              <div className="create-article-row-container">
-                <div className="col">
-                  <div className="mb-4 d-flex justify-content-center">
-                    <img id="articleCoverImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                    alt="example placeholder"/>
-                  </div>
-                  <div className="d-flex justify-content-center">
-                    <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
-                      <label className="form-label m-1" for="coverImage">Choose file</label>
-                      <input type="file" className="form-control d-none" id="coverImage" onChange={(event) => displaySelectedImage(event, 'articleCoverImage')} />
-                    </div>
-                  </div>
-                </div>
-                <div className="col">
-                  <div className="mb-4 d-flex justify-content-center">
-                    <img id="articleIntermediateImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                    alt="example placeholder" />
-                  </div>
-                  <div className="d-flex justify-content-center">
-                    <div data-mdb-ripple-init className="btn btn-dark btn-rounded">
-                      <label className="form-label m-1" for="intermediateImage">Choose file</label>
-                      <input type="file" className="form-control d-none" id="intermediateImage" onChange={(event) => displaySelectedImage(event, 'articleIntermediateImage')} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
-              <div className='approval-row'>
-                <button id="submit-article" onClick={submitArticleButtonHandler} className="create-article-submit-button">Request Approval</button>
-              </div>
+          <div className='approval-row'>
+            <button id="submit-article" onClick={submitArticleButtonHandler} className="create-article-submit-button">Request Approval</button>
+          </div>
             
         </div>
       </div>
