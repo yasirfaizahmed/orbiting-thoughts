@@ -77,20 +77,28 @@ function Create () {
         const updatedSections = sections.map((section, i) =>
           i === index ? { ...section, content: { src: resizedImage, fileName: uniqueFileName } } : section
         );
-        setSections(updatedSections); // Update the sections array with the resized image
+        setSections(updatedSections);
       });
     }
   };
 
-  // Function to handle image selection
+  // Function to handle image selection, resize it, and generate a preview URL
   const handleImageSelection = (event, sectionId) => {
     const selectedFile = event.target.files[0]; // Get the selected image file
     if (selectedFile) {
-      setSections(prevSections =>
-        prevSections.map(section => 
-          section.id === sectionId ? { ...section, content: selectedFile } : section
-        )
-      );
+      resizeImage(selectedFile, 800, 600, (resizedImage) => {
+        // Create a preview URL for the resized image
+        const previewUrl = URL.createObjectURL(selectedFile); 
+
+        // Update the sections with the resized image and preview URL
+        setSections(prevSections =>
+          prevSections.map(section => 
+            section.id === sectionId 
+              ? { ...section, content: { src: resizedImage, preview: previewUrl, file: selectedFile } } 
+              : section
+          )
+        );
+      });
     }
   };
 
@@ -149,7 +157,7 @@ function Create () {
           articleText += section.content.trim() + ' ';
         } else if (section.type === 'image') {
           // Add all image sources to the image list
-          imageList.push(section.content);
+          imageList.push(section.content.file);
         }
       });
 
@@ -251,7 +259,7 @@ function Create () {
                         accept="image/*"
                         onChange={(event) => handleImageSelection(event, section.id)} 
                       />
-                      {section.content && (
+                      {section.content && section.content.src && (
                         <div>
                           <img
                             src={section.content.src}
