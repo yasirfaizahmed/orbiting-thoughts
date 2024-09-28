@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import '../styles/create.css';
 import CONFIG from '../js/config'
 import getHeaders from '../js/utils';
@@ -12,7 +12,9 @@ function Create () {
 
   const [isLoading, setLoading] = useState(false);
   const [isAddContentDropdownVisible, setAddContetnDropdown] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [sections, setSections] = useState(['']);
+  const textAreaRefs = useRef([]); // To store references to all textareas
+
 
   //handle the dropdown click
   function handleAddContentButton() {
@@ -20,48 +22,48 @@ function Create () {
 
   }
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Get the selected file
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target.result); // Set image preview URL
-      };
-      reader.readAsDataURL(file); // Read the file
-    }
-  };
-
-  // Function to handle the image preview
-  function displaySelectedImage(event, elementId) {
-    const selectedImage = document.getElementById(elementId);
-    const fileInput = event.target;
-
-    if (fileInput.files && fileInput.files[0]) {
-      const reader = new FileReader();
-
-      reader.onload = function(e) {
-        selectedImage.src = e.target.result;
-      };
-      reader.readAsDataURL(fileInput.files[0]);
-    }
+  // Handle adding a new section
+  const addNewSection = () => {
+    setSections([...sections, '']);    // Add an empty string as a new section
   }
 
-  // function to handle the height of content dynamically
-  useEffect(() => {
-  const textarea = document.getElementById('article-content');
+   // Handle text change and auto-resize for specific section
+   const handleSectionChange = (index, value) => {
+    const updatedSections = sections.map((section, i) =>
+      i === index ? value : section
+    );
+    setSections(updatedSections);
 
-  const adjustHeight = () => {
-    textarea.style.height = 'auto'; // Reset the height
-    textarea.style.height = textarea.scrollHeight + 'px'; // Set it to the scroll height
+    // Auto-resize the textarea
+    autoResizeTextarea(index);
   };
 
-  textarea.addEventListener('input', adjustHeight);
+  // Automatically adjust the height of the textarea based on content
+  const autoResizeTextarea = (index) => {
+    const textarea = textAreaRefs.current[index];
+    if (textarea) {
+      textarea.style.height = 'auto'; // Reset height to calculate the new height
+      textarea.style.height = textarea.scrollHeight + 'px'; // Set height based on content
+    }
+  };
+  
+
+  // function to handle the height of content dynamically
+  // useEffect(() => {
+  // const textarea = document.getElementById('article-content');
+
+  // const adjustHeight = () => {
+  //   textarea.style.height = 'auto'; // Reset the height
+  //   textarea.style.height = textarea.scrollHeight + 'px'; // Set it to the scroll height
+  // };
+
+  // textarea.addEventListener('input', adjustHeight);
 
   // Clean up event listener when component unmounts
-  return () => {
-    textarea.removeEventListener('input', adjustHeight);
-  };
-  }, []);
+  // return () => {
+  //   textarea.removeEventListener('input', adjustHeight);
+  // };
+  // }, []);
 
   const submitArticleButtonHandler = async () => {
     setLoading(true);
@@ -138,13 +140,20 @@ function Create () {
         <div className="article-editor">
           <input type="text" id="article-title" className="title-input" placeholder="Title..." autoComplete="off"/>
           <input type="text" id="article-brief" className="brief-input" placeholder="Brief about the topic..." autoComplete="off"/>
-          <textarea
-            id="article-content"
-            className="content-input"
-            placeholder="Write your article here..."
-            rows="4" /* Set initial rows */
-            style={{ overflow: 'hidden', resize: 'none' }} /* Prevent manual resizing */
-          />
+          {sections.map((section, index) => (
+            <textarea
+              key={index}
+              id={`article-content-${index}`}
+              className="content-input"
+              placeholder="Write your article here..."
+              rows="4" /* Set initial rows */
+              style={{ overflow: 'hidden', resize: 'none', marginBottom: '10px' }} /* Prevent manual resizing */
+              value={section}
+              onChange={(e) => handleSectionChange(index, e.target.value)}
+              ref={(el) => (textAreaRefs.current[index] = el)} // Store the textarea ref
+              onInput={() => autoResizeTextarea(index)} // Adjust the height as content changes
+            />
+          ))}
 
 
               
@@ -160,7 +169,7 @@ function Create () {
                   <button className="add-code" style={{borderRadius: '50%', marginLeft: '5px'}}>
                     <img src={addCode} style={{borderRadius: '50%'}} alt="Add Code" />
                   </button>
-                  <button className="add-section" style={{borderRadius: '50%', marginLeft: '5px', marginRight: '5px'}}>
+                  <button className="add-section" onClick={addNewSection} style={{borderRadius: '50%', marginLeft: '5px', marginRight: '5px'}}>
                     <img src={addSection} alt="Add Section" style={{borderRadius: '50%'}}/>
                   </button>
                 </div>
