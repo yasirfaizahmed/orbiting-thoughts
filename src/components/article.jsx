@@ -64,11 +64,19 @@ function Article () {
                 <p className="article-meta text-muted" style={{textAlign: 'left'}}>
                   Posted by John Doe on September 12, 2024
                 </p>
-                <img 
-                  className="img-fluid rounded mb-4"
-                  src={`data:image/jpeg;base64,${article.cover_image}`}
-                  // alt="Article Cover"
-                />
+                
+                {
+                  article.images?.map((image, index) => (
+                    <img
+                      key={index}
+                      className="img-fluid rounded mb-4"
+                      src={`data:image/jpeg;base64,${image}`}
+                      alt={`Article Image ${index + 1}`}
+                      style={{ width: '100%', height: 'auto' }} // Adjust styles as needed
+                    />
+                  ))
+                }
+
               </div>
             </div>
 

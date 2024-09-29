@@ -71,19 +71,16 @@ def get_article(db: Session, id: int):
   if os.path.exists(profile_entry.picture):
     with open(profile_entry.picture, "rb") as file:
       encoded_profile_picture = base64.b64encode(file.read()).decode('utf-8')
-  encoded_cover_image = ""
-  if os.path.exists(article_entry_dict.get("cover_image")):
-    with open(article_entry_dict.get("cover_image"), "rb") as file:
-      encoded_cover_image = base64.b64encode(file.read()).decode('utf-8')
-  encoded_intermediate_image = ""
-  if os.path.exists(article_entry_dict.get("intermediate_image")):
-    with open(article_entry_dict.get("intermediate_image"), "rb") as file:
-      encoded_intermediate_image = base64.b64encode(file.read()).decode('utf-8')
+
+  encoded_images = []
+  for image in article_entry_dict.get("images", []):
+    if os.path.exists(image):
+      with open(image, 'rb') as file:
+        encoded_images.append(base64.b64encode(file.read()).decode('utf-8'))
 
   article_entry_dict.update({"username": user_entry.username,
                              "picture": encoded_profile_picture})
-  article_entry_dict.update({"cover_image": encoded_cover_image})
-  article_entry_dict.update({"intermediate_image": encoded_intermediate_image})
+  article_entry_dict.update({"images": encoded_images})
 
   return schemas.CrudResponse(response_code=0,
                               response_message="fetched article",

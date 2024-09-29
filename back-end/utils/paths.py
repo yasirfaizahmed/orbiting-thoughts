@@ -14,5 +14,10 @@ ARTICLE_IMAGES = pp(RESOURCES, "acticle_images")
 PROFILE_PICTURES = pp(RESOURCES, "profile_pictures")
 PATTERNS = pp(BACK_END, "patterns")
 UTILS = pp(BACK_END, "utils")
-ASSETS = pp(BACKE_END_PARENT, "assets")
+SRC = pp(BACKE_END_PARENT, "src")
+ASSETS = pp(BACK_END, "assets")
 ASSETS_IMAGES = pp(ASSETS, "img")
+
+
+if __name__ == "__main__":
+    print(BACK_END)

@@ -9,7 +9,7 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 import models
 from log_handling.log_handling import logger
-from utils.paths import ARTICLE_IMAGES, RESOURCES, PROFILE_PICTURES
+from utils.paths import ARTICLE_IMAGES, RESOURCES, PROFILE_PICTURES, ASSETS
 from pathlib import Path as pp
 import traceback
 import security
@@ -170,16 +170,19 @@ async def create_article(title: str = Form(...),
   logger.info("serving POST request for /articles/ ")
 
   local_image_list = []
-  try:
-    for image in image_list:
-      image_path = f"{ARTICLE_IMAGES}/{image.filename}"
-      with open(image_path, 'wb') as f:
-        f.write(await image.read())
-        local_image_list.append(image_path)
-  except Exception:
-    logger.error(traceback.format_exc())
-    raise HTTPException(status_code=500,
-                        detail="Internal Server Error")
+  if not image_list:
+    local_image_list.append(f"{ASSETS}/image-not-found.png")
+  else:
+    try:
+      for image in image_list:
+        image_path = f"{ARTICLE_IMAGES}/{image.filename}"
+        with open(image_path, 'wb') as f:
+          f.write(await image.read())
+          local_image_list.append(image_path)
+    except Exception:
+      logger.error(traceback.format_exc())
+      raise HTTPException(status_code=500,
+                          detail="Internal Server Error")
 
   try:
     new_article = schemas.Article(title=title,

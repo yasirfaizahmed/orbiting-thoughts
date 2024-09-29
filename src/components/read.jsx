@@ -73,7 +73,7 @@ function Read () {
           <div className="article-card-thumbnail" onClick={() => {navigate(`/article/${article.id}`)}}>
             <img
               className="article-thumbnail-image w-100 d-block fit-cover"
-              src={`data:image/jpeg;base64,${article.cover_image}`}
+              src={`data:image/jpeg;base64,${article.images[0]}`}
               alt={article.title}
             />
             <div className="article-thumbnail-body">
