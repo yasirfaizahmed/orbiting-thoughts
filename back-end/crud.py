@@ -21,22 +21,19 @@ def get_articles(db: Session, skip: int = 0, limit: int = 5):   # function to ge
     profile_entry = article_entry.profile
 
     encoded_profile_picture = ""
+    encoded_images = []
     if os.path.exists(profile_entry.picture):
       with open(profile_entry.picture, "rb") as file:
         encoded_profile_picture = base64.b64encode(file.read()).decode('utf-8')
-    encoded_cover_image = ""
-    if os.path.exists(article_dict.get("cover_image")):
-      with open(article_dict.get("cover_image"), "rb") as file:
-        encoded_cover_image = base64.b64encode(file.read()).decode('utf-8')
-    encoded_intermediate_image = ""
-    if os.path.exists(article_dict.get("intermediate_image")):
-      with open(article_dict.get("intermediate_image"), "rb") as file:
-        encoded_intermediate_image = base64.b64encode(file.read()).decode('utf-8')
+
+    for image in article_dict.get("images", []):
+      if os.path.exists(image):
+        with open(image, 'rb') as file:
+          encoded_images.append(base64.b64encode(file.read()).decode('utf-8'))
 
     article_dict.update({"username": user_entry.username,
                          "picture": encoded_profile_picture})
-    article_dict.update({"cover_image": encoded_cover_image})
-    article_dict.update({"intermediate_image": encoded_intermediate_image})
+    article_dict.update({"images": encoded_images})
     articles.append(article_dict)
 
   return schemas.CrudResponse(response_code=0,
@@ -54,8 +51,7 @@ def create_article(db: Session, article: schemas.Article, email: str):    # func
   new_article = models.Article(title=article.title,
                                brief=article.brief,
                                content=article.content,
-                               cover_image=article.cover_image,
-                               intermediate_image=article.intermediate_image,
+                               images=article.images,
                                user_id=user_entry.id,
                                profile_id=profile_entry.id)    # create article object
   db.add(new_article)    # add to session

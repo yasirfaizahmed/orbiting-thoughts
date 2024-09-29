@@ -92,7 +92,8 @@ function App() {
                                                    openSigninModal={openSigninModal}/>} />
         
           {/* Create article route */}
-          <Route path="/create" element={<Create />}></Route>
+          <Route path="/create" element={<Create setToken={setToken}
+                                                 openSigninModal={openSigninModal}/>}></Route>
 
           {/* Create article route */}
           <Route path="/read" element={<Read />}></Route>

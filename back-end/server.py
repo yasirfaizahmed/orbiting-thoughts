@@ -164,18 +164,18 @@ async def create_article(title: str = Form(...),
                          image_list: List[UploadFile] = File(...),
                          db: Session = Depends(database.get_db),
                          token_payload: schemas.TokenPayload = Depends(security.validate_token)):
-  cover_image = intermediate_image = None
   if token_payload.validated is False:
     raise HTTPException(status_code=token_payload.status_code,
                         detail=HTTPStatus(token_payload.status_code).phrase)
   logger.info("serving POST request for /articles/ ")
+
+  local_image_list = []
   try:
-    cover_image_path = f"{ARTICLE_IMAGES}/{cover_image.filename}"
-    with open(cover_image_path, "wb") as f:
-      f.write(await cover_image.read())
-    intermediate_image_path = f"{ARTICLE_IMAGES}/{intermediate_image.filename}"
-    with open(intermediate_image_path, "wb") as f:
-      f.write(await intermediate_image.read())
+    for image in image_list:
+      image_path = f"{ARTICLE_IMAGES}/{image.filename}"
+      with open(image_path, 'wb') as f:
+        f.write(await image.read())
+        local_image_list.append(image_path)
   except Exception:
     logger.error(traceback.format_exc())
     raise HTTPException(status_code=500,
@@ -185,8 +185,7 @@ async def create_article(title: str = Form(...),
     new_article = schemas.Article(title=title,
                                   brief=brief,
                                   content=content,
-                                  cover_image=cover_image_path,
-                                  intermediate_image=intermediate_image_path)
+                                  images=local_image_list)
     crud_response = crud.create_article(db=db, article=new_article, email=token_payload.payload.get("sub"))
     if crud_response.response_code == 1:
       raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

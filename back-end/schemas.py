@@ -1,13 +1,12 @@
 from pydantic import BaseModel, EmailStr
-from typing import Literal, Dict
+from typing import Literal, Dict, List
 
 
 class ArticleBase(BaseModel):   # Base schema for article data
   title: str
   brief: str
   content: str
-  cover_image: str
-  intermediate_image: str
+  images: List[str]
 
 
 class Article(ArticleBase):   # article schema

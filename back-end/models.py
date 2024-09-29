@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, String, Integer, ForeignKey, JSON
 # from sqlalchemy.dialects.sqlite import BLOB
 from database import Base
 from sqlalchemy.orm import relationship
@@ -11,8 +11,7 @@ class Article(Base):    # Article class inheriting from Base, which creates a ta
   title = Column(String)    # title column
   brief = Column(String)
   content = Column(String)    # text content
-  cover_image = Column(String)    # file path
-  intermediate_image = Column(String)
+  images = Column(JSON)
   profile_id = Column(Integer, ForeignKey("profiles.id"))
   user_id = Column(Integer, ForeignKey("users.id"))
 

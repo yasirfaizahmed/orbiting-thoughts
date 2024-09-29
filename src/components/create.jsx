@@ -10,7 +10,8 @@ import addSection from '../assets/icons8-lines-32.png'
 import clsoeIcon from '../assets/icons8-close-24.png'
 
 
-function Create () {
+function Create ({setToken,
+                  openSigninModal}) {
 
   const [isLoading, setLoading] = useState(false);
   const [isAddContentDropdownVisible, setAddContetnDropdown] = useState(false);
@@ -180,6 +181,8 @@ function Create () {
         if (statusCode > 400 && statusCode < 500){
           if (statusCode === 401){
             alert('Session Expired: Please sign in again');
+            setToken('');
+            openSigninModal(); 
           } else if (statusCode === 403){
             alert('Please Sign in or Sign up');
           }
