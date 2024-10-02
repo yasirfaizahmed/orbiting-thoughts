@@ -1,9 +1,8 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import { v4 as uuidv4 } from 'uuid'; // Import UUID to generate unique identifiers
 import '../styles/create.css';
 import CONFIG from '../js/config'
 import getHeaders from '../js/utils';
-import addIcon from '../assets/icons8-add-24.png';
 import addImage from '../assets/icons8-add-image-30.png';
 import addCode from '../assets/icons8-code-32.png'
 import addSection from '../assets/icons8-lines-32.png'

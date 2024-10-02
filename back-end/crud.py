@@ -50,8 +50,8 @@ def create_article(db: Session, article: schemas.Article, email: str):    # func
 
   new_article = models.Article(title=article.title,
                                brief=article.brief,
-                               content=article.content,
-                               images=article.images,
+                               content=article.text_content,
+                               images=article.image_list,
                                user_id=user_entry.id,
                                profile_id=profile_entry.id)    # create article object
   db.add(new_article)    # add to session

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi import Depends, Form, UploadFile, File, HTTPException, status, Body
+from fastapi import Depends, Form, UploadFile, File, HTTPException, status
 # from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 import database
@@ -169,7 +169,6 @@ async def create_article(title: str = Form(...),
     raise HTTPException(status_code=token_payload.status_code,
                         detail=HTTPStatus(token_payload.status_code).phrase)
   logger.info("serving POST request for /articles/ ")
-  image_list = None
   local_image_list = []
   if not image_list:
     local_image_list.append(f"{ASSETS}/image-not-found.png")

@@ -10,7 +10,7 @@ BACKE_END_PARENT = BACK_END.parent
 # other dirs
 LOGS = pp(BACKE_END_PARENT, "_LOGs")
 RESOURCES = pp(BACKE_END_PARENT, "resources")
-ARTICLE_IMAGES = pp(RESOURCES, "acticle_images")
+ARTICLE_IMAGES = pp(RESOURCES, "article_images")
 PROFILE_PICTURES = pp(RESOURCES, "profile_pictures")
 PATTERNS = pp(BACK_END, "patterns")
 UTILS = pp(BACK_END, "utils")
