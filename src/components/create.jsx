@@ -16,8 +16,8 @@ function Create ({setToken,
   const [isLoading, setLoading] = useState(false);
   const [isAddContentDropdownVisible, setAddContetnDropdown] = useState(false);
   const [sections, setSections] = useState([{ id: uuidv4(), type: 'text', content: '' }]);
-  const [images, setImages] = useState([]); // Image sections
   const textAreaRefs = useRef([]); // To store references to all textareas
+  const [sectionIndex, setSectionIndex] = useState(0);
   
 
 
@@ -28,11 +28,13 @@ function Create ({setToken,
 
   // Handle adding a new text section
   const addNewTextSection = () => {
-    setSections([...sections, { id: uuidv4(), type: 'text', content: '' }]); // Add new text section
+    setSections([...sections, { id: uuidv4(), type: 'text', content: '', index: sectionIndex}]); // Add new text section
+    setSectionIndex(prevIndex => prevIndex + 1);
   };
   // Handle adding a new image section
   const addNewImageSection = () => {
-    setSections([...sections, { id: uuidv4(), type: 'image', content: null }]); // Add new empty image section
+    setSections([...sections, { id: uuidv4(), type: 'image', content: null, index: sectionIndex}]); // Add new empty image section
+    setSectionIndex(prevIndex => prevIndex + 1);
   };
 
   // Handle removing a section
@@ -147,18 +149,22 @@ function Create ({setToken,
     setLoading(true);
     try {
       let articleText = ''; // To hold concatenated text content
-      let imageList = []; // To hold all image sources
+      // let imageList = []; // To hold all image sources
       // Get the input values
       const title = document.getElementById('article-title').value;
       const brief = document.getElementById('article-brief').value;
 
       sections.forEach(section => {
         if (section.type === 'text') {
-          // Concatenate all text sections
-          articleText += section.content.trim() + ' ';
+          // For text sections, add content and metadata (index, type)
+          formData.append(`sections[${index}][type]`, section.type);
+          formData.append(`sections[${index}][content]`, section.content);
+          formData.append(`sections[${index}][index]`, section.index);
         } else if (section.type === 'image') {
-          // Add all image sources to the image list
-          imageList.push(section.content.file);
+          // For image sections, add metadata (index, type) and file content
+          formData.append(`sections[${index}][type]`, section.type);
+          formData.append(`sections[${index}][content]`, section.content.file); // file object
+          formData.append(`sections[${index}][index]`, section.index);
         }
       });
 
@@ -167,9 +173,9 @@ function Create ({setToken,
       formData.append('brief', brief);
       formData.append('content', articleText);
       // Append each image file to the FormData object
-      imageList.forEach((file) => {
-        formData.append(`image_list`, file);
-      });
+      // imageList.forEach((file) => {
+      //   formData.append(`image_list`, file);
+      // });
 
       const response = await fetch(`${CONFIG.BACKEND_URL}${CONFIG.API_ENDPOINTS.ARTICLE}`, {
         method: 'POST',

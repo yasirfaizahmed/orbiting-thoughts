@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi import Depends, Form, UploadFile, File, HTTPException, status
+from fastapi import Depends, Form, UploadFile, File, HTTPException, status, Body
 # from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 import database
@@ -18,6 +18,7 @@ from fastapi.staticfiles import StaticFiles
 from http import HTTPStatus
 import os
 from typing import List
+import json
 
 
 app = FastAPI()
@@ -160,7 +161,7 @@ async def get_profile(db: Session = Depends(database.get_db),
 @app.post("/article", response_model=schemas.Response)
 async def create_article(title: str = Form(...),
                          brief: str = Form(...),
-                         content: str = Form(...),
+                         text_content: str = Form(...),   # accepting dict as json str
                          image_list: List[UploadFile] = File(...),
                          db: Session = Depends(database.get_db),
                          token_payload: schemas.TokenPayload = Depends(security.validate_token)):
@@ -168,7 +169,7 @@ async def create_article(title: str = Form(...),
     raise HTTPException(status_code=token_payload.status_code,
                         detail=HTTPStatus(token_payload.status_code).phrase)
   logger.info("serving POST request for /articles/ ")
-
+  image_list = None
   local_image_list = []
   if not image_list:
     local_image_list.append(f"{ASSETS}/image-not-found.png")
@@ -184,11 +185,13 @@ async def create_article(title: str = Form(...),
       raise HTTPException(status_code=500,
                           detail="Internal Server Error")
 
+  text_content_data: dict = json.loads(text_content)
+
   try:
     new_article = schemas.Article(title=title,
                                   brief=brief,
-                                  content=content,
-                                  images=local_image_list)
+                                  text_content=text_content_data,
+                                  image_list=local_image_list)
     crud_response = crud.create_article(db=db, article=new_article, email=token_payload.payload.get("sub"))
     if crud_response.response_code == 1:
       raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -235,4 +238,4 @@ prepare()
 
 
 if __name__ == "__main__":
-  uvicorn.run("server:app", host="127.0.0.1", port=9000, reload=True, log_level="debug", access_log=True)
+  uvicorn.run("server:app", host="127.0.0.1", port=9000, reload=True, access_log=True)

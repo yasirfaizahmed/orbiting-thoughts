@@ -5,8 +5,8 @@ from typing import Literal, Dict, List
 class ArticleBase(BaseModel):   # Base schema for article data
   title: str
   brief: str
-  content: str
-  images: List[str]
+  text_content: List[Dict]
+  image_list: List[str]   # /path/to/<image_uuid>_<index>.jpg
 
 
 class Article(ArticleBase):   # article schema
