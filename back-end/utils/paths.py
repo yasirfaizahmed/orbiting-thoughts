@@ -16,7 +16,6 @@ PATTERNS = pp(BACK_END, "patterns")
 UTILS = pp(BACK_END, "utils")
 SRC = pp(BACKE_END_PARENT, "src")
 ASSETS = pp(BACK_END, "assets")
-ASSETS_IMAGES = pp(ASSETS, "img")
 
 
 if __name__ == "__main__":

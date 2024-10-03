@@ -6,7 +6,7 @@ import security
 from utils import util
 import base64
 import os
-from utils.paths import ASSETS_IMAGES
+from utils.paths import ASSETS
 
 
 logging.basicConfig(level=logging.INFO)
@@ -102,7 +102,7 @@ def try_signup(db: Session, signup_details: schemas.SignupDetails) -> schemas.Cr
 
   new_profile = models.Profile(user_id=new_user.id,
                                about="",
-                               picture=f"{ASSETS_IMAGES}/userprofile.jpg")    # default profile image
+                               picture=f"{ASSETS}/userprofile.png")    # default profile image
   db.add(new_profile)
   db.commit()
 
