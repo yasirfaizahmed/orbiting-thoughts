@@ -18,9 +18,10 @@ function Create ({setToken,
   const textAreaRefs = useRef([]); // To store references to all textareas
   const [sectionIndex, setSectionIndex] = useState(0);
   
-  useEffect(() => {
-    addNewTextSection();
-  }, []);
+  // useEffect(() => {
+  //   console.log("useEffect called");
+  //   addNewTextSection();
+  // }, []);
 
 
   //handle the dropdown click
