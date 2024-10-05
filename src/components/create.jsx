@@ -13,7 +13,7 @@ function Create ({setToken,
                   openSigninModal}) {
 
   const [isLoading, setLoading] = useState(false);
-  const [isAddContentDropdownVisible, setAddContetnDropdown] = useState(false);
+  const [isSideDropVisible, setSideDropVisible] = useState(false);
   const [sections, setSections] = useState([]);
   const textAreaRefs = useRef([]); // To store references to all textareas
   const [sectionIndex, setSectionIndex] = useState(0);
@@ -26,7 +26,7 @@ function Create ({setToken,
 
   //handle the dropdown click
   function handleAddContentButton() {
-    setAddContetnDropdown(!isAddContentDropdownVisible);
+    setSideDropVisible(!isSideDropVisible);
   }
 
   // Handle adding a new text section
