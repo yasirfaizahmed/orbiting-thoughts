@@ -283,9 +283,9 @@ function Create ({setToken,
 
           {/* Dropdown menu */}
           <div className="expandable-container">
-            <div className={`expander ${isAddContentDropdownVisible ? 'expanded' : ''}`}>
+            <div className={`expander ${isSideDropVisible ? 'expanded' : ''}`}>
               <button className="center-button" onClick={handleAddContentButton}>+</button>
-              {isAddContentDropdownVisible && (
+              {isSideDropVisible && (
                 <div className="button-group">
                   <button className="add-image" onClick={addNewImageSection} style={{borderRadius: '50%', marginLeft: '5px'}}>
                   <img src={addImage} style={{borderRadius: '50%'}} alt="Add Code" />
