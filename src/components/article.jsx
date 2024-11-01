@@ -52,46 +52,42 @@ function Article () {
   }
 
   return (
-    <>
-      <div className="container mt-5 article-blog-container">
-        <div className="row">
-          <div className="col-lg-8 mx-auto">
-            <div className='blog-article-header'>
-              {/* Article Header */}
-              <div className="article-header text-center mb-4">
-                <h1 className="article-title" style={{textAlign: 'left'}}>{article.title}</h1>
-                {/* <h className="article-title">{article.brief}</h1> */}
-                <p className="article-meta text-muted" style={{textAlign: 'left'}}>
-                  Posted by John Doe on September 12, 2024
-                </p>
-                
-                {
-                  article.images?.map((image, index) => (
-                    <img
-                      key={index}
-                      className="img-fluid rounded mb-4"
-                      src={`data:image/jpeg;base64,${image}`}
-                      alt={`Article Image ${index + 1}`}
-                      style={{ width: '100%', height: 'auto' }} // Adjust styles as needed
-                    />
-                  ))
-                }
+    <div className="container mt-5 article-blog-container">
+      <div className="row">
+        <div className="col-lg-8 mx-auto">
+          {/* Article Header */}
+          <div className="article-header text-center mb-4">
+            <h1 className="article-title text-left">{article.title}</h1>
+            <p className="text-muted text-left">{article.brief}</p>
+            <p className="article-meta text-muted text-left">
+              Posted by {article.username} on September 12, 2024
+            </p>
+          </div>
 
-              </div>
-            </div>
+          {/* Article Images */}
+          {article.images?.map((image, index) => (
+            <img
+              key={index}
+              className="img-fluid rounded mb-4"
+              src={`data:image/jpeg;base64,${image}`}
+              alt={`Article Image ${index + 1}`}
+              style={{ width: '100%', height: 'auto' }}
+            />
+          ))}
 
-            {/* Article Content */}
-            <article className="article-content">
-              <p>
-                {article.content}
-              </p>
-              
-            </article>
-            </div>
+          {/* Article Content */}
+          <article className="article-content">
+            {article.content
+              .sort((a, b) => a.index - b.index) // Sort content by `index`
+              .map((item, idx) => (
+                 <p key={idx}>{item.content}</p>  
+              ))}
+          </article>
         </div>
       </div>
-    </>
+    </div>
   );
+  
 }
 
 

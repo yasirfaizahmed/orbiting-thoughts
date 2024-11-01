@@ -1,6 +1,6 @@
 // config.js
 const CONFIG = {
-	BACKEND_URL: 'http://172.105.58.91:80',
+	BACKEND_URL: 'http://172.232.125.241:80',
 	// BACKEND_URL: 'http://deendunya.xyz:80',
 	// BACKEND_URL: 'http://127.0.0.1:9000', 
 	API_ENDPOINTS: {
