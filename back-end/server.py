@@ -25,12 +25,15 @@ app = FastAPI()
 app.mount("/dist", StaticFiles(directory="dist"), name="dist")
 app.mount("/assets", StaticFiles(directory=os.path.join("dist", "assets")), name="assets")
 # app.mount("/assets", StaticFiles(directory="assets"), name="assets")
-
+origins = [
+    "http://deendunya.xyz",  # Add your frontend URL here
+    # "http://localhost:3000"  # Uncomment if testing from localhost
+]
 
 # Allow all origins for now, restrict this in production
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change this to the specific origin(s) you want to allow
+    allow_origins=origins,  # Change this to the specific origin(s) you want to allow
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
