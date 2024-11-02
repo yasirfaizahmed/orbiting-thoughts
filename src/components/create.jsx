@@ -90,8 +90,18 @@ function Create ({setToken,
 
   // Function to handle image selection, resize it, and generate a preview URL
   const handleImageSelection = (event, sectionId) => {
-    const selectedFile = event.target.files[0]; // Get the selected image file
-    if (selectedFile) {
+  const selectedFile = event.target.files[0]; // Get the selected image file
+  const fileType = selectedFile.type.split('/')[1]; // Get the file extension from the MIME type
+  const extension = fileType === 'jpeg' ? 'jpg' : fileType; // Handle 'jpeg' as 'jpg'
+  
+  // Create a new File with the updated name
+  const renamedFile = new File(
+    [selectedFile], // File content
+    `${sectionId}_${sectionIndex}.${extension}`, // Updated name with index
+    { type: selectedFile.type }
+  );
+
+  if (selectedFile) {
       resizeImage(selectedFile, 800, 600, (resizedImage) => {
         // Create a preview URL for the resized image
         const previewUrl = URL.createObjectURL(selectedFile); 
@@ -100,7 +110,7 @@ function Create ({setToken,
         setSections(prevSections =>
           prevSections.map(section => 
             section.id === sectionId 
-              ? { ...section, content: { src: resizedImage, preview: previewUrl, file: selectedFile } } 
+              ? { ...section, content: { src: resizedImage, preview: previewUrl, file: renamedFile, fileName: `${sectionId}_${sectionIndex}.${extension}`} } 
               : section
           )
         );

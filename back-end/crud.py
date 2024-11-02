@@ -76,7 +76,10 @@ def get_article(db: Session, id: int):
   for image in article_entry_dict.get("images", []):
     if os.path.exists(image):
       with open(image, 'rb') as file:
-        encoded_images.append(base64.b64encode(file.read()).decode('utf-8'))
+        encoded_images.append({
+                "filename": os.path.basename(image),  # Retain the filename
+                "content": base64.b64encode(file.read()).decode('utf-8')
+            })
 
   article_entry_dict.update({"username": user_entry.username,
                              "picture": encoded_profile_picture})
